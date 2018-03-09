@@ -18,17 +18,14 @@ import java.sql.*;
 public class DBConnector {
     
     private Connection connection;
-    private Statement statement;
-    private ResultSet result;
+    private int user_rights;  //0 = administrator 1 = manager 2 = dunno sth random
     
     
-    public DBConnector()
-    {
+    public DBConnector(){
      try
      {
-         Class.forName("com.mysql.jdbc.Driver"); 
-         connection = DriverManager.getConnection("jdbc::mysql://localhost:3306/project_database");
-         statement  = connection.createStatement();
+         Class.forName("com.mysql.jdbc.Driver");
+         connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/project_database","client","pass4client");
      }
      catch( Exception e)
      {
@@ -36,7 +33,34 @@ public class DBConnector {
      }
      
         
+    }
+    
+    
+    public boolean Log_in(String username,String password)
+    {
+        boolean logged_in = false;
         
+        try
+        {
+            PreparedStatement Stat = connection.prepareStatement("SELECT COUNT(1),Rights FROM users WHERE Username = (?) and Password = (?)");
+            Stat.setString(1,username);
+            Stat.setString(2, password);
+            ResultSet result = Stat.executeQuery();
+            while(result.next())
+            {
+                logged_in = result.getBoolean("COUNT(1)");
+                user_rights = result.getInt("Rights");
+            }          
+            
+        }
+        catch(Exception e)
+        {
+            System.out.println("Error : " + e);   
+        }
+        
+        
+        return logged_in;
+    
     }
     
     

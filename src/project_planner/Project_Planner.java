@@ -35,6 +35,8 @@ public class Project_Planner {
     {
         DBConnector connection = new DBConnector();
         
+        connection.Log_in("admin","admin");
+        
      
         
         
