@@ -6,6 +6,7 @@
 package project_planner;
 
 
+import java.util.Date;
 import java.util.Scanner;
 /**
  *
@@ -27,7 +28,8 @@ public class Project_Planner {
         if("connect".equals(command))
             StartConnection();
         
-        
+
+       
     }
     
     
@@ -37,7 +39,9 @@ public class Project_Planner {
         
         connection.Log_in("admin","admin");
         
-     
+        Date now = new Date();
+        Date next = new Date();
+        connection.Create_Project("asd","asd",now,next,10000.2);
         
         
     }

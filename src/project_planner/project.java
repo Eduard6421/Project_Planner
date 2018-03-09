@@ -21,7 +21,7 @@ public class project {
     
     
     
-    public project(String project_name,String client_name,Date start_date,Date end_date,int project_budget)
+    public project(String project_name,String client_name,Date start_date,Date end_date,double project_budget)
     {
      this.project_name = project_name;
      this.client_name  = client_name;
@@ -30,7 +30,6 @@ public class project {
      this.project_budget = project_budget;
         
     }
-    
-    
+
     
 }

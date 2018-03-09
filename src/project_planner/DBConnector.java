@@ -19,7 +19,7 @@ public class DBConnector {
     
     private Connection connection;
     private int user_rights;  //0 = administrator 1 = manager 2 = dunno sth random
-    
+   
     
     public DBConnector(){
      try
@@ -36,8 +36,7 @@ public class DBConnector {
     }
     
     
-    public boolean Log_in(String username,String password)
-    {
+    public boolean Log_in(String username,String password){
         boolean logged_in = false;
         
         try
@@ -63,6 +62,32 @@ public class DBConnector {
     
     }
     
-    
+    public boolean Create_Project(String project_name,String client_name,java.util.Date start_date,java.util.Date end_date,double project_budget){
+  
+          try
+          {
+              PreparedStatement Stat = connection.prepareStatement("INSERT INTO `project_database`.`projecttable` (`Project_Name`, `Client_Name`, `Start_Date`, `End_Date`, `Budget`) VALUES ( ?, ?, ?, ?, ?);");
+              
+              Stat.setString(1,project_name);
+              Stat.setString(2,client_name);
+              Stat.setDate(3, (Date) start_date);
+              Stat.setDate(4, (Date)   end_date);
+              Stat.setDouble(5,project_budget);
+              
+              Stat.executeUpdate();
+              
+              
+              return true;
+      
+          }
+          catch(Exception e)
+          {
+              System.out.println("Eror : "+ e);
+              return false;
+              
+          }
+        
+    }
     
 }
+    
