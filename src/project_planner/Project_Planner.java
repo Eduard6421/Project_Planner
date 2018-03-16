@@ -41,8 +41,7 @@ public class Project_Planner {
         
         Date now = new Date();
         Date next = new Date();
-        connection.Create_Project("asd","asd",now,next,10000.2);
-        
+
         
     }
     

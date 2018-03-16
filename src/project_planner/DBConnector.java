@@ -66,28 +66,59 @@ public class DBConnector {
   
           try
           {
-              PreparedStatement Stat = connection.prepareStatement("INSERT INTO `project_database`.`projecttable` (`Project_Name`, `Client_Name`, `Start_Date`, `End_Date`, `Budget`) VALUES ( ?, ?, ?, ?, ?);");
+              PreparedStatement Stat = connection.prepareStatement("INSERT INTO `project_database`.`projects` (`Project_Name`, `Client_Name`, `Start_Date`, `End_Date`, `Budget`) VALUES ( ?, ?, ?, ?, ?);");
+              
+              java.sql.Date sql_start_date = new java.sql.Date(start_date.getTime());
+              java.sql.Date sql_end_date   = new java.sql.Date(end_date.getTime());
               
               Stat.setString(1,project_name);
               Stat.setString(2,client_name);
-              Stat.setDate(3, (Date) start_date);
-              Stat.setDate(4, (Date)   end_date);
+              Stat.setDate(3,sql_start_date);
+              Stat.setDate(4,sql_end_date);
               Stat.setDouble(5,project_budget);
               
               Stat.executeUpdate();
-              
               
               return true;
       
           }
           catch(Exception e)
           {
-              System.out.println("Eror : "+ e);
+              System.out.println("Project Create Error : "+ e);
               return false;
               
           }
         
     }
+    public boolean Create_Milestone(int project_id,String milestone_title,java.util.Date start_date,java.util.Date end_date,String description){
+  
+          try
+          {
+              PreparedStatement Stat = connection.prepareStatement("INSERT INTO `project_database`.`milestones` (` Title`,`Start_Date`, `End_Date`, `Description`, `Assigned_Project') VALUES ( ?, ?, ?, ?, ?);");
+              
+              java.sql.Date sql_start_date = new java.sql.Date(start_date.getTime());
+              java.sql.Date sql_end_date   = new java.sql.Date(end_date.getTime());
+              
+              Stat.setString(1,milestone_title);
+              Stat.setDate(2,sql_start_date);
+              Stat.setDate(3,sql_end_date);
+              Stat.setString(4,description);
+              Stat.setInt(5,project_id);
+              
+              Stat.executeUpdate();
+              
+              return true;
+      
+          }
+          catch(Exception e)
+          { 
+              System.out.println("Milestone Create Error : "+ e);
+              return false;
+              
+          }
+        
+    }
+    
     
 }
     
