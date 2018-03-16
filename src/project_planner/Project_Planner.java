@@ -14,45 +14,22 @@ import java.util.Scanner;
  */
 public class Project_Planner {
 
-
-    public static void StartSoftware()
+    static Controller main_control;
+    
+    public static boolean StartConnection(String Username,String Password)
     {
-        String command;
-        
-        Scanner scanner = new Scanner(System.in);
-        
-        System.out.println("Type 'connect' to log into database\n");    
+       System.out.println(Username + " " + Password);
+       main_control = new Controller(Username,Password);
        
-        command = scanner.nextLine();
-        
-        if("connect".equals(command))
-            StartConnection();
-        
-
-       
+       return main_control.isConnected();
+  
     }
-    
-    
-    public static void StartConnection()
-    {
-        DBConnector connection = new DBConnector();
-        
-        connection.Log_in("admin","admin");
-        
-        Date now = new Date();
-        Date next = new Date();
-
-        
-    }
-    
     
     
     public static void main(String[] args) {
         // TODO code application logic here
-
-        StartSoftware();
-            
-        
+        LoginMenu login = new LoginMenu();
+        login.setVisible(true);
     }
     
 }
