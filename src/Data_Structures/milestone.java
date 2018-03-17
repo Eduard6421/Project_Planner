@@ -15,6 +15,14 @@ import java.util.Date;
 
 public class milestone {
 
+    public milestone(int Id, String Title, Date Start_date, Date End_Date, String Description) {
+        this.Id = Id;
+        this.Title = Title;
+        this.Start_date = Start_date;
+        this.End_Date = End_Date;
+        this.Description = Description;
+    }
+
     
     private int Id;
     private int Assigned_Project;
@@ -22,6 +30,7 @@ public class milestone {
     private Date Start_date;
     private Date End_Date;
     private String Description;
+
 
     public int getId() {
         return Id;

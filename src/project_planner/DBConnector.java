@@ -204,9 +204,34 @@ public class DBConnector {
     
     }
     
-     public List<task> Get_Tasks(int MilestoneID)    
+    public List<task> Get_Tasks(int MilestoneID)    
     {
+        List<task> answer = new ArrayList<>();
         
+            try
+            {
+            PreparedStatement Stat = connection.prepareStatement("SELECT idtasks `ID`,Title,Priority,Description,End_Date,Developer\n" +
+"FROM tasks\n" +
+"WHERE Assigned_Milestone=(?);");
+              
+            Stat.setInt(1,MilestoneID);
+              
+            ResultSet result = Stat.executeQuery();
+              
+            while(result.next())
+            {
+                task tmp = new task(result.getInt("ID"),result.getString("Title"),result.getString("Priority"),result.getString("Description"),result.getDate("End_date"),result.getInt("Developer"));
+                answer.add(tmp);
+            }
+              
+        }
+        catch(Exception e)
+        {
+            System.out.println("Error "+ e);   
+        }
+            
+            
+        return answer;
         
         
     }

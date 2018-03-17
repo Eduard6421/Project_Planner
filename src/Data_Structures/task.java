@@ -17,11 +17,25 @@ public class task {
   
     private int Id;
     private String Title;
-    private int Priority;
+    private String Priority;
     private String Description;
     private Date Start_date;
     private Date End_date;
     private int Assigned_Milestone;
+    private int Developer;
+
+    
+    public task(int Id,String Title,String Priority,String Description,Date End_date,int Developer)
+    {
+        this.Id = Id;
+        this.Title = Title;
+        this.Priority = Priority;
+        this.Description = Description;
+        this.End_date = End_date;
+        this.Developer = Developer;
+    
+    }
+    
     
     
       public int getId() {
@@ -32,7 +46,7 @@ public class task {
         return Title;
     }
 
-    public int getPriority() {
+    public String getPriority() {
         return Priority;
     }
 

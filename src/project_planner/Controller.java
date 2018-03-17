@@ -5,10 +5,10 @@
  */
 package project_planner;
 
+import Data_Structures.milestone;
 import Data_Structures.project;
+import Data_Structures.task;
 import java.util.List;
-import static project_planner.Project_Planner.main_control;
-
 /**
  *
  * @author Eduard
@@ -37,8 +37,7 @@ public class Controller {
         }
     }
    
-    public List<project> Get_Projects()
-    {           
+    public List<project> Get_Projects(){           
         List<project> list = connection.Get_Projects();
         
         /*for(project E : list)
@@ -49,7 +48,21 @@ public class Controller {
         return list;
     }
     
+    public List<milestone>Get_Milestones_For_Project(int ProjectID){
+     
+        List<milestone> list = connection.Get_Milestones(project_id);
+        
+        return list;
+        
+        
+    }
     
+    public List<task>Get_Tasks_for_Milestones(int MilestoneID){
+        
+        List<task> list = connection.Get_Tasks(MilestoneID);
+        return list;
+        
+    }
     
     public boolean isConnected()
     {

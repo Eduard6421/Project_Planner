@@ -5,12 +5,6 @@
  */
 package project_planner;
 
-
-import Data_Structures.project;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Scanner;
 /**
  *
  * @author Eduard
