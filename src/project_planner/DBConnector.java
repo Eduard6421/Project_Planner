@@ -5,8 +5,12 @@
  */
 package project_planner;
 
+import Data_Structures.milestone;
+import Data_Structures.project;
+import Data_Structures.task;
 import java.sql.*;
-
+import java.util.List;
+import java.util.ArrayList;
 /**
  *
  * @author Eduard
@@ -50,13 +54,6 @@ public class DBConnector {
         
         return logged_in;
     
-    }
-    
-    public boolean Get_Projects()
-    {
-        
-     
-        
     }
     
     public boolean Create_Project(String project_name,String client_name,java.util.Date start_date,java.util.Date end_date,double project_budget){
@@ -147,6 +144,75 @@ public class DBConnector {
         
     }  
 
+    public List<project> Get_Projects(){
+        
+        List<project> answer = new ArrayList<>();
+        
+        try
+        {
+            String query = "SELECT idProjectTable `ID`, Project_Name , Client_Name, Start_Date,End_Date,Budget from projects";
+            
+            Statement stm = connection.createStatement();
+            ResultSet result = stm.executeQuery(query);
+            
+            
+            while(result.next())
+            {
+                project tmp = new project(result.getInt("ID"),result.getString("Project_Name"),result.getString("Client_Name"),result.getDate("Start_date"),result.getDate("End_Date"),result.getDouble("Budget"));
+                answer.add(tmp);
+                
+            }          
+            
+            stm.close();
+            
+        }
+        catch(Exception e)
+        {
+            System.out.println("Error " + e );
+        }
+        return answer;
+        
+    }
+    
+    public List<milestone> Get_Milestones(int ProjectID){
+        
+         List<milestone> answer = new ArrayList<>();
+        
+            try
+            {
+            PreparedStatement Stat = connection.prepareStatement("SELECT Idmilestones `ID`, Title, Start_date,End_Date,Description FROM milestones\n" +
+"WHERE `Assigned_Project` = (?);");
+              
+            Stat.setInt(1,ProjectID);
+              
+            ResultSet result = Stat.executeQuery();
+              
+            while(result.next())
+            {
+                milestone tmp = new milestone(result.getInt("ID"),result.getString("Title"),result.getDate("Start_date"),result.getDate("End_date"),result.getString("Description"));
+                answer.add(tmp);
+            }
+              
+        }
+        catch(Exception e)
+        {
+            System.out.println("Error "+ e);   
+        }
+            
+            
+        return answer;
+    
+    }
+    
+     public List<task> Get_Tasks(int MilestoneID)    
+    {
+        
+        
+        
+    }
+       
+    
+    
     int getUserRights() {
         return user_rights;
     }

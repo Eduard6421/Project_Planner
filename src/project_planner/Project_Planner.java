@@ -6,7 +6,10 @@
 package project_planner;
 
 
+import Data_Structures.project;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 /**
  *
@@ -19,17 +22,26 @@ public class Project_Planner {
     public static boolean StartConnection(String Username,String Password)
     {
        System.out.println(Username + " " + Password);
+       
+       
        main_control = new Controller(Username,Password);
        
+
+       
        return main_control.isConnected();
+       
+    
   
     }
     
     
     public static void main(String[] args) {
         // TODO code application logic here
-        LoginMenu login = new LoginMenu();
-        login.setVisible(true);
+        //LoginMenu login = new LoginMenu();
+        //login.setVisible(true);
+        
+        StartConnection("admin","admin");
+    
     }
     
 }

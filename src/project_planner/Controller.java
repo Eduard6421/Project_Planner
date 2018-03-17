@@ -5,6 +5,10 @@
  */
 package project_planner;
 
+import Data_Structures.project;
+import java.util.List;
+import static project_planner.Project_Planner.main_control;
+
 /**
  *
  * @author Eduard
@@ -33,6 +37,20 @@ public class Controller {
         }
     }
    
+    public List<project> Get_Projects()
+    {           
+        List<project> list = connection.Get_Projects();
+        
+        /*for(project E : list)
+        {
+            System.out.println(E.getProject_Name());
+        }
+        */
+        return list;
+    }
+    
+    
+    
     public boolean isConnected()
     {
      return connected;   
