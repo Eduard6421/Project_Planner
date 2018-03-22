@@ -5,7 +5,7 @@ Assistive software for project scheduling
 mysql-connector-java.jar needs to be added as a library. Currently is configured for mine!  
 
 
-#Things to do!
+# Things to do!
 	
 	1) Implement Update Function in the MySQL API;
 	2) Implement user-rights ; (0 type user cannot delete / edit )
@@ -13,7 +13,7 @@ mysql-connector-java.jar needs to be added as a library. Currently is configured
 	4) Connect the interface to the completed API functions;
 	5) Create a Gant-Type Schedule for the projects' milestones;
 
-$	6) After finishing enjoy the sensation of fulfillment!
+#	6) After finishing enjoy the sensation of fulfillment!
 
  Software Designed in Java ( JavaSwing was used for the interface)
  Database Used : MySQL;
