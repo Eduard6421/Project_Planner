@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class Controller {
     
-    DBConnector connection;
+    public DBConnector connection;
     
     private int id_rights;
     private int project_id;

@@ -144,6 +144,106 @@ public class DBConnector {
         
     }  
 
+    
+    
+    public boolean Update_Project(String Project_Name,String Client_Name, String NewProject_Name,String NewClient_Name,Date NewStart_Date,Date NewEnd_Date,int NewBudget)
+    {    
+          try
+          {
+              PreparedStatement Stat = connection.prepareStatement("UPDATE projects \n" +
+"SET Project_Name = (?), Client_Name=(?),Start_Date=(?),End_Date=(?),Budget=(?) \n" +
+"WHERE (Project_Name=(?) AND Client_Name=(?));");
+              
+              java.sql.Date sql_start_date = new java.sql.Date(NewStart_Date.getTime());
+              java.sql.Date sql_end_date   = new java.sql.Date(NewEnd_Date.getTime());
+              
+              Stat.setString(1,NewProject_Name);
+              Stat.setString(2,NewClient_Name);
+              Stat.setDate(3,sql_start_date);
+              Stat.setDate(4,sql_end_date);
+              Stat.setDouble(5,NewBudget);
+              Stat.setString(6, Project_Name);
+              Stat.setString(7, Client_Name);
+
+              Stat.executeUpdate();
+              
+              return true;
+      
+          }
+          catch(Exception e)
+          {
+              System.out.println("Project Create Error : "+ e);
+              return false;
+              
+          }
+    }
+    
+    
+    
+    public boolean Delete_Project(String Project_Name, String Client_Name)
+    {
+     try
+          {
+              PreparedStatement Stat = connection.prepareStatement("DELETE FROM projects\n" + "WHERE Project_Name=(?) AND Client_Name =(?);");
+              
+              Stat.setString(1,Project_Name);
+              Stat.setString(2,Client_Name);              
+              Stat.executeUpdate();
+              return true;
+      
+          }
+          catch(Exception e)
+          {
+              System.out.println("Project Create Error : "+ e);
+              return false;
+              
+          }
+    }
+    public boolean Delete_Milestone(String Milestone_Title, int Assigned_Project)
+    {
+        try
+          {
+              PreparedStatement Stat = connection.prepareStatement("DELETE FROM milestones\n" + "WHERE Title = (?) AND Assigned_Project = (?);");
+              
+              Stat.setString(1,Milestone_Title);
+              Stat.setInt(2,Assigned_Project);              
+              Stat.executeUpdate();
+              
+              return true;
+      
+          }
+          catch(Exception e)
+          {
+              System.out.println("Project Create Error : "+ e);
+              return false;
+              
+          }
+        
+    }
+    public boolean Delete_Task(String task_title, int Assigned_Milestone)
+    {
+        try
+          {
+              PreparedStatement Stat = connection.prepareStatement("DELETE FROM tasks\n" + "WHERE title =(?) AND Assigned_Milestone = (?);");
+              
+              Stat.setString(1,task_title);
+              Stat.setInt(2,Assigned_Milestone);              
+              Stat.executeUpdate();
+              
+              return true;
+      
+          }
+          catch(Exception e)
+          {
+              System.out.println("Project Create Error : "+ e);
+              return false;
+              
+          }
+        
+    }
+    
+    
+    
     public List<project> Get_Projects(){
         
         List<project> answer = new ArrayList<>();

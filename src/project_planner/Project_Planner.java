@@ -20,7 +20,7 @@ public class Project_Planner {
        
        main_control = new Controller(Username,Password);
        
-
+       main_control.connection.Delete_Project("asdf","asdf");
        
        return main_control.isConnected();
        
