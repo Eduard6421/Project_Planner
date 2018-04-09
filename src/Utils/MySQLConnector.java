@@ -31,7 +31,7 @@ public class MySQLConnector {
         return properties;
     }
 
-    public static Connection connect() {
+    public static Connection getConnection() {
         if (connection == null) {
             try {
                 Class.forName(DB_DRIVER);

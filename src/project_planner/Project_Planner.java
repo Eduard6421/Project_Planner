@@ -5,6 +5,7 @@
  */
 package project_planner;
 
+import Utils.MySQLConnector;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -46,9 +47,10 @@ public class Project_Planner {
         
 
         StartConnection("admin","admin");
-        
-        
-    
+        ConnectToDb();
     }
-    
+
+    private static void ConnectToDb() {
+        MySQLConnector.getConnection();
+    }
 }
