@@ -9,6 +9,7 @@ import Data_Structures.milestone;
 import Data_Structures.project;
 import Data_Structures.task;
 import java.sql.*;
+import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 /**
@@ -150,8 +151,7 @@ public class DBConnector {
     {    
           try
           {
-              PreparedStatement Stat = connection.prepareStatement("UPDATE projects \n" +
-"SET Project_Name = (?), Client_Name=(?),Start_Date=(?),End_Date=(?),Budget=(?) \n" +
+              PreparedStatement Stat = connection.prepareStatement("UPDATE projects \n" + "SET Project_Name = (?), Client_Name=(?),Start_Date=(?),End_Date=(?),Budget=(?) \n" +
 "WHERE (Project_Name=(?) AND Client_Name=(?));");
               
               java.sql.Date sql_start_date = new java.sql.Date(NewStart_Date.getTime());
@@ -172,11 +172,76 @@ public class DBConnector {
           }
           catch(Exception e)
           {
-              System.out.println("Project Create Error : "+ e);
+              System.out.println("Project Update Error : "+ e);
               return false;
               
           }
     }
+    
+    
+    public boolean Update_Milestone(String Milestone_Title, int Assigned_Project , String New_Title,Date NewStart_Date ,Date NewEnd_Date, String NewDescription)
+    {
+        try
+        {
+            PreparedStatement Stat = connection.prepareStatement("UPDATE milestones\n" + "SET Title= (?), Start_Date=(?), End_Date=(?), Description=(?) \n" +
+"WHERE ( Title=(?) AND Assigned_Project = ? );");
+            
+            java.sql.Date sql_start_date = new java.sql.Date(NewStart_Date.getTime());
+            java.sql.Date sql_end_date   = new java.sql.Date(NewEnd_Date.getTime());
+            
+            
+            Stat.setString(1,New_Title);
+            Stat.setDate(2,sql_start_date);
+            Stat.setDate(3,sql_end_date);
+            Stat.setString(4,NewDescription);
+            Stat.setString(5,Milestone_Title);
+            Stat.setInt(6,Assigned_Project);
+            
+            Stat.executeUpdate();
+            
+            return true;
+               
+        }
+        
+        catch(Exception e)
+        {
+            System.out.println("Milestone Update Error" + e);
+            return false;
+            
+        } 
+    }
+    
+    public boolean Update_Task(String Task_Title,int Assigned_Milestone, String NewTask_Title,int NewPriority,String NewDescription,Date NewEnd_Date,int NewDeveloper)
+    {
+        try
+        {
+            PreparedStatement Stat = connection.prepareStatement("UPDATE tasks\n" + "SET Title=(?),Priority=(?),Description=(?),End_Date=(?),Developer=(?)\n" +
+                    "WHERE (Title=(?) AND Assigned_Milestone=(?));");
+            
+            java.sql.Date sql_end_date   = new java.sql.Date(NewEnd_Date.getTime());
+            
+            Stat.setString(1, NewTask_Title);
+            Stat.setInt(2,NewPriority);
+            Stat.setString(3, NewDescription);
+            Stat.setDate(4,sql_end_date);
+            Stat.setInt(5,NewDeveloper);
+            Stat.setString(6,Task_Title);
+            Stat.setInt(7,Assigned_Milestone);
+            Stat.executeUpdate();
+            
+            return true;
+               
+        }
+        
+        catch(Exception e)
+        {
+            System.out.println("Task Update Error" + e);
+            return false;
+            
+        } 
+    }
+    
+    
     
     
     
@@ -310,9 +375,7 @@ public class DBConnector {
         
             try
             {
-            PreparedStatement Stat = connection.prepareStatement("SELECT idtasks `ID`,Title,Priority,Description,End_Date,Developer\n" +
-"FROM tasks\n" +
-"WHERE Assigned_Milestone=(?);");
+            PreparedStatement Stat = connection.prepareStatement("SELECT idtasks `ID`,Title,Priority,Description,End_Date,Developer\n" +"FROM tasks\n" + "WHERE Assigned_Milestone=(?);");
               
             Stat.setInt(1,MilestoneID);
               

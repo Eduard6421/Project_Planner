@@ -5,6 +5,10 @@
  */
 package project_planner;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 /**
  *
  * @author Eduard
@@ -20,7 +24,13 @@ public class Project_Planner {
        
        main_control = new Controller(Username,Password);
        
-       main_control.connection.Delete_Project("asdf","asdf");
+       Calendar myCalendar = new GregorianCalendar(2014, 2, 11);
+       Date asd = myCalendar.getTime();
+ 
+       myCalendar = new GregorianCalendar(2014, 4, 20);
+       Date asd1 = myCalendar.getTime();
+       
+       main_control.connection.Update_Task("test",1,"new_test",3,"new_descirpt",asd1,2);
        
        return main_control.isConnected();
        
@@ -34,7 +44,10 @@ public class Project_Planner {
         //LoginMenu login = new LoginMenu();
         //login.setVisible(true);
         
+
         StartConnection("admin","admin");
+        
+        
     
     }
     
