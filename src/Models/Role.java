@@ -1,15 +1,15 @@
 package Models;
 
-public class Priority extends Entity {
+public class Role extends Entity {
 
     private String Title;
 
-    public Priority(int id, String title) {
+    public Role(int id, String title) {
         Id = id;
         Title = title;
     }
 
-    public Priority(String title) {
+    public Role(String title) {
         Title = title;
     }
 

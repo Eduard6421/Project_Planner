@@ -19,6 +19,14 @@ public class Milestone extends Entity {
         Description = description;
     }
     
+    public Milestone(int projectId, String title, Date startDate, Date endDate, String description) {
+        ProjectId = projectId;
+        Title = title;
+        StartDate = startDate;
+        EndDate = endDate;
+        Description = description;
+    }
+    
     public void setProjectId(int projectId) {
         ProjectId = projectId;
     }

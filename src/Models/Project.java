@@ -3,20 +3,36 @@ package Models;
 import java.util.Date;
 
 public class Project extends Entity {
-    
+
+    private int ManagerId;
     private String Title;
     private String ClientName;
     private Date StartDate;
     private Date EndDate;
     private double Budget;
+    private String Description;
     
-    public Project (int id, String title, String clientName, Date startDate, Date endDate, double budget) {
+    public Project (int id, int managerId, String title, String clientName, Date startDate, Date endDate, double budget, String description) {
         Id = id;
+        ManagerId = managerId;
         Title = title;
         ClientName = clientName;
         StartDate = startDate;
         EndDate = endDate;
         Budget = budget;
+    }
+    
+    public Project (int managerId, String title, String clientName, Date startDate, Date endDate, double budget, String description) {
+        ManagerId = managerId;
+        Title = title;
+        ClientName = clientName;
+        StartDate = startDate;
+        EndDate = endDate;
+        Budget = budget;
+    }
+
+    public void setManagerId(int managerId) {
+        ManagerId = managerId;
     }
 
     public void setTitle(String title) {
@@ -39,6 +55,14 @@ public class Project extends Entity {
         Budget = budget;
     }
 
+    public void setDescription(String description) {
+        Description = description;
+    }
+
+    public int getManagerId() {
+        return ManagerId;
+    }
+
     public String getTitle() {
         return Title;
     }
@@ -57,5 +81,9 @@ public class Project extends Entity {
 
     public double getBudget() {
         return Budget;
+    }
+
+    public String getDescription() {
+        return Description;
     }
 }

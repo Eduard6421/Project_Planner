@@ -4,43 +4,33 @@ import java.util.Date;
 
 public class Task extends Entity {
 
+    private int MilestoneId;
+    private int AssignedToId;
+    private int PriorityId;
     private String Title;
-    private Priority Priority;
     private String Description;
     private Date StartDate;
     private Date EndDate;
-    private int MilestoneId;
-    private int AssignedToId;
 
-    public Task(int id, String title, Priority priority, String description, Date startDate, Date endDate, int milestoneId, int assignedToId) {
+    public Task(int id, int milestoneId, int assignedToId, int priorityId, String title, Date startDate, Date endDate, String description) {
         Id = id;
-        Title = title;
-        Priority = priority;
-        Description = description;
-        StartDate = startDate;
-        EndDate = endDate;
         MilestoneId = milestoneId;
         AssignedToId = assignedToId;
-    }
-
-    public void setTitle(String title) {
+        PriorityId = priorityId;
         Title = title;
-    }
-
-    public void setPriority(Priority priority) {
-        Priority = priority;
-    }
-
-    public void setDescription(String description) {
+        StartDate = startDate;
+        EndDate = endDate;
         Description = description;
     }
-
-    public void setStartDate(Date startDate) {
+    
+    public Task(int milestoneId, int assignedToId, int priorityId, String title, Date startDate, Date endDate, String description) {
+        MilestoneId = milestoneId;
+        AssignedToId = assignedToId;
+        PriorityId = priorityId;
+        Title = title;
         StartDate = startDate;
-    }
-
-    public void setEndDate(Date endDate) {
         EndDate = endDate;
+        Description = description;
     }
 
     public void setMilestoneId(int milestoneId) {
@@ -51,16 +41,40 @@ public class Task extends Entity {
         AssignedToId = assignedToId;
     }
 
+    public void setPriorityId(int priorityId) {
+        PriorityId = priorityId;
+    }
+
+    public void setTitle(String title) {
+        Title = title;
+    }
+
+    public void setStartDate(Date startDate) {
+        StartDate = startDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        EndDate = endDate;
+    }
+
+    public void setDescription(String description) {
+        Description = description;
+    }
+
+    public int getMilestoneId() {
+        return MilestoneId;
+    }
+
+    public int getAssignedToId() {
+        return AssignedToId;
+    }
+
+    public int getPriorityId() {
+        return PriorityId;
+    }
+
     public String getTitle() {
         return Title;
-    }
-
-    public Priority getPriority() {
-        return Priority;
-    }
-
-    public String getDescription() {
-        return Description;
     }
 
     public Date getStartDate() {
@@ -71,11 +85,7 @@ public class Task extends Entity {
         return EndDate;
     }
 
-    public int getMilestoneId() {
-        return MilestoneId;
-    }
-
-    public int getAssignedToId() {
-        return AssignedToId;
+    public String getDescription() {
+        return Description;
     }
 }
