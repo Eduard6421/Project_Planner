@@ -8,7 +8,7 @@ public class Entity {
         Id = id;
     }
     
-    public int getId(int id) {
+    public int getId() {
         return Id;
     }
 }

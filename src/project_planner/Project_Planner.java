@@ -1,19 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package project_planner;
 
-import Utils.MySQLConnector;
+import Utils.*;
+import Controllers.*;
+import Models.*;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.ArrayList;
 
-/**
- *
- * @author Eduard
- */
 public class Project_Planner {
 
     static Controller main_control;
@@ -46,7 +41,7 @@ public class Project_Planner {
         //login.setVisible(true);
         
 
-        StartConnection("admin","admin");
+        //StartConnection("admin","admin");
         ConnectToDb();
     }
 

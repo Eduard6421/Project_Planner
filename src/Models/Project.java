@@ -12,6 +12,8 @@ public class Project extends Entity {
     private double Budget;
     private String Description;
     
+    public Project() {}
+    
     public Project (int id, int managerId, String title, String clientName, Date startDate, Date endDate, double budget, String description) {
         Id = id;
         ManagerId = managerId;
@@ -20,6 +22,7 @@ public class Project extends Entity {
         StartDate = startDate;
         EndDate = endDate;
         Budget = budget;
+        Description = description;
     }
     
     public Project (int managerId, String title, String clientName, Date startDate, Date endDate, double budget, String description) {
@@ -29,6 +32,7 @@ public class Project extends Entity {
         StartDate = startDate;
         EndDate = endDate;
         Budget = budget;
+        Description = description;
     }
 
     public void setManagerId(int managerId) {
