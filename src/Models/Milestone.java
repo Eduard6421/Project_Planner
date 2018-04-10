@@ -63,7 +63,7 @@ public class Milestone extends Entity {
         return EndDate;
     }
     
-    public String detDescription() {
+    public String getDescription() {
         return Description;
     }
 }
