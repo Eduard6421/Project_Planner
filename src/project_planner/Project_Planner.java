@@ -2,6 +2,7 @@ package project_planner;
 
 import Utils.*;
 import Controllers.*;
+import GUI_Package.LoginMenu;
 import Models.*;
 import java.util.Calendar;
 import java.util.Date;
@@ -36,13 +37,15 @@ public class Project_Planner {
     
     
     public static void main(String[] args) {
-        // TODO code application logic here
-        //LoginMenu login = new LoginMenu();
-        //login.setVisible(true);
         
-
-        //StartConnection("admin","admin");
-        ConnectToDb();
+        
+        
+       LoginMenu login = new LoginMenu();
+       login.setVisible(true);
+    
+    
+    
+    
     }
 
     private static void ConnectToDb() {

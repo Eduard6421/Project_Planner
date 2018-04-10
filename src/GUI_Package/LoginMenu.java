@@ -5,6 +5,16 @@
  */
 package GUI_Package;
 
+
+
+import java.awt.Dimension;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
+
 /**
  *
  * @author Eduard
@@ -16,6 +26,31 @@ public class LoginMenu extends javax.swing.JFrame {
      */
     public LoginMenu() {
         initComponents();
+        
+        
+        //-- Adding TAB to switch Input Slot
+        
+        jTextPane1.addKeyListener(new KeyAdapter(){
+                
+         @Override
+            public void keyPressed(KeyEvent e){
+                    
+                if(e.getKeyCode()==KeyEvent.VK_TAB){
+                        jTextPane1.transferFocus();
+
+                    e.consume();
+                 
+                }
+               
+            }
+                
+        });
+        
+        
+        
+        //
+        
+   
     }
 
     /**
@@ -119,11 +154,42 @@ public class LoginMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+
+
+        System.out.println(jTextPane1.getText());
+        System.out.println(jPasswordField1.getPassword());
+
+
+
         // TODO add your handling code here:
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        
+        final JFrame popup = new JFrame();
+        
+        
+        JButton button = new JButton();
+        button.setText("Too fucking bad");
+        
+        
+        popup.setPreferredSize(new Dimension(500,200));
+        popup.add(button);
+        popup.pack();
+        popup.setVisible(true);
+        
+        
+        button.addActionListener(new java.awt.event.ActionListener() 
+                {
+                    @Override
+                    public void actionPerformed(java.awt.event.ActionEvent evt)
+                    {
+                         popup.setVisible(false);
+                         popup.dispose();
+                    }           
+                });
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
