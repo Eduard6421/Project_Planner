@@ -77,7 +77,7 @@ public class ProjectsController {
         
         try {
             String query = "INSERT INTO projects " +
-                            "(ManagerId, Title, ClientName, StartDate, EndDate, Budget, Description " +
+                            "(ManagerId, Title, ClientName, StartDate, EndDate, Budget, Description) " +
                             "VALUES (?, ?, ?, ?, ?, ?, ?)";
             
             PreparedStatement statement = conn.prepareStatement(query);
