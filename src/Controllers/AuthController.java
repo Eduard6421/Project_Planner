@@ -5,7 +5,7 @@ import java.sql.*;
 
 public class AuthController {
 
-    private static Connection conn = MySQLConnector.getConnection();
+    private static final Connection conn = MySQLConnector.getConnection();
 
     public void LogIn(String username, String password) {
         try {
@@ -27,11 +27,20 @@ public class AuthController {
                 
                 GlobalData.setUsername(result.getString("u.Username"));
                 GlobalData.setUserId(result.getInt("u.Id"));
-                GlobalData.setRoleTitle(result.getString("u.Title"));
+                GlobalData.setRoleTitle(result.getString("r.Title"));
             }
+            
+            statement.close();
         }
         catch (Exception e) {
             System.out.println("Error: " + e);
         }
+    }
+    
+    public void LogOut(){
+        GlobalData.setLoggedIn(false);
+        GlobalData.setRoleTitle(null);
+        GlobalData.setUserId(0);
+        GlobalData.setUsername(null);
     }
 }
