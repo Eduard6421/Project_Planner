@@ -16,19 +16,19 @@ public class MilestonesController {
         Milestone milestone = null;
         
         try {
-            String query = "SELECT * FROM tasks WHERE Id = (?)";
+            String query = "SELECT * FROM milestones WHERE Id = (?)";
             
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setInt(1, id);
             ResultSet result = statement.executeQuery();
             
             while (result.next()) {
-                milestone = new Milestone(  result.getInt("Id"),
-                                            result.getInt("ProjectId"),
-                                            result.getString("Title"),
-                                            result.getDate("StartDate"),
-                                            result.getDate("EndDate"),
-                                            result.getString("Description"));
+                milestone = new Milestone(result.getInt("Id"),
+                                        result.getInt("ProjectId"),
+                                        result.getString("Title"),
+                                        result.getDate("StartDate"),
+                                        result.getDate("EndDate"),
+                                        result.getString("Description"));
             }
             
             statement.close();
@@ -51,12 +51,12 @@ public class MilestonesController {
             ResultSet result = statement.executeQuery(query);
             
             while (result.next()) {
-                 Milestone milestone = new Milestone(   result.getInt("Id"),
-                                                        result.getInt("ProjectId"),
-                                                        result.getString("Title"),
-                                                        result.getDate("StartDate"),
-                                                        result.getDate("EndDate"),
-                                                        result.getString("Description"));
+                 Milestone milestone = new Milestone(result.getInt("Id"),
+                                                    result.getInt("ProjectId"),
+                                                    result.getString("Title"),
+                                                    result.getDate("StartDate"),
+                                                    result.getDate("EndDate"),
+                                                    result.getString("Description"));
                 milestones.add(milestone);
             }
             
@@ -116,7 +116,7 @@ public class MilestonesController {
             statement.setString(2, milestone.getTitle());
             statement.setDate(3, new java.sql.Date(milestone.getStartDate().getTime()));
             statement.setDate(4, new java.sql.Date(milestone.getEndDate().getTime()));    
-            statement.setString(7, milestone.getDescription());
+            statement.setString(5, milestone.getDescription());
             
             statement.executeUpdate();
         }
