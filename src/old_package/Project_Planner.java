@@ -1,6 +1,7 @@
 package old_package;
 
-import Controllers.LoginController;
+import Controllers.LoginMenuController;
+import Controllers.ProjectsMenuController;
 import Utils.*;
 import GUIPackage.LoginMenu;
 import java.sql.*;
@@ -23,9 +24,10 @@ public class Project_Planner {
     
     public static void main(String[] args) {
 
-       startConnection();
-       
-       LoginController control = new LoginController();
+
+        ProjectsMenuController controller = new ProjectsMenuController();
+        
+        
        
 
     }

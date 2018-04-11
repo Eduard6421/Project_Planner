@@ -5,10 +5,9 @@
  */
 package GUIPackage;
 
-/**
- *
- * @author Eduard
- */
+import Controllers.ProjectsMenuController;
+
+
 public class ProjectMenu extends javax.swing.JFrame {
 
     /**
@@ -16,6 +15,19 @@ public class ProjectMenu extends javax.swing.JFrame {
      */
     public ProjectMenu() {
         initComponents();
+    }
+    
+    public ProjectMenu(ProjectsMenuController controller)
+    {
+        initComponents();
+        
+        jButton1.addActionListener(controller);
+        jButton3.addActionListener(controller);
+        jButton4.addActionListener(controller);
+        jButton6.addActionListener(controller);
+        jButton5.addActionListener(controller);
+        
+        
     }
 
     /**

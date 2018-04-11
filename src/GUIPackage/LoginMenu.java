@@ -8,7 +8,7 @@ package GUIPackage;
 
 
 import Controllers.AuthController;
-import Controllers.LoginController;
+import Controllers.LoginMenuController;
 import java.awt.Dimension;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -27,10 +27,17 @@ public class LoginMenu extends javax.swing.JFrame {
      * Creates new form LoginMenu
      */
 
-    public LoginMenu() {
+    public LoginMenu()
+    {
+        
+    }
+    
+    
+    public LoginMenu(LoginMenuController controller) {
         
         
         initComponents();
+        jToggleButton1.addActionListener(controller);
         
         
         
@@ -152,17 +159,7 @@ public class LoginMenu extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
-    
-
    
-    
-    
-    public  void AddEventListener(LoginController controller)
-    {
-        jToggleButton1.addActionListener(controller);
-        
-    }
     
     
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

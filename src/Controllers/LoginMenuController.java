@@ -13,17 +13,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
 
-public class LoginController implements ActionListener{
+public class LoginMenuController implements ActionListener{
 
     private LoginMenu view;
     
     private static final Connection conn = MySQLConnector.getConnection();
 
-    public LoginController()
+    public LoginMenuController()
     {
         
-       view = new LoginMenu();
-       view.AddEventListener(this);
+       view = new LoginMenu(this);
        view.setVisible(true);
         
         
@@ -81,7 +80,6 @@ public class LoginController implements ActionListener{
                 GlobalData.setLoggedIn(result.getBoolean("COUNT(1)"));
                 
                 if (!GlobalData.isLoggedIn()) {
-                    System.out.println("No such user exists!");
                     return false;
                 } 
                 
