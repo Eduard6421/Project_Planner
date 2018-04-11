@@ -258,20 +258,20 @@ ALTER TABLE `users`
 -- Constraints for table `milestones`
 --
 ALTER TABLE `milestones`
-  ADD CONSTRAINT `milestones_ibfk_1` FOREIGN KEY (`ProjectId`) REFERENCES `projects` (`Id`);
+  ADD CONSTRAINT `milestones_ibfk_1` FOREIGN KEY (`ProjectId`) REFERENCES `projects` (`Id`) ON DELETE CASCADE ;
 
 --
 -- Constraints for table `projects`
 --
 ALTER TABLE `projects`
-  ADD CONSTRAINT `projects_ibfk_1` FOREIGN KEY (`ManagerId`) REFERENCES `users` (`Id`);
+  ADD CONSTRAINT `projects_ibfk_1` FOREIGN KEY (`ManagerId`) REFERENCES `users` (`Id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `tasks`
 --
 ALTER TABLE `tasks`
   ADD CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`PriorityId`) REFERENCES `priorities` (`Id`),
-  ADD CONSTRAINT `tasks_ibfk_2` FOREIGN KEY (`MilestoneId`) REFERENCES `milestones` (`Id`),
+  ADD CONSTRAINT `tasks_ibfk_2` FOREIGN KEY (`MilestoneId`) REFERENCES `milestones` (`Id`) ON DELETE CASCADE,
   ADD CONSTRAINT `tasks_ibfk_3` FOREIGN KEY (`AssignedToId`) REFERENCES `users` (`Id`);
 
 --

@@ -17,9 +17,9 @@ public class MySQLConnector {
     private static final String MAX_POOL = "250";
 
     //Db Connection
-    private static Connection connection;
+    private static Connection connection = null;
     //Object properties
-    private static Properties properties;
+    private static Properties properties = null;
 
     private static Properties getProperties() {
         if (properties == null) {

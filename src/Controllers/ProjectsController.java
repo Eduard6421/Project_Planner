@@ -22,6 +22,7 @@ public class ProjectsController {
             statement.setInt(1, id);
             ResultSet result = statement.executeQuery();
             
+
             while (result.next()) {
                 project = new Project(result.getInt("Id"),
                                     result.getInt("ManagerId"),

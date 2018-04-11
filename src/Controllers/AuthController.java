@@ -7,7 +7,7 @@ public class AuthController {
 
     private static final Connection conn = MySQLConnector.getConnection();
 
-    public void LogIn(String username, String password) {
+    public static boolean LogIn(String username, String password) {
         try {
             String query = "SELECT COUNT(1), u.Username, u.Id, r.Title " +
                     "FROM users u INNER JOIN roles r ON r.Id = u.RoleId " +
@@ -22,7 +22,8 @@ public class AuthController {
                 GlobalData.setLoggedIn(result.getBoolean("COUNT(1)"));
                 
                 if (!GlobalData.isLoggedIn()) {
-                    break;
+                    System.out.println("No such user exists!");
+                    return false;
                 } 
                 
                 GlobalData.setUsername(result.getString("u.Username"));
@@ -34,9 +35,13 @@ public class AuthController {
         }
         catch (Exception e) {
             System.out.println("Error: " + e);
+            return false;
         }
+        
+        return true;
     }
     
+   
     public void LogOut(){
         GlobalData.setLoggedIn(false);
         GlobalData.setRoleTitle(null);

@@ -11,6 +11,7 @@ public class TasksController {
     
     private static final Connection conn = MySQLConnector.getConnection();
     
+    /** Returns object of type Task from SQL Database that has the same id as the argument. Returns null on not found */
     public static Task GetById(int id) {
         
         Task task = null;
@@ -63,7 +64,7 @@ public class TasksController {
                                         result.getString("Description"));
                 tasks.add(task);
             }
-            
+           
             statement.close();
         }
         catch (Exception e) {
