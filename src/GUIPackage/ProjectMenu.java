@@ -73,7 +73,7 @@ public class ProjectMenu extends javax.swing.JFrame {
         jTable1.setToolTipText("");
         jScrollPane1.setViewportView(jTable1);
 
-        jButton1.setText("Exit");
+        jButton1.setText("Log Out");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);

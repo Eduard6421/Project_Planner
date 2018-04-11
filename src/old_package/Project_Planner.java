@@ -1,10 +1,7 @@
 package old_package;
 
 import Controllers.LoginMenuController;
-import Controllers.ProjectsMenuController;
 import Utils.*;
-import GUIPackage.LoginMenu;
-import java.sql.*;
 
 public class Project_Planner {
 
@@ -25,10 +22,7 @@ public class Project_Planner {
     public static void main(String[] args) {
 
 
-        ProjectsMenuController controller = new ProjectsMenuController();
-        
-        
-       
+        LoginMenuController controller = new LoginMenuController();
 
     }
 

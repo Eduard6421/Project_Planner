@@ -21,12 +21,31 @@ public class LoginMenuController implements ActionListener{
 
     public LoginMenuController()
     {
-        
        view = new LoginMenu(this);
        view.setVisible(true);
+
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent evt){
+       
+        String username = view.GetUsername();
+        String password = view.GetPassword();
+        
+        if(LogIn(username,password))
+        {
+         ProjectsMenuController tmp = new ProjectsMenuController(this);
+         
+        }
+        else
+        {
+            System.out.println("THere is no such user / Database connectivity issues");
+        }
+        
         
         
     }
+    
     
     public void  SetWindowInvisible()
     {
@@ -45,25 +64,6 @@ public class LoginMenuController implements ActionListener{
     }
     
     
-    @Override
-    public void actionPerformed(ActionEvent evt){
-       
-        String username = view.GetUsername();
-        String password = view.GetPassword();
-        
-        if(LogIn(username,password))
-        {
-         view.setVisible(false);   
-            
-        }
-        else
-        {
-            System.out.println("THere is no such user / Database connectivity issues");
-        }
-        
-        
-        
-    }
     
     public boolean LogIn(String username, String password) {
         try {
