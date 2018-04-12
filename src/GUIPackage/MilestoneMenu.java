@@ -26,49 +26,43 @@ public class MilestoneMenu extends javax.swing.JFrame {
     }
 
     public MilestoneMenu(MilestonesMenuController controller) {
-        
+
         initComponents();
-        
+
         jButton3.addActionListener(controller);
         jButton4.addActionListener(controller);
         jButton5.addActionListener(controller);
         jButton6.addActionListener(controller);
         jButton7.addActionListener(controller);
-        
-        
+
     }
-    
-    public void ShowPopulation()
-    {
-        
+
+    public void ShowPopulation() {
+
         List<Milestone> milestones;
         milestones = MilestonesController.GetAll();
-        
-       DefaultTableModel tModel1 = (DefaultTableModel) jTable1.getModel();
-       jTable1.setDefaultEditor(Object.class,null);
- 
-       while(tModel1.getRowCount()>0)
-       {
-           tModel1.removeRow(0);
-       }
-       tModel1.setRowCount(0);
-       
-       Object rowData[] = new Object[5];
-       
-       for(int i = 0 ; i < milestones.size() ; ++i)
-       {
-            rowData[0] = milestones.get(i).getTitle(); 
+
+        DefaultTableModel tModel1 = (DefaultTableModel) jTable1.getModel();
+        jTable1.setDefaultEditor(Object.class, null);
+
+        while (tModel1.getRowCount() > 0) {
+            tModel1.removeRow(0);
+        }
+        tModel1.setRowCount(0);
+
+        Object rowData[] = new Object[5];
+
+        for (int i = 0; i < milestones.size(); ++i) {
+            rowData[0] = milestones.get(i).getTitle();
             rowData[1] = milestones.get(i).getStartDate();
             rowData[2] = milestones.get(i).getEndDate();
             rowData[3] = milestones.get(i).getDescription();
-           
+
             tModel1.addRow(rowData);
-          
-       }
-      
-  
+
+        }
+
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.

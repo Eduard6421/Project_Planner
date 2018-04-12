@@ -5,8 +5,6 @@
  */
 package GUIPackage;
 
-
-
 import Controllers.AuthController;
 import Controllers.LoginMenuController;
 import java.awt.Dimension;
@@ -15,7 +13,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
 
 /**
  *
@@ -26,42 +23,33 @@ public class LoginMenu extends javax.swing.JFrame {
     /**
      * Creates new form LoginMenu
      */
+    public LoginMenu() {
 
-    public LoginMenu()
-    {
-        
     }
-    
-    
+
     public LoginMenu(LoginMenuController controller) {
-        
-        
+
         initComponents();
         jToggleButton1.addActionListener(controller);
-        
-        
-        
+
         //-- Adding TAB to switch Input Slot
-        
-        jTextPane1.addKeyListener(new KeyAdapter(){
-                
-         @Override
-            public void keyPressed(KeyEvent e){
-                    
-                if(e.getKeyCode()==KeyEvent.VK_TAB){
-                        jTextPane1.transferFocus();
+        jTextPane1.addKeyListener(new KeyAdapter() {
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+
+                if (e.getKeyCode() == KeyEvent.VK_TAB) {
+                    jTextPane1.transferFocus();
 
                     e.consume();
-                 
+
                 }
-               
+
             }
-                
+
         });
-        
+
         //
-        
-   
     }
 
     /**
@@ -157,35 +145,28 @@ public class LoginMenu extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-   
-    
-    
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        
+
         final JFrame popup = new JFrame();
-        
-        
+
         JButton button = new JButton();
         button.setText("Too fucking bad");
-        
-        
-        popup.setPreferredSize(new Dimension(500,200));
+
+        popup.setPreferredSize(new Dimension(500, 200));
         popup.add(button);
         popup.pack();
         popup.setVisible(true);
-        
-        
-        button.addActionListener(new java.awt.event.ActionListener() 
-                {
-                    @Override
-                    public void actionPerformed(java.awt.event.ActionEvent evt)
-                    {
-                         popup.setVisible(false);
-                         popup.dispose();
-                    }           
-                });
-        
+
+        button.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                popup.setVisible(false);
+                popup.dispose();
+            }
+        });
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -234,13 +215,20 @@ public class LoginMenu extends javax.swing.JFrame {
     private javax.swing.JToggleButton jToggleButton1;
     // End of variables declaration//GEN-END:variables
 
-    /** Method Returns Password from password-textbox
-     * @return */
+    /**
+     * Method Returns Password from password-textbox
+     *
+     * @return
+     */
     public String GetPassword() {
         return new String(jPasswordField1.getPassword());
     }
- /** Method Returns Username from textbox
-     * @return */
+
+    /**
+     * Method Returns Username from textbox
+     *
+     * @return
+     */
     public String GetUsername() {
         return jTextPane1.getText();
     }

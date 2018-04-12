@@ -90,13 +90,8 @@ public class ProjectsController {
             statement.setDouble(6, project.getBudget());
             statement.setString(7, project.getDescription());
             
-            ResultSet result = statement.executeQuery();
+            statement.executeUpdate();
             
-            ResultSet idResult = statement.getGeneratedKeys();
-            
-            if (idResult.next()) {
-                project.setId(idResult.getInt(1));
-            }
             
             statement.close();
         }
