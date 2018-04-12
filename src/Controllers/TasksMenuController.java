@@ -29,8 +29,14 @@ public class TasksMenuController implements ActionListener {
      
      view = new TaskMenu(this);
      view.setVisible(true);
+     RetrievePopulation();
         
         
+    }
+    
+    private void RetrievePopulation()
+    {
+     view.ShowPopulation();
     }
     
     @Override
@@ -54,6 +60,7 @@ public class TasksMenuController implements ActionListener {
                     view.setVisible(false);
                     view.dispose();
                     parent_controller.SetWindowVisible();
+                    parent_controller.RetrievePopulation();
                     System.out.println("Exit");
         
             }

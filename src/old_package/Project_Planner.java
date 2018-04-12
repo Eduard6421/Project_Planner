@@ -1,6 +1,8 @@
 package old_package;
 
 import Controllers.LoginMenuController;
+import Controllers.ProjectsController;
+import Controllers.ProjectsMenuController;
 import Utils.*;
 
 public class Project_Planner {
@@ -11,7 +13,7 @@ public class Project_Planner {
     
     public static void startConnection(){
         
-    MySQLConnector.getConnection();
+    //MySQLConnector.getConnection();
       
     }
         
@@ -21,9 +23,8 @@ public class Project_Planner {
     
     public static void main(String[] args) {
 
-
         LoginMenuController controller = new LoginMenuController();
-
+       
     }
 
 }

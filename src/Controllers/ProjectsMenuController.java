@@ -30,7 +30,16 @@ public class ProjectsMenuController implements ActionListener {
         
         view = new ProjectMenu(this);
         view.setVisible(true);
+        RetrievePopulation();
+               
        
+    }
+    
+    
+    
+    public  void RetrievePopulation()
+    {
+        view.ShowPopulation();
     }
     
 

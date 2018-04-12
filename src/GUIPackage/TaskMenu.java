@@ -5,7 +5,11 @@
  */
 package GUIPackage;
 
+import Controllers.TasksController;
 import Controllers.TasksMenuController;
+import Models.Task;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -16,6 +20,39 @@ public class TaskMenu extends javax.swing.JFrame {
     /**
      * Creates new form TaskMenu
      */
+    public void ShowPopulation()
+{
+    
+    List<Task> tasks;
+    tasks = TasksController.GetAll();
+    
+  
+   DefaultTableModel tModel1 = (DefaultTableModel) jTable1.getModel();
+   jTable1.setDefaultEditor(Object.class,null);
+    
+   while(tModel1.getRowCount()>0)
+   {
+       tModel1.removeRow(0);
+   }
+   tModel1.setRowCount(0);
+   
+   Object rowData[] = new Object[5];
+   
+   for(int i = 0 ; i < tasks.size() ; ++i)
+   {
+        rowData[0] = tasks.get(i).getTitle(); 
+        rowData[1] = tasks.get(i).getPriorityId(); // ce p**** ma-sii Stefan, repara chestia asta ca fac urat!
+        rowData[2] = tasks.get(i).getEndDate();
+        rowData[3] = tasks.get(i).getAssignedToId(); // repara si asta ce mama dracu facem cu astea pune sa apara direct sau refa query ul !
+       
+        tModel1.addRow(rowData);
+      
+   }
+
+   
+}
+    
+    
     public TaskMenu() {
         initComponents();
     }
@@ -138,6 +175,9 @@ public class TaskMenu extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+
+    
+    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed

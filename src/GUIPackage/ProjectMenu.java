@@ -5,7 +5,12 @@
  */
 package GUIPackage;
 
+import Controllers.ProjectsController;
 import Controllers.ProjectsMenuController;
+import Models.Project;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
 
 public class ProjectMenu extends javax.swing.JFrame {
@@ -28,6 +33,40 @@ public class ProjectMenu extends javax.swing.JFrame {
         jButton5.addActionListener(controller);
         
         
+    }
+    
+    public void ShowPopulation()
+    {
+        
+        List<Project> projects;
+        projects = ProjectsController.GetAll();
+        
+       
+       
+       DefaultTableModel tModel1 = (DefaultTableModel) jTable1.getModel();
+       jTable1.setDefaultEditor(Object.class,null);
+       
+       while(tModel1.getRowCount()>0)
+       {
+           tModel1.removeRow(0);
+       }
+       tModel1.setRowCount(0);
+       
+       Object rowData[] = new Object[5];
+       
+       for(int i = 0 ; i < projects.size() ; ++i)
+       {
+            rowData[0] = projects.get(i).getTitle(); 
+            rowData[1] = projects.get(i).getClientName();
+            rowData[2] = projects.get(i).getStartDate();
+            rowData[3] = projects.get(i).getEndDate();
+            rowData[4] = projects.get(i).getBudget();
+           
+            tModel1.addRow(rowData);
+          
+       }
+       
+  
     }
 
     /**

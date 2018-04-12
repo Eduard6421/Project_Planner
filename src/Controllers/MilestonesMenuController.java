@@ -30,10 +30,13 @@ public class MilestonesMenuController  implements ActionListener {
        view = new MilestoneMenu(this);
        view.setVisible(true);
        
+       RetrievePopulation();
+       
         
     
     }
-
+    
+  
     @Override
     public void actionPerformed(ActionEvent evt){
        
@@ -59,11 +62,16 @@ public class MilestonesMenuController  implements ActionListener {
                     view.setVisible(false);
                     view.dispose();
                     parent_controller.SetWindowVisible();
+                    parent_controller.RetrievePopulation();
         
             }
     }
     
-        
+    public void RetrievePopulation()
+    {
+     view.ShowPopulation();
+    }
+
     public void SetWindowInvisible()
     {
         view.setVisible(false);
