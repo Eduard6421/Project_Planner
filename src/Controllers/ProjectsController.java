@@ -134,4 +134,27 @@ public class ProjectsController {
         
         return project;
     }
+    
+    
+        public static void DeleteById(int id)
+    {
+        
+        
+        try {
+            String query = "DELETE FROM projects WHERE Id=? ";
+            
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, id);
+            
+            statement.executeUpdate();
+            
+            statement.close();
+        }
+        catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+      
+        
+        
+    }
 }

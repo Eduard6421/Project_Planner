@@ -127,4 +127,26 @@ public class MilestonesController {
         
         return milestone;
     }
+    
+    public static void DeleteById(int id)
+    {
+        
+        
+        try {
+            String query = "DELETE FROM milestones WHERE Id=? ";
+            
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, id);
+            
+            statement.executeUpdate();
+            
+            statement.close();
+        }
+        catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+      
+        
+        
+    }
 }
