@@ -7,6 +7,8 @@ package GUIPackage;
 
 import Controllers.ProjectsMenuController;
 import Models.Project;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -29,24 +31,29 @@ public class AddProjectMenu extends javax.swing.JFrame {
             jButton2.setActionCommand("Insert");
         } else {
             jButton2.setActionCommand("Edit");
+            jButton2.setText("Edit");
         }
 
     }
-    
-    public void ShowSelectedProject()
-    {
+
+    public void ShowSelectedProject() throws ParseException {
+
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-d");
         Project project = parent_controller.GetSelectedProject();
-        /*jTextField1.setText(Integer.toString(project.getManagerId()));
-        jTextField2.setText(project.getClientName());
-        jFormattedTextField1.setText(project.getStartDate().toString());
-        jFormattedTextField2.setText(project.getEndDate().toString());
+
+        Date start_date = project.getStartDate();
+        Date end_date = project.getEndDate();
+
+        jTextField1.setText(Integer.toString(project.getManagerId()));
+        jTextField2.setText(project.getTitle());
+        jTextField3.setText(project.getClientName());
         jTextField4.setText(Double.toString(project.getBudget()));
         jTextField5.setText(project.getDescription());
-        */
-        System.out.println(project.getClientName());
+
+        jFormattedTextField1.setText(dateFormatter.format(start_date));
+        jFormattedTextField2.setText(dateFormatter.format(end_date));
+
     }
-    
-    
 
     public AddProjectMenu(ProjectsMenuController controller) {
 
@@ -61,18 +68,20 @@ public class AddProjectMenu extends javax.swing.JFrame {
 
     public Project GetProject() {
 
-        try {
-            Project tmp;
+        Project tmp;
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-d");
 
-            Date start_date = new Date(jFormattedTextField1.getText());
-            Date end_date = new Date(jFormattedTextField2.getText());
+        try {
+
+            Date start_date = dateFormatter.parse(jFormattedTextField1.getText());
+            Date end_date   = dateFormatter.parse(jFormattedTextField2.getText());
             int manager_id = Integer.parseInt(jTextField1.getText());
             double budget = Double.parseDouble(jTextField4.getText());
 
             tmp = new Project(manager_id, jTextField2.getText(), jTextField3.getText(), start_date, end_date, budget, jTextField5.getText());
-
             return tmp;
-        } catch (Error e) {
+
+        } catch (Exception e) {
             System.out.println(e);
         }
 

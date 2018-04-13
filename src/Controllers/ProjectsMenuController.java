@@ -13,12 +13,15 @@ import Utils.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
+import java.util.List;
 
 public class ProjectsMenuController implements ActionListener {
 
     private ProjectMenu view;
     private AddProjectMenu add_view;
     private LoginMenuController parent_controller;
+    private List<Project> project_list;
+   
 
     private boolean focus = true;
 
@@ -53,11 +56,18 @@ public class ProjectsMenuController implements ActionListener {
                     break;
 
                 case "Edit Project":
-                    add_view = new AddProjectMenu(this);
-                    add_view.setVisible(true);
-                    add_view.SetActionCommand(false);
-                    add_view.ShowSelectedProject();
-                    ToggleFocus();
+                    try {
+                        add_view = new AddProjectMenu(this);
+                        add_view.ShowSelectedProject();
+                        add_view.setVisible(true);
+                        add_view.SetActionCommand(false);
+                        ToggleFocus();
+                    } 
+                    catch (Exception e) {
+                        System.out.println(e);
+                        add_view.setVisible(false);
+                        add_view.dispose();
+                    }
                     break;
 
                 case "New Project":
@@ -95,6 +105,10 @@ public class ProjectsMenuController implements ActionListener {
                 case "Edit":
                     add_view.setVisible(false);
                     add_view.dispose();
+                    
+                    Project EditedProject = add_view.GetProject();
+                    EditedProject.setId(view.getLastSelected());
+                    ProjectsController.Update(EditedProject);
                     ToggleFocus();
                     RetrievePopulation();
                     break;
@@ -103,19 +117,16 @@ public class ProjectsMenuController implements ActionListener {
         }
     }
 
-    
-    public void RetrievePopulation() {
-        view.ShowPopulation();
+    public final void RetrievePopulation() {
+        project_list = view.ShowPopulation();
     }
 
-    
-    public Project GetSelectedProject()
-    {
+    public Project GetSelectedProject() {
         Project project = view.GetSelectedProject();
         return project;
-        
+
     }
-    
+
     public void ToggleFocus() {
         focus = !focus;
     }

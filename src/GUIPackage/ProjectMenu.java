@@ -18,6 +18,9 @@ import javax.swing.table.DefaultTableModel;
 
 public class ProjectMenu extends javax.swing.JFrame {
 
+    
+    private int LastSelected;
+    
     /**
      * Creates new form ProjectMenu
      */
@@ -37,21 +40,25 @@ public class ProjectMenu extends javax.swing.JFrame {
     }
 
     public Project GetSelectedProject() {
-        int rowIndex = jTable1.getSelectedRow();
+         LastSelected = jTable1.getSelectedRow();
+
+        if (LastSelected < 0) {
+            return null;
+        }
 
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
 
-        DateFormat format = new SimpleDateFormat("yyyy-MM-d", Locale.ENGLISH);
+        DateFormat format = new SimpleDateFormat("yyyy-MM-d");
 
-        String project_name = model.getValueAt(rowIndex, 0).toString();
-        String client_name = model.getValueAt(rowIndex, 1).toString();
-        String description = model.getValueAt(rowIndex, 5).toString();
+        String project_name = model.getValueAt(LastSelected, 0).toString();
+        String client_name = model.getValueAt(LastSelected, 1).toString();
+        String description = model.getValueAt(LastSelected, 5).toString();
 
-        Double budget = Double.parseDouble(model.getValueAt(rowIndex, 4).toString());
+        Double budget = Double.parseDouble(model.getValueAt(LastSelected, 4).toString());
 
         try {
-            Date start_date = format.parse(model.getValueAt(rowIndex, 2).toString());
-            Date end_date = format.parse(model.getValueAt(rowIndex, 3).toString());
+            Date start_date = format.parse(model.getValueAt(LastSelected, 2).toString());
+            Date end_date = format.parse(model.getValueAt(LastSelected, 3).toString());
             Project project = new Project(1, project_name, client_name, start_date, end_date, budget, description); // repara asta.
             return project;
 
@@ -63,7 +70,7 @@ public class ProjectMenu extends javax.swing.JFrame {
 
     }
 
-    public void ShowPopulation() {
+    public List<Project> ShowPopulation() {
 
         List<Project> projects;
         projects = ProjectsController.GetAll();
@@ -89,9 +96,17 @@ public class ProjectMenu extends javax.swing.JFrame {
             tModel1.addRow(rowData);
 
         }
-
+        
+        return projects;
+        
     }
 
+    public int getLastSelected()
+    {
+     return LastSelected;   
+    }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
