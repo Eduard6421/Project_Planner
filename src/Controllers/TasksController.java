@@ -92,13 +92,7 @@ public class TasksController {
             statement.setDate(6, new java.sql.Date(task.getEndDate().getTime()));
             statement.setString(7, task.getDescription());
             
-            ResultSet result = statement.executeQuery();
-            
-            ResultSet idResult = statement.getGeneratedKeys();
-            
-            if (idResult.next()) {
-                task.setId(idResult.getInt(1));
-            }
+            statement.executeUpdate();
             
             statement.close();
         }
@@ -129,6 +123,7 @@ public class TasksController {
             statement.setInt(8,task.getId());
             
             statement.executeUpdate();
+          
         }
         catch (Exception e) {
             System.out.println("Error: " + e);

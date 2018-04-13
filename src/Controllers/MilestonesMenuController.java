@@ -1,7 +1,11 @@
 package Controllers;
 
+import GUIPackage.AddMilestoneMenu;
+import GUIPackage.AddProjectMenu;
 import GUIPackage.MilestoneMenu;
 import GUIPackage.ProjectMenu;
+import Models.Milestone;
+import Models.Project;
 import Utils.MySQLConnector;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,9 +19,10 @@ public class MilestonesMenuController  implements ActionListener {
 
     
     private MilestoneMenu view;
+    private AddMilestoneMenu add_view;
     private ProjectsMenuController parent_controller;
     private static final Connection conn = MySQLConnector.getConnection();
-    
+     private boolean focus = true;
     /**
      * Creates new form MilestonesMenuController
      * @param tmp
@@ -41,7 +46,7 @@ public class MilestonesMenuController  implements ActionListener {
     public void actionPerformed(ActionEvent evt){
        
         String command = evt.getActionCommand();
-        
+        if(focus){
         switch(command){
       
                 case "View Tasks":
@@ -55,8 +60,13 @@ public class MilestonesMenuController  implements ActionListener {
                     System.out.println("Edit Milestone");
                     break;
                 case "New Milestone":
-                    System.out.println("New Milestone");
+                    add_view = new AddMilestoneMenu(this);
+                    add_view.setVisible(true);
+                    add_view.SetActionCommand(true);
+                    ToggleFocus();
                     break;
+                   
+                   
                 default:
                     System.out.println("Exit");
                     view.setVisible(false);
@@ -65,8 +75,42 @@ public class MilestonesMenuController  implements ActionListener {
                     parent_controller.RetrievePopulation();
         
             }
+        }else{
+        
+            switch (command) {
+                case "Exit":
+                    add_view.setVisible(false);
+                    add_view.dispose();
+                    ToggleFocus();
+                    RetrievePopulation();
+                 
+                    break;
+                case "Insert":
+                    add_view.setVisible(false);
+                    add_view.dispose();
+                    Milestone new_milestone = add_view.GetMilestone();
+                    MilestonesController.Create(new_milestone);
+                    ToggleFocus();
+                    RetrievePopulation();
+
+                    break;
+
+                case "Edit":
+                    add_view.setVisible(false);
+                    add_view.dispose();
+                    ToggleFocus();
+                    RetrievePopulation();
+                    break;
+
+            }
+        }
     }
     
+    public void ToggleFocus() {
+        focus = !focus;
+    }
+
+        
     public void RetrievePopulation()
     {
      view.ShowPopulation();
