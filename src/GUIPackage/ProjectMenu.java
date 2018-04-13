@@ -8,8 +8,12 @@ package GUIPackage;
 import Controllers.ProjectsController;
 import Controllers.ProjectsMenuController;
 import Models.Project;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import javax.swing.table.DefaultTableModel;
 
 public class ProjectMenu extends javax.swing.JFrame {
@@ -32,6 +36,33 @@ public class ProjectMenu extends javax.swing.JFrame {
 
     }
 
+    public Project GetSelectedProject() {
+        int rowIndex = jTable1.getSelectedRow();
+
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+
+        DateFormat format = new SimpleDateFormat("yyyy-MM-d", Locale.ENGLISH);
+
+        String project_name = model.getValueAt(rowIndex, 0).toString();
+        String client_name = model.getValueAt(rowIndex, 1).toString();
+        String description = model.getValueAt(rowIndex, 5).toString();
+
+        Double budget = Double.parseDouble(model.getValueAt(rowIndex, 4).toString());
+
+        try {
+            Date start_date = format.parse(model.getValueAt(rowIndex, 2).toString());
+            Date end_date = format.parse(model.getValueAt(rowIndex, 3).toString());
+            Project project = new Project(1, project_name, client_name, start_date, end_date, budget, description); // repara asta.
+            return project;
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        return null;
+
+    }
+
     public void ShowPopulation() {
 
         List<Project> projects;
@@ -45,7 +76,7 @@ public class ProjectMenu extends javax.swing.JFrame {
         }
         tModel1.setRowCount(0);
 
-        Object rowData[] = new Object[5];
+        Object rowData[] = new Object[6];
 
         for (int i = 0; i < projects.size(); ++i) {
             rowData[0] = projects.get(i).getTitle();
@@ -53,6 +84,7 @@ public class ProjectMenu extends javax.swing.JFrame {
             rowData[2] = projects.get(i).getStartDate();
             rowData[3] = projects.get(i).getEndDate();
             rowData[4] = projects.get(i).getBudget();
+            rowData[5] = projects.get(i).getDescription();
 
             tModel1.addRow(rowData);
 
@@ -83,17 +115,17 @@ public class ProjectMenu extends javax.swing.JFrame {
         jTable1.setForeground(new java.awt.Color(55, 55, 55));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Nume Proiect", "Client", "Start Date", "End_Date", "Budget"
+                "Nume Proiect", "Client", "Start Date", "End_Date", "Budget", "Description"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Double.class
+                java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Double.class, java.lang.Object.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -102,6 +134,10 @@ public class ProjectMenu extends javax.swing.JFrame {
         });
         jTable1.setToolTipText("");
         jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(3).setResizable(false);
+            jTable1.getColumnModel().getColumn(5).setResizable(false);
+        }
 
         jButton1.setText("Log Out");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -155,14 +191,16 @@ public class ProjectMenu extends javax.swing.JFrame {
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1363, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(53, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(jScrollPane1)))
+                .addGap(53, 53, 53))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(64, 64, 64)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 630, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 630, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -170,7 +208,7 @@ public class ProjectMenu extends javax.swing.JFrame {
                     .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addGap(42, 42, 42))
         );
 
         pack();

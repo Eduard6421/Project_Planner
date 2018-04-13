@@ -20,10 +20,33 @@ public class AddProjectMenu extends javax.swing.JFrame {
     /**
      * Creates new form AddProjectMenu
      */
-
     public AddProjectMenu() {
         initComponents();
     }
+
+    public void SetActionCommand(boolean insert) {
+        if (insert == true) {
+            jButton2.setActionCommand("Insert");
+        } else {
+            jButton2.setActionCommand("Edit");
+        }
+
+    }
+    
+    public void ShowSelectedProject()
+    {
+        Project project = parent_controller.GetSelectedProject();
+        /*jTextField1.setText(Integer.toString(project.getManagerId()));
+        jTextField2.setText(project.getClientName());
+        jFormattedTextField1.setText(project.getStartDate().toString());
+        jFormattedTextField2.setText(project.getEndDate().toString());
+        jTextField4.setText(Double.toString(project.getBudget()));
+        jTextField5.setText(project.getDescription());
+        */
+        System.out.println(project.getClientName());
+    }
+    
+    
 
     public AddProjectMenu(ProjectsMenuController controller) {
 
@@ -35,28 +58,25 @@ public class AddProjectMenu extends javax.swing.JFrame {
         jButton2.addActionListener(parent_controller);
 
     }
-    
-    public Project GetProject()
-    {
-     
-        try{
-        Project tmp;
-        
-        Date start_date = new Date(jFormattedTextField1.getText());
-        Date end_date   = new Date(jFormattedTextField2.getText());
-        int manager_id = Integer.parseInt(jTextField1.getText());
-        double budget = Double.parseDouble(jTextField4.getText());
-        
-        tmp = new Project(manager_id,jTextField2.getText(),jTextField3.getText(),start_date,end_date,budget,jTextField5.getText());
-        
-        return tmp;
+
+    public Project GetProject() {
+
+        try {
+            Project tmp;
+
+            Date start_date = new Date(jFormattedTextField1.getText());
+            Date end_date = new Date(jFormattedTextField2.getText());
+            int manager_id = Integer.parseInt(jTextField1.getText());
+            double budget = Double.parseDouble(jTextField4.getText());
+
+            tmp = new Project(manager_id, jTextField2.getText(), jTextField3.getText(), start_date, end_date, budget, jTextField5.getText());
+
+            return tmp;
+        } catch (Error e) {
+            System.out.println(e);
         }
-        catch(Error e)
-        {
-            System.out.println("ba ce plm");   
-        }
-        
-       return null; 
+
+        return null;
     }
 
     /**
@@ -98,7 +118,7 @@ public class AddProjectMenu extends javax.swing.JFrame {
 
         jLabel5.setText("Budget");
 
-        jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("MMMM d, yyyy"))));
+        jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("yyyy-MM-d"))));
         jFormattedTextField1.setDoubleBuffered(true);
         jFormattedTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -127,7 +147,7 @@ public class AddProjectMenu extends javax.swing.JFrame {
 
         jLabel8.setText("Description");
 
-        jFormattedTextField2.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("MMMM d, yyyy"))));
+        jFormattedTextField2.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("yyyy-MM-d"))));
         jFormattedTextField2.setDoubleBuffered(true);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -198,16 +218,13 @@ public class AddProjectMenu extends javax.swing.JFrame {
                     .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
                 .addGap(33, 33, 33)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel8)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -260,8 +277,7 @@ public class AddProjectMenu extends javax.swing.JFrame {
             }
         });
     }
-    
- 
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

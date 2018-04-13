@@ -35,10 +35,6 @@ public class ProjectsMenuController implements ActionListener {
 
     }
 
-    public void RetrievePopulation() {
-        view.ShowPopulation();
-    }
-
     @Override
     public void actionPerformed(ActionEvent evt) {
 
@@ -50,28 +46,25 @@ public class ProjectsMenuController implements ActionListener {
             switch (command) {
 
                 case "View Milestones":
-                    System.out.println("Milestones");
                     MilestonesMenuController tmp = new MilestonesMenuController(this);
-
                     break;
+
                 case "Delete Project":
-                    System.out.println("Delete Project");
                     break;
+
                 case "Edit Project":
-                    System.out.println("Edit Project");
-                    ToggleFocus();
                     add_view = new AddProjectMenu(this);
                     add_view.setVisible(true);
+                    add_view.SetActionCommand(false);
+                    add_view.ShowSelectedProject();
+                    ToggleFocus();
                     break;
+
                 case "New Project":
-                    System.out.println("New Project");
-                    ToggleFocus();
                     add_view = new AddProjectMenu(this);
                     add_view.setVisible(true);
-
-                    break;
-
-                case "Edit":
+                    add_view.SetActionCommand(true);
+                    ToggleFocus();
                     break;
 
                 case "Log Out":
@@ -87,25 +80,42 @@ public class ProjectsMenuController implements ActionListener {
                     add_view.dispose();
                     ToggleFocus();
                     RetrievePopulation();
-                    System.out.println("Exit");
                     break;
 
                 case "Insert":
-
-                    Project new_project = add_view.GetProject();
-                    ProjectsController.Create(new_project);
-
-                    ToggleFocus();
-                    RetrievePopulation();
                     add_view.setVisible(false);
                     add_view.dispose();
+                    Project new_project = add_view.GetProject();
+                    ProjectsController.Create(new_project);
+                    ToggleFocus();
+                    RetrievePopulation();
 
+                    break;
+
+                case "Edit":
+                    add_view.setVisible(false);
+                    add_view.dispose();
+                    ToggleFocus();
+                    RetrievePopulation();
                     break;
 
             }
         }
     }
 
+    
+    public void RetrievePopulation() {
+        view.ShowPopulation();
+    }
+
+    
+    public Project GetSelectedProject()
+    {
+        Project project = view.GetSelectedProject();
+        return project;
+        
+    }
+    
     public void ToggleFocus() {
         focus = !focus;
     }
