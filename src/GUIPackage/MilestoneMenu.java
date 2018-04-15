@@ -9,6 +9,9 @@ import Controllers.MilestonesMenuController;
 import Controllers.MilestonesController;
 import Models.Milestone;
 import Models.Project;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
@@ -21,6 +24,10 @@ public class MilestoneMenu extends javax.swing.JFrame {
     /**
      * Creates new form MilestoneMenu
      */
+    
+    
+    private int LastSelected;
+    
     public MilestoneMenu() {
         initComponents();
     }
@@ -36,6 +43,38 @@ public class MilestoneMenu extends javax.swing.JFrame {
         jButton7.addActionListener(controller);
 
     }
+    
+    public Milestone GetSelectedMilestone() {
+         LastSelected = jTable1.getSelectedRow();
+
+        if (LastSelected < 0) {
+            return null;
+        }
+
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+
+        DateFormat format = new SimpleDateFormat("yyyy-MM-d");
+
+        String MilestoneTitle = model.getValueAt(LastSelected, 0).toString();
+        String Description = model.getValueAt(LastSelected, 3).toString();
+
+
+        try {
+            Date StartDate = format.parse(model.getValueAt(LastSelected, 1).toString());
+            Date EndDate = format.parse(model.getValueAt(LastSelected, 2).toString());
+            Milestone milestone = new Milestone(LastSelected+1,1,MilestoneTitle,StartDate,EndDate,Description); // I need to have here the project_id and milestone_id
+            return milestone;
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        return null;
+
+    }
+    
+    
+    
 
     public void ShowPopulation() {
 
@@ -63,6 +102,15 @@ public class MilestoneMenu extends javax.swing.JFrame {
         }
 
     }
+    
+    public int getLastSelected()
+    {
+     return LastSelected;   
+    }
+    
+    
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.

@@ -36,7 +36,7 @@ public class AddProjectMenu extends javax.swing.JFrame {
 
     }
 
-    public void ShowSelectedProject() throws ParseException {
+    public void ShowSelectedProject()  {
 
         SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-d");
         Project project = parent_controller.GetSelectedProject();

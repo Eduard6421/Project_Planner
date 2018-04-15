@@ -111,7 +111,7 @@ public class MilestonesController {
             statement.setDate(3, new java.sql.Date(milestone.getStartDate().getTime()));
             statement.setDate(4, new java.sql.Date(milestone.getEndDate().getTime()));    
             statement.setString(5, milestone.getDescription());
-            
+            statement.setInt(6,milestone.getProjectId());
             statement.executeUpdate();
         }
         catch (Exception e) {

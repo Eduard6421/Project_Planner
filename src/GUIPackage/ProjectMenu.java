@@ -59,7 +59,7 @@ public class ProjectMenu extends javax.swing.JFrame {
         try {
             Date start_date = format.parse(model.getValueAt(LastSelected, 2).toString());
             Date end_date = format.parse(model.getValueAt(LastSelected, 3).toString());
-            Project project = new Project(1, project_name, client_name, start_date, end_date, budget, description); // repara asta.
+            Project project = new Project(LastSelected+1, project_name, client_name, start_date, end_date, budget, description); 
             return project;
 
         } catch (Exception e) {
