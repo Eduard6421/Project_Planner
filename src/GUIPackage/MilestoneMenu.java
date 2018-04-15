@@ -76,7 +76,7 @@ public class MilestoneMenu extends javax.swing.JFrame {
     
     
 
-    public void ShowPopulation() {
+    public List<Milestone> ShowPopulation() {
 
         List<Milestone> milestones;
         milestones = MilestonesController.GetAll();
@@ -100,6 +100,7 @@ public class MilestoneMenu extends javax.swing.JFrame {
             tModel1.addRow(rowData);
 
         }
+        return milestones;
 
     }
     

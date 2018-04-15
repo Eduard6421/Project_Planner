@@ -39,7 +39,7 @@ public class LoginMenuController implements ActionListener{
         }
         else
         {
-            System.out.println("THere is no such user / Database connectivity issues");
+            System.out.println("There is no such user / Database connectivity issues");
         }
         
         

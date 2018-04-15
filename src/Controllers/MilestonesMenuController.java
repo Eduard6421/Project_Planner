@@ -56,8 +56,18 @@ public class MilestonesMenuController implements ActionListener {
                     TasksMenuController tmp = new TasksMenuController(this);
                     break;
                 case "Delete Milestone":
-                    System.out.println("Delete Milestone");
-                    break;
+                    try {
+                        view.GetSelectedMilestone();
+                        int asd = milestone_list.get(view.getLastSelected()).getId();
+                        if (asd < 0) {
+                            throw new Exception("No Milestone Selected");
+                        }
+                        MilestonesController.DeleteById(asd);
+                        RetrievePopulation();
+
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
                 case "Edit Milestone":
                     try {
                         add_view = new AddMilestoneMenu(this);
@@ -111,7 +121,7 @@ public class MilestonesMenuController implements ActionListener {
                     add_view.dispose();
 
                     Milestone EditedMilestone = add_view.GetMilestone();
-                    EditedMilestone.setId(view.getLastSelected());
+                    EditedMilestone.setId(milestone_list.get(view.getLastSelected()).getId());
                     MilestonesController.Update(EditedMilestone);
 
                     ToggleFocus();
@@ -123,7 +133,7 @@ public class MilestonesMenuController implements ActionListener {
     }
 
     public void RetrievePopulation() {
-        view.ShowPopulation();
+        milestone_list = view.ShowPopulation();
     }
 
     public Milestone GetSelectedMilestone() {

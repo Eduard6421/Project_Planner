@@ -153,7 +153,7 @@
     <Component class="javax.swing.JFormattedTextField" name="jFormattedTextField2">
       <Properties>
         <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-          <Format subtype="0" type="1"/>
+          <Format format="yyyy-MM-dd" subtype="-1" type="1"/>
         </Property>
         <Property name="doubleBuffered" type="boolean" value="true"/>
       </Properties>
@@ -177,7 +177,7 @@
     <Component class="javax.swing.JFormattedTextField" name="jFormattedTextField1">
       <Properties>
         <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-          <Format subtype="0" type="1"/>
+          <Format format="yyyy-MM-dd" subtype="-1" type="1"/>
         </Property>
         <Property name="doubleBuffered" type="boolean" value="true"/>
       </Properties>

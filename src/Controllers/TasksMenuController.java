@@ -14,6 +14,7 @@ import Utils.MySQLConnector;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
+import java.util.List;
 
 /**
  *
@@ -25,7 +26,7 @@ public class TasksMenuController implements ActionListener {
     private MilestonesMenuController parent_controller;
     private AddTaskMenu add_view;
     private static final Connection conn = MySQLConnector.getConnection();
-
+    private List<Task> task_list;
     private boolean focus = true;
 
     public TasksMenuController(MilestonesMenuController tmp) {
@@ -39,7 +40,8 @@ public class TasksMenuController implements ActionListener {
     }
 
     private void RetrievePopulation() {
-        view.ShowPopulation();
+
+        task_list = view.ShowPopulation();
     }
 
     @Override
@@ -50,7 +52,20 @@ public class TasksMenuController implements ActionListener {
             switch (command) {
 
                 case "Delete Task":
-                    System.out.println("Delete Task");
+                    try {
+                        view.GetSelectedTask();
+                        int asd = task_list.get(view.getLastSelected()).getId();
+
+                        if (asd < 0) {
+                            throw new Exception("No Task Selected");
+                        }
+
+                        TasksController.DeleteById(asd);
+                        RetrievePopulation();
+
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
 
                     break;
                 case "Edit Task":
@@ -105,7 +120,7 @@ public class TasksMenuController implements ActionListener {
                     add_view.dispose();
 
                     Task EditedTask = add_view.GetTask();
-                    EditedTask.setId(view.getLastSelected());
+                    EditedTask.setId(task_list.get(view.getLastSelected()).getId());
                     TasksController.Update(EditedTask);
 
                     ToggleFocus();
@@ -115,11 +130,11 @@ public class TasksMenuController implements ActionListener {
         }
     }
 
-    public Task GetSelectedTask(){
- 
-    Task task = view.GetSelectedTask();
-    return task;
-            
+    public Task GetSelectedTask() {
+
+        Task task = view.GetSelectedTask();
+        return task;
+
     }
 
     public void ToggleFocus() {

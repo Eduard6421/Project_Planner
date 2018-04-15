@@ -7,6 +7,9 @@
 -- Server version: 10.1.31-MariaDB
 -- PHP Version: 7.2.3
 
+CREATE SCHEMA projectplanner;
+USE projectplanner;
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
@@ -44,8 +47,8 @@ CREATE TABLE `milestones` (
 INSERT INTO `milestones` (`Id`, `ProjectId`, `Title`, `StartDate`, `EndDate`, `Description`) VALUES
 (1, 1, 'M1P1', '2018-01-15 00:00:00', '2018-02-14 00:00:00', 'Descriere milestone 1 de la proiectul 1'),
 (2, 1, 'M2P1', '2017-09-12 00:00:00', '2017-11-15 00:00:00', 'Descriere milestone 2 de la proiectul 1'),
-(3, 2, 'M1P2', '2018-04-28 00:00:00', '2018-06-21 00:00:00', 'Descriere milestone 1 de la proiectul 2');
-
+(3, 2, 'M1P1', '2018-04-28 00:00:00', '2018-06-21 00:00:00', 'Descriere milestone 1 de la proiectul 2'),
+(4, 2, 'M2P2', '2017-02-02 00:00:00', '2019-05-05 00:00:00', 'Proiect care trebuie sters');
 -- --------------------------------------------------------
 
 --
@@ -90,8 +93,8 @@ CREATE TABLE `projects` (
 
 INSERT INTO `projects` (`Id`, `ManagerId`, `Title`, `ClientName`, `StartDate`, `EndDate`, `Budget`, `Description`) VALUES
 (1, 2, 'Proiectul1', 'Client Proiectul1', '2017-11-24 00:00:00', '2018-01-17 00:00:00', '56433.234', 'Proiectul 1 este despre prima chestie care trebuie facuta'),
-(2, 2, 'Proiectul2', 'Client Proiectul2', '2018-04-02 00:00:00', '2018-07-20 00:00:00', '10000.000', 'Proiectul 2, in principal, semnifica a doua chestie care trebuie facuta');
-
+(2, 2, 'Proiectul2', 'Client Proiectul2', '2018-04-02 00:00:00', '2018-07-20 00:00:00', '10000.000', 'Proiectul 2, in principal, semnifica a doua chestie care trebuie facuta'),
+(3, 2, 'Proiectul3', 'Client Poriectul3', '2010-01-01 00:00:00', '2017-05-05 00:00:00', '15000.000', 'Proiectul care trebuie sters');
 -- --------------------------------------------------------
 
 --
@@ -137,8 +140,8 @@ INSERT INTO `tasks` (`Id`, `MilestoneId`, `AssignedToId`, `PriorityId`, `Title`,
 (1, 1, 3, 1, 'T1M1P1', '2018-04-10 00:00:00', '2018-06-14 00:00:00', 'Task 1, Milestone 1, Proiect 1'),
 (2, 1, 2, 3, 'T2M1P1', '2018-02-12 00:00:00', '2018-08-25 00:00:00', 'Task 2, Milestone 1, Proiect 1'),
 (3, 2, 4, 2, 'T1M2P1', '2018-04-10 00:00:00', '2018-04-26 00:00:00', 'Task 1, Mileston 2, Proiect 1'),
-(4, 3, 2, 4, 'T1M1P2', '2018-01-15 00:00:00', '2018-04-24 00:00:00', 'Task 1, Milestone 1, Proiect 2');
-
+(4, 3, 2, 4, 'T1M1P2', '2018-01-15 00:00:00', '2018-04-24 00:00:00', 'Task 1, Milestone 1, Proiect 2'),
+(5, 1, 2 ,2, 'T1M2P2', '2010-01-01 00:00:00', '2020-04-04 00:00:00', 'Task 1, Milestone 2,Project 2 de sters');
 -- --------------------------------------------------------
 
 --

@@ -21,7 +21,6 @@ public class ProjectsMenuController implements ActionListener {
     private AddProjectMenu add_view;
     private LoginMenuController parent_controller;
     private List<Project> project_list;
-   
 
     private boolean focus = true;
 
@@ -53,6 +52,19 @@ public class ProjectsMenuController implements ActionListener {
                     break;
 
                 case "Delete Project":
+                    try {
+                        view.GetSelectedProject();
+                        int asd = project_list.get(view.getLastSelected()).getId();
+                        if (asd < 0) {
+                            throw new Exception("No Project Selected");
+                        }
+                        ProjectsController.DeleteById(asd);
+                        RetrievePopulation();
+
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
+
                     break;
 
                 case "Edit Project":
@@ -62,8 +74,7 @@ public class ProjectsMenuController implements ActionListener {
                         add_view.setVisible(true);
                         add_view.SetActionCommand(false);
                         ToggleFocus();
-                    } 
-                    catch (Exception e) {
+                    } catch (Exception e) {
                         System.out.println(e);
                         add_view.setVisible(false);
                         add_view.dispose();
@@ -105,9 +116,8 @@ public class ProjectsMenuController implements ActionListener {
                 case "Edit":
                     add_view.setVisible(false);
                     add_view.dispose();
-                    
                     Project EditedProject = add_view.GetProject();
-                    EditedProject.setId(view.getLastSelected());
+                    EditedProject.setId(project_list.get(view.getLastSelected()).getId());
                     ProjectsController.Update(EditedProject);
                     ToggleFocus();
                     RetrievePopulation();

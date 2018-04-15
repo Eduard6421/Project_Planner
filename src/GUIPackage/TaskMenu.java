@@ -25,7 +25,7 @@ public class TaskMenu extends javax.swing.JFrame {
     /**
      * Creates new form TaskMenu
      */
-    public void ShowPopulation() {
+    public List<Task> ShowPopulation() {
 
         List<Task> tasks;
         tasks = TasksController.GetAll();
@@ -51,6 +51,8 @@ public class TaskMenu extends javax.swing.JFrame {
             tModel1.addRow(rowData);
 
         }
+        
+        return tasks;
 
     }
     
