@@ -33,6 +33,7 @@ public class AddTaskMenu extends javax.swing.JFrame {
             jButton2.setActionCommand("Insert");
         } else {
             jButton2.setActionCommand("Edit");
+            jButton2.setText("Edit");
         }
 
     }
@@ -45,7 +46,7 @@ public class AddTaskMenu extends javax.swing.JFrame {
 
         jButton1.addActionListener(parent_controller);
         jButton2.addActionListener(parent_controller);
-        jButton2.setText("Edit");
+        
 
     }
     
