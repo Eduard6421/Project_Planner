@@ -22,7 +22,7 @@ public class Task extends Entity {
         EndDate = endDate;
         Description = description;
     }
-    
+
     public Task(int milestoneId, int assignedToId, int priorityId, String title, Date startDate, Date endDate, String description) {
         MilestoneId = milestoneId;
         AssignedToId = assignedToId;

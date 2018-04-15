@@ -103,9 +103,8 @@ public class MilestoneMenu extends javax.swing.JFrame {
 
     }
     
-    public int getLastSelected()
-    {
-     return LastSelected;   
+    public int getLastSelected() {
+        return LastSelected;
     }
     
     

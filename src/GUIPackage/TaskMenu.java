@@ -8,6 +8,9 @@ package GUIPackage;
 import Controllers.TasksController;
 import Controllers.TasksMenuController;
 import Models.Task;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
@@ -17,57 +20,92 @@ import javax.swing.table.DefaultTableModel;
  */
 public class TaskMenu extends javax.swing.JFrame {
 
+    private int LastSelected;
+
     /**
      * Creates new form TaskMenu
      */
-    public void ShowPopulation()
-{
-    
-    List<Task> tasks;
-    tasks = TasksController.GetAll();
-    
-  
-   DefaultTableModel tModel1 = (DefaultTableModel) jTable1.getModel();
-   jTable1.setDefaultEditor(Object.class,null);
-    
-   while(tModel1.getRowCount()>0)
-   {
-       tModel1.removeRow(0);
-   }
-   tModel1.setRowCount(0);
-   
-   Object rowData[] = new Object[5];
-   
-   for(int i = 0 ; i < tasks.size() ; ++i)
-   {
-        rowData[0] = tasks.get(i).getTitle(); 
-        rowData[1] = tasks.get(i).getPriorityId(); // ce p**** ma-sii Stefan, repara chestia asta ca fac urat!
-        rowData[2] = tasks.get(i).getEndDate();
-        rowData[3] = tasks.get(i).getAssignedToId(); // repara si asta ce mama dracu facem cu astea pune sa apara direct sau refa query ul !
-       
-        tModel1.addRow(rowData);
-      
-   }
+    public void ShowPopulation() {
 
-   
-}
+        List<Task> tasks;
+        tasks = TasksController.GetAll();
+
+        DefaultTableModel tModel1 = (DefaultTableModel) jTable1.getModel();
+        jTable1.setDefaultEditor(Object.class, null);
+
+        while (tModel1.getRowCount() > 0) {
+            tModel1.removeRow(0);
+        }
+        tModel1.setRowCount(0);
+
+        Object rowData[] = new Object[7];
+
+        for (int i = 0; i < tasks.size(); ++i) {
+            rowData[0] = tasks.get(i).getMilestoneId();
+            rowData[1] = tasks.get(i).getAssignedToId(); 
+            rowData[2] = tasks.get(i).getPriorityId();
+            rowData[3] = tasks.get(i).getTitle(); 
+            rowData[4] = tasks.get(i).getStartDate();
+            rowData[5] = tasks.get(i).getEndDate();
+            rowData[6] = tasks.get(i).getDescription();
+            tModel1.addRow(rowData);
+
+        }
+
+    }
     
+     public Task GetSelectedTask() {
+         LastSelected = jTable1.getSelectedRow();
+
+        if (LastSelected < 0) {
+            return null;
+        }
+
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+
+        DateFormat format = new SimpleDateFormat("yyyy-MM-d");
+
+        
+        int MilestoneId = Integer.parseInt(model.getValueAt(LastSelected,0).toString());
+        int DeveloperId = Integer.parseInt(model.getValueAt(LastSelected,1).toString());
+        int PriorityId  = Integer.parseInt(model.getValueAt(LastSelected,2).toString());
+        String TaskTitle   = model.getValueAt(LastSelected, 3).toString();
+        String Description = model.getValueAt(LastSelected, 6).toString();
+
+
+        try {
+            Date StartDate = format.parse(model.getValueAt(LastSelected, 4).toString());
+            Date EndDate = format.parse(model.getValueAt(LastSelected, 5).toString());
+            
+            Task task = new Task(LastSelected+1,MilestoneId,DeveloperId,PriorityId,TaskTitle,StartDate,EndDate,Description);
+            return task;
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        return null;
+
+    }
     
+
     public TaskMenu() {
         initComponents();
     }
 
     public TaskMenu(TasksMenuController controller) {
-    
-    initComponents();
-    
-    jButton1.addActionListener(controller);
-    jButton2.addActionListener(controller);
-    jButton3.addActionListener(controller);
-    jButton4.addActionListener(controller);
-        
-        
-        
+
+        initComponents();
+
+        jButton1.addActionListener(controller);
+        jButton2.addActionListener(controller);
+        jButton3.addActionListener(controller);
+        jButton4.addActionListener(controller);
+
+    }
+
+    public int getLastSelected() {
+        return LastSelected;
     }
 
     /**
@@ -92,23 +130,15 @@ public class TaskMenu extends javax.swing.JFrame {
         jTable1.setForeground(new java.awt.Color(55, 55, 55));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Title", "Priority", "End_Date", "Developer"
+                "Milestone", "Developer", "Priority", "Title", "Start_Date", "End_Date", "Description"
             }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Integer.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
+        ));
         jTable1.setToolTipText("");
         jScrollPane1.setViewportView(jTable1);
 
@@ -176,8 +206,6 @@ public class TaskMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
 
-    
-    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed

@@ -47,13 +47,12 @@ public class AddMilestoneMenu extends javax.swing.JFrame {
 
         jButton1.addActionListener(parent_controller);
         jButton2.addActionListener(parent_controller);
-        
+
         jButton2.setText("Edit");
 
     }
-    
-    
-    public void ShowSelectedMilestone(){
+
+    public void ShowSelectedMilestone() {
 
         SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-d");
         Milestone milestone = parent_controller.GetSelectedMilestone();
@@ -69,8 +68,6 @@ public class AddMilestoneMenu extends javax.swing.JFrame {
         jFormattedTextField2.setText(dateFormatter.format(end_date));
 
     }
-    
-    
 
     public Milestone GetMilestone() {
 
@@ -78,19 +75,18 @@ public class AddMilestoneMenu extends javax.swing.JFrame {
         SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-d");
 
         try {
-            
+
             int projectId = Integer.parseInt(jTextField1.getText());
-            
+
             Date StartDate = dateFormatter.parse(jFormattedTextField1.getText());
             Date EndDate = dateFormatter.parse(jFormattedTextField2.getText());
-            
+
             String Title = jTextField2.getText();
             String Description = jTextField3.getText();
-            
-            
-            tmp = new Milestone(projectId, Title, StartDate, EndDate, Description);      
+
+            tmp = new Milestone(projectId, Title, StartDate, EndDate, Description);
             return tmp;
-            
+
         } catch (ParseException ex) {
             Logger.getLogger(AddMilestoneMenu.class.getName()).log(Level.SEVERE, null, ex);
         }
