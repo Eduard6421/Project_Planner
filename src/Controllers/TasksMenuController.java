@@ -5,7 +5,11 @@
  */
 package Controllers;
 
+import GUIPackage.AddProjectMenu;
+import GUIPackage.AddTaskMenu;
 import GUIPackage.TaskMenu;
+import Models.Project;
+import Models.Task;
 import Utils.MySQLConnector;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,8 +24,11 @@ public class TasksMenuController implements ActionListener {
     
     private TaskMenu view;
     private MilestonesMenuController parent_controller;
+    private AddTaskMenu add_view;
     private static final Connection conn = MySQLConnector.getConnection();
     
+     private boolean focus = true;
+     
     public TasksMenuController(MilestonesMenuController tmp)
     {
      parent_controller = tmp;
@@ -43,7 +50,7 @@ public class TasksMenuController implements ActionListener {
     public void actionPerformed(ActionEvent evt){
        
         String command = evt.getActionCommand();
-        
+        if (focus){
         switch(command){
       
                 case "Delete Task":
@@ -54,8 +61,12 @@ public class TasksMenuController implements ActionListener {
                     System.out.println("Edit Task");
                     break;
                 case "New Task":
-                    System.out.println("New Task");
+                    add_view = new AddTaskMenu(this);
+                    add_view.setVisible(true);
+                    add_view.SetActionCommand(true);
+                    ToggleFocus();
                     break;
+                 
                 default:
                     view.setVisible(false);
                     view.dispose();
@@ -64,7 +75,38 @@ public class TasksMenuController implements ActionListener {
                     System.out.println("Exit");
         
             }
+        }else{
+            switch (command) {
+               case "Exit":
+                    add_view.setVisible(false);
+                    add_view.dispose();
+                    ToggleFocus();
+                    RetrievePopulation();
+                    break;
+
+                case "Insert":
+                    add_view.setVisible(false);
+                    add_view.dispose();
+                    Task new_task = add_view.GetTask();
+                    TasksController.Create(new_task);
+                    ToggleFocus();
+                    RetrievePopulation();
+
+                    break;
+
+                case "Edit":
+                    add_view.setVisible(false);
+                    add_view.dispose();
+                    ToggleFocus();
+                    RetrievePopulation();
+                    break;
+        }
+        }
     }
+      public void ToggleFocus() {
+        focus = !focus;
+    }
+
     
 
 }

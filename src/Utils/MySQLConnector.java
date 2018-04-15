@@ -7,7 +7,7 @@ public class MySQLConnector {
 
     //JDBC Driver + Db URL
     private static final String DB_DRIVER = "com.mysql.jdbc.Driver";
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/projectplanner";
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/projectplanner?autoReconnect=true&useSSL=false";
 
     //Database connection user
     private static final String USERNAME = "javaApp";

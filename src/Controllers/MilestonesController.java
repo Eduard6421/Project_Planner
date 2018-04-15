@@ -84,15 +84,9 @@ public class MilestonesController {
             statement.setDate(3, new java.sql.Date(milestone.getStartDate().getTime()));
             statement.setDate(4, new java.sql.Date(milestone.getEndDate().getTime()));
             statement.setString(5, milestone.getDescription());
-            
-            ResultSet result = statement.executeQuery();
-            
-            ResultSet idResult = statement.getGeneratedKeys();
-            
-            if (idResult.next()) {
-                milestone.setId(idResult.getInt(1));
-            }
-            
+            statement.executeUpdate();
+           
+ 
             statement.close();
         }
         catch (Exception e) {
