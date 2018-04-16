@@ -6,7 +6,7 @@
 package GUIPackage;
 
 import Controllers.TasksController;
-import Controllers.TasksMenuController;
+import GUIPackage.FormControllers.TasksMenuController;
 import Models.Task;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

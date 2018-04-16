@@ -5,7 +5,7 @@
  */
 package GUIPackage;
 
-import Controllers.TasksMenuController;
+import GUIPackage.FormControllers.TasksMenuController;
 import Models.Task;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

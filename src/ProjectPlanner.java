@@ -1,6 +1,6 @@
-import Controllers.LoginMenuController;
+import GUIPackage.FormControllers.LoginMenuController;
 import Controllers.ProjectsController;
-import Controllers.ProjectsMenuController;
+import GUIPackage.FormControllers.ProjectsMenuController;
 import Utils.*;
 
 public class ProjectPlanner {

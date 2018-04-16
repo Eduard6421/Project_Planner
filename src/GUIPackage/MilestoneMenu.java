@@ -5,7 +5,7 @@
  */
 package GUIPackage;
 
-import Controllers.MilestonesMenuController;
+import GUIPackage.FormControllers.MilestonesMenuController;
 import Controllers.MilestonesController;
 import Models.Milestone;
 import Models.Project;

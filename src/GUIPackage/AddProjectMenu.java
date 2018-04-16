@@ -5,7 +5,7 @@
  */
 package GUIPackage;
 
-import Controllers.ProjectsMenuController;
+import GUIPackage.FormControllers.ProjectsMenuController;
 import Models.Project;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

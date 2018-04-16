@@ -6,7 +6,7 @@
 package GUIPackage;
 
 import Controllers.ProjectsController;
-import Controllers.ProjectsMenuController;
+import GUIPackage.FormControllers.ProjectsMenuController;
 import Models.Project;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

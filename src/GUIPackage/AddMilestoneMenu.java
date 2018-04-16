@@ -5,8 +5,8 @@
  */
 package GUIPackage;
 
-import Controllers.MilestonesMenuController;
-import Controllers.ProjectsMenuController;
+import GUIPackage.FormControllers.MilestonesMenuController;
+import GUIPackage.FormControllers.ProjectsMenuController;
 import Models.Milestone;
 import Models.Project;
 import java.text.ParseException;
