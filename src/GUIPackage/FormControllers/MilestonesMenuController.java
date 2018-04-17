@@ -3,7 +3,7 @@ package GUIPackage.FormControllers;
 import Controllers.MilestonesController;
 import GUIPackage.AddMilestoneMenu;
 import GUIPackage.AddProjectMenu;
-import GUIPackage.MilestoneMenu;
+import GUIPackage.MilestonesMenu;
 import GUIPackage.ProjectMenu;
 import Models.Milestone;
 import Models.Project;
@@ -15,7 +15,7 @@ import java.util.List;
 
 public class MilestonesMenuController implements ActionListener {
     
-        private MilestoneMenu view;
+        private MilestonesMenu view;
     private AddMilestoneMenu add_view;
     private ProjectsMenuController parent_controller;
     private List<Milestone> milestone_list;
@@ -34,7 +34,7 @@ public class MilestonesMenuController implements ActionListener {
         parent_controller = tmp;
         parent_controller.SetWindowInvisible();
 
-        view = new MilestoneMenu(this);
+        view = new MilestonesMenu(this);
         view.setVisible(true);
 
         RetrievePopulation();
