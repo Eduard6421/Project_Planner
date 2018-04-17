@@ -3,7 +3,7 @@ package GUIPackage.FormControllers;
 import Controllers.TasksController;
 import GUIPackage.AddProjectMenu;
 import GUIPackage.AddTaskMenu;
-import GUIPackage.TaskMenu;
+import GUIPackage.TasksMenu;
 import Models.Project;
 import Models.Task;
 import Utils.MySQLConnector;
@@ -14,7 +14,7 @@ import java.util.List;
 
 public class TasksMenuController implements ActionListener {
     
-    private TaskMenu view;
+    private TasksMenu view;
     private MilestonesMenuController parent_controller;
     private AddTaskMenu add_view;
     private static final Connection conn = MySQLConnector.getConnection();
@@ -25,7 +25,7 @@ public class TasksMenuController implements ActionListener {
         parent_controller = tmp;
         parent_controller.SetWindowInvisible();
 
-        view = new TaskMenu(this);
+        view = new TasksMenu(this);
         view.setVisible(true);
         RetrievePopulation();
 
