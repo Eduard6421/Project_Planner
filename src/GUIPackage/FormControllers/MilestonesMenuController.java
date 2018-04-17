@@ -4,7 +4,7 @@ import Controllers.MilestonesController;
 import GUIPackage.AddMilestoneMenu;
 import GUIPackage.AddProjectMenu;
 import GUIPackage.MilestonesMenu;
-import GUIPackage.ProjectMenu;
+import GUIPackage.ProjectsMenu;
 import Models.Milestone;
 import Models.Project;
 import Utils.MySQLConnector;

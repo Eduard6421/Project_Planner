@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Locale;
 import javax.swing.table.DefaultTableModel;
 
-public class ProjectMenu extends javax.swing.JFrame {
+public class ProjectsMenu extends javax.swing.JFrame {
 
     
     private int lastSelected;
@@ -19,11 +19,11 @@ public class ProjectMenu extends javax.swing.JFrame {
     /**
      * Creates new form ProjectMenu
      */
-    public ProjectMenu() {
+    public ProjectsMenu() {
         initComponents();
     }
 
-    public ProjectMenu(ProjectsMenuController controller) {
+    public ProjectsMenu(ProjectsMenuController controller) {
         initComponents();
 
         jButton1.addActionListener(controller);
@@ -260,20 +260,21 @@ public class ProjectMenu extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ProjectMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProjectsMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ProjectMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProjectsMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ProjectMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProjectsMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ProjectMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProjectsMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ProjectMenu().setVisible(true);
+                new ProjectsMenu().setVisible(true);
             }
         });
     }

@@ -2,7 +2,7 @@ package GUIPackage.FormControllers;
 
 import Controllers.ProjectsController;
 import GUIPackage.AddProjectMenu;
-import GUIPackage.ProjectMenu;
+import GUIPackage.ProjectsMenu;
 import Models.Project;
 import Utils.*;
 import java.awt.event.ActionEvent;
@@ -12,7 +12,7 @@ import java.util.List;
 
 public class ProjectsMenuController implements ActionListener {
     
-    private ProjectMenu projectMenu;
+    private ProjectsMenu projectMenu;
     private AddProjectMenu addProjectMenu;
     private LoginMenuController parentController;
     private List<Project> projectsList;
@@ -26,7 +26,7 @@ public class ProjectsMenuController implements ActionListener {
         parentController = controller;
         parentController.SetWindowInvisible();
 
-        projectMenu = new ProjectMenu(this);
+        projectMenu = new ProjectsMenu(this);
         projectMenu.setVisible(true);
         RetrievePopulation();
 
