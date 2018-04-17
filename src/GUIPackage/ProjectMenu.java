@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package GUIPackage;
 
 import Controllers.ProjectsController;
@@ -19,7 +14,7 @@ import javax.swing.table.DefaultTableModel;
 public class ProjectMenu extends javax.swing.JFrame {
 
     
-    private int LastSelected;
+    private int lastSelected;
     
     /**
      * Creates new form ProjectMenu
@@ -40,9 +35,9 @@ public class ProjectMenu extends javax.swing.JFrame {
     }
 
     public Project GetSelectedProject() {
-         LastSelected = jTable1.getSelectedRow();
+        lastSelected = jTable1.getSelectedRow();
 
-        if (LastSelected < 0) {
+        if (lastSelected < 0) {
             return null;
         }
 
@@ -50,16 +45,16 @@ public class ProjectMenu extends javax.swing.JFrame {
 
         DateFormat format = new SimpleDateFormat("yyyy-MM-d");
 
-        String project_name = model.getValueAt(LastSelected, 0).toString();
-        String client_name = model.getValueAt(LastSelected, 1).toString();
-        String description = model.getValueAt(LastSelected, 5).toString();
+        String projectName = model.getValueAt(lastSelected, 0).toString();
+        String clientName = model.getValueAt(lastSelected, 1).toString();
+        String description = model.getValueAt(lastSelected, 5).toString();
 
-        Double budget = Double.parseDouble(model.getValueAt(LastSelected, 4).toString());
+        Double budget = Double.parseDouble(model.getValueAt(lastSelected, 4).toString());
 
         try {
-            Date start_date = format.parse(model.getValueAt(LastSelected, 2).toString());
-            Date end_date = format.parse(model.getValueAt(LastSelected, 3).toString());
-            Project project = new Project(LastSelected+1, project_name, client_name, start_date, end_date, budget, description); 
+            Date start_date = format.parse(model.getValueAt(lastSelected, 2).toString());
+            Date end_date = format.parse(model.getValueAt(lastSelected, 3).toString());
+            Project project = new Project(lastSelected + 1, projectName, clientName, start_date, end_date, budget, description); 
             return project;
 
         } catch (Exception e) {
@@ -97,13 +92,12 @@ public class ProjectMenu extends javax.swing.JFrame {
 
         }
         
-        return projects;
-        
+        return projects;     
     }
 
     public int getLastSelected()
     {
-     return LastSelected;   
+     return lastSelected;   
     }
     
     

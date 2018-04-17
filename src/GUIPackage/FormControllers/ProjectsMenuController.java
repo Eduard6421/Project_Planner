@@ -12,10 +12,10 @@ import java.util.List;
 
 public class ProjectsMenuController implements ActionListener {
     
-    private ProjectMenu view;
-    private AddProjectMenu add_view;
-    private LoginMenuController parent_controller;
-    private List<Project> project_list;
+    private ProjectMenu projectMenu;
+    private AddProjectMenu addProjectMenu;
+    private LoginMenuController parentController;
+    private List<Project> projectsList;
 
     private boolean focus = true;
 
@@ -23,11 +23,11 @@ public class ProjectsMenuController implements ActionListener {
 
     public ProjectsMenuController(LoginMenuController controller) {
 
-        parent_controller = controller;
-        parent_controller.SetWindowInvisible();
+        parentController = controller;
+        parentController.SetWindowInvisible();
 
-        view = new ProjectMenu(this);
-        view.setVisible(true);
+        projectMenu = new ProjectMenu(this);
+        projectMenu.setVisible(true);
         RetrievePopulation();
 
     }
@@ -43,17 +43,17 @@ public class ProjectsMenuController implements ActionListener {
             switch (command) {
 
                 case "View Milestones":
-                    MilestonesMenuController tmp = new MilestonesMenuController(this);
+                    MilestonesMenuController milestonescMenuController = new MilestonesMenuController(this);
                     break;
 
                 case "Delete Project":
                     try {
-                        view.GetSelectedProject();
-                        int asd = project_list.get(view.getLastSelected()).getId();
-                        if (asd < 0) {
+                        projectMenu.GetSelectedProject();
+                        int project = projectsList.get(projectMenu.getLastSelected()).getId();
+                        if (project < 0) {
                             throw new Exception("No Project Selected");
                         }
-                        ProjectsController.DeleteById(asd);
+                        ProjectsController.DeleteById(project);
                         RetrievePopulation();
 
                     } catch (Exception e) {
@@ -64,44 +64,43 @@ public class ProjectsMenuController implements ActionListener {
 
                 case "Edit Project":
                     try {
-                        add_view = new AddProjectMenu(this);
-                        add_view.ShowSelectedProject();
-                        add_view.setVisible(true);
-                        add_view.SetActionCommand(false);
+                        addProjectMenu = new AddProjectMenu(this);
+                        addProjectMenu.ShowSelectedProject();
+                        addProjectMenu.setVisible(true);
+                        addProjectMenu.SetActionCommand(false);
                         ToggleFocus();
                     } catch (Exception e) {
                         System.out.println(e);
-                        add_view.setVisible(false);
-                        add_view.dispose();
+                        addProjectMenu.setVisible(false);
+                        addProjectMenu.dispose();
                     }
                     break;
 
                 case "New Project":
-                    add_view = new AddProjectMenu(this);
-                    add_view.setVisible(true);
-                    add_view.SetActionCommand(true);
+                    addProjectMenu = new AddProjectMenu(this);
+                    addProjectMenu.setVisible(true);
+                    addProjectMenu.SetActionCommand(true);
                     ToggleFocus();
                     break;
 
                 case "Log Out":
-                    view.setVisible(false);
-                    view.dispose();
-                    parent_controller.SetWindowVisible();
-
+                    projectMenu.setVisible(false);
+                    projectMenu.dispose();
+                    parentController.SetWindowVisible();
             }
         } else {
             switch (command) {
                 case "Exit":
-                    add_view.setVisible(false);
-                    add_view.dispose();
+                    addProjectMenu.setVisible(false);
+                    addProjectMenu.dispose();
                     ToggleFocus();
                     RetrievePopulation();
                     break;
 
                 case "Insert":
-                    add_view.setVisible(false);
-                    add_view.dispose();
-                    Project new_project = add_view.GetProject();
+                    addProjectMenu.setVisible(false);
+                    addProjectMenu.dispose();
+                    Project new_project = addProjectMenu.GetProject();
                     ProjectsController.Create(new_project);
                     ToggleFocus();
                     RetrievePopulation();
@@ -109,27 +108,25 @@ public class ProjectsMenuController implements ActionListener {
                     break;
 
                 case "Edit":
-                    add_view.setVisible(false);
-                    add_view.dispose();
-                    Project EditedProject = add_view.GetProject();
-                    EditedProject.setId(project_list.get(view.getLastSelected()).getId());
+                    addProjectMenu.setVisible(false);
+                    addProjectMenu.dispose();
+                    Project EditedProject = addProjectMenu.GetProject();
+                    EditedProject.setId(projectsList.get(projectMenu.getLastSelected()).getId());
                     ProjectsController.Update(EditedProject);
                     ToggleFocus();
                     RetrievePopulation();
                     break;
-
             }
         }
     }
 
     public final void RetrievePopulation() {
-        project_list = view.ShowPopulation();
+        projectsList = projectMenu.ShowPopulation();
     }
 
     public Project GetSelectedProject() {
-        Project project = view.GetSelectedProject();
+        Project project = projectMenu.GetSelectedProject();
         return project;
-
     }
 
     public void ToggleFocus() {
@@ -137,16 +134,15 @@ public class ProjectsMenuController implements ActionListener {
     }
 
     public void SetWindowInvisible() {
-        view.setVisible(false);
-
+        projectMenu.setVisible(false);
     }
 
     public void SetWindowVisible() {
-        view.setVisible(true);
+        projectMenu.setVisible(true);
     }
 
     public void CloseWindow() {
-        view.setVisible(false);
-        view.dispose();
+        projectMenu.setVisible(false);
+        projectMenu.dispose();
     }
 }
