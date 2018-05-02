@@ -131,7 +131,7 @@ public class ProjectsController {
     }
     
     
-        public static void DeleteById(int id)
+    public static void DeleteById(int id)
     {
         
         
@@ -148,8 +148,6 @@ public class ProjectsController {
         catch (Exception e) {
             System.out.println("Error: " + e);
         }
-      
-        
-        
     }
+    
 }

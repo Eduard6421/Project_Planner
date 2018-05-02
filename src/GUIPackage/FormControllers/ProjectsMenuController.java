@@ -1,9 +1,11 @@
 package GUIPackage.FormControllers;
 
 import Controllers.ProjectsController;
+import Controllers.UsersController;
 import GUIPackage.AddProjectMenu;
 import GUIPackage.ProjectsMenu;
 import Models.Project;
+import Models.User;
 import Utils.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -65,6 +67,7 @@ public class ProjectsMenuController implements ActionListener {
                 case "Edit Project":
                     try {
                         addProjectMenu = new AddProjectMenu(this);
+                        addProjectMenu.FillManagerComboBox();
                         addProjectMenu.ShowSelectedProject();
                         addProjectMenu.setVisible(true);
                         addProjectMenu.SetActionCommand(false);
@@ -80,6 +83,7 @@ public class ProjectsMenuController implements ActionListener {
                     addProjectMenu = new AddProjectMenu(this);
                     addProjectMenu.setVisible(true);
                     addProjectMenu.SetActionCommand(true);
+                    addProjectMenu.FillManagerComboBox();
                     ToggleFocus();
                     break;
 
@@ -144,5 +148,12 @@ public class ProjectsMenuController implements ActionListener {
     public void CloseWindow() {
         projectMenu.setVisible(false);
         projectMenu.dispose();
+    }
+    
+    public List<User> GetManagers() {
+        
+        List<User> managers = UsersController.GetManagers();
+        
+        return managers;
     }
 }
