@@ -45,8 +45,8 @@ public class AddProjectMenu extends javax.swing.JFrame {
         SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-d");
         Project project = parentController.GetSelectedProject();
 
-        Date start_date = project.getStartDate();
-        Date end_date = project.getEndDate();
+        Date startDate = project.getStartDate();
+        Date endDate = project.getEndDate();
 
         int managerId = project.getManagerId();
         String managerUsername = null;
@@ -63,8 +63,8 @@ public class AddProjectMenu extends javax.swing.JFrame {
         jTextField4.setText(Double.toString(project.getBudget()));
         jTextArea1.setText(project.getDescription());
 
-        jFormattedTextField1.setText(dateFormatter.format(start_date));
-        jFormattedTextField2.setText(dateFormatter.format(end_date));
+        jFormattedTextField1.setText(dateFormatter.format(startDate));
+        jFormattedTextField2.setText(dateFormatter.format(endDate));
 
     }
 
@@ -86,20 +86,20 @@ public class AddProjectMenu extends javax.swing.JFrame {
 
         try {
 
-            Date start_date = dateFormatter.parse(jFormattedTextField1.getText());
-            Date end_date   = dateFormatter.parse(jFormattedTextField2.getText());
+            Date startDate = dateFormatter.parse(jFormattedTextField1.getText());
+            Date endDate   = dateFormatter.parse(jFormattedTextField2.getText());
             double budget = Double.parseDouble(jTextField4.getText());
             String managerUsername = jComboBox1.getSelectedItem().toString();
             
-            int manager_id = 0;
+            int managerId = 0;
             
             for (User manager : managers) {
                 if (managerUsername.equals(manager.getUsername())) {
-                    manager_id = manager.getId();
+                    managerId = manager.getId();
                 }
             }
 
-            tmp = new Project(manager_id, jTextField2.getText(), jTextField3.getText(), start_date, end_date, budget, jTextArea1.getText());
+            tmp = new Project(managerId, jTextField2.getText(), jTextField3.getText(), startDate, endDate, budget, jTextArea1.getText());
             return tmp;
 
         } catch (Exception e) {
