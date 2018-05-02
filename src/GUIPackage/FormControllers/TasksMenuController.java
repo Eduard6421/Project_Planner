@@ -1,11 +1,13 @@
 package GUIPackage.FormControllers;
 
 import Controllers.TasksController;
+import Controllers.UsersController;
 import GUIPackage.AddProjectMenu;
 import GUIPackage.AddTaskMenu;
 import GUIPackage.TasksMenu;
 import Models.Project;
 import Models.Task;
+import Models.User;
 import Utils.MySQLConnector;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,15 +17,15 @@ import java.util.List;
 public class TasksMenuController implements ActionListener {
     
     private TasksMenu view;
-    private MilestonesMenuController parent_controller;
-    private AddTaskMenu add_view;
+    private MilestonesMenuController parentController;
+    private AddTaskMenu addTask;
     private static final Connection conn = MySQLConnector.getConnection();
     private List<Task> task_list;
     private boolean focus = true;
 
     public TasksMenuController(MilestonesMenuController tmp) {
-        parent_controller = tmp;
-        parent_controller.SetWindowInvisible();
+        parentController = tmp;
+        parentController.SetWindowInvisible();
 
         view = new TasksMenu(this);
         view.setVisible(true);
@@ -62,45 +64,47 @@ public class TasksMenuController implements ActionListener {
                     break;
                 case "Edit Task":
                     try {
-                        add_view = new AddTaskMenu(this);
-                        add_view.ShowSelectedTask();
-                        add_view.setVisible(true);
-                        add_view.SetActionCommand(false);
+                        addTask = new AddTaskMenu(this);
+                        addTask.FillDeveloperComboBox();
+                        addTask.ShowSelectedTask();
+                        addTask.setVisible(true);
+                        addTask.SetActionCommand(false);
                         ToggleFocus();
                     } catch (Exception e) {
                         System.out.println(e);
-                        add_view.setVisible(false);
-                        add_view.dispose();
+                        addTask.setVisible(false);
+                        addTask.dispose();
                     }
                     break;
                 case "New Task":
-                    add_view = new AddTaskMenu(this);
-                    add_view.setVisible(true);
-                    add_view.SetActionCommand(true);
+                    addTask = new AddTaskMenu(this);
+                    addTask.setVisible(true);
+                    addTask.SetActionCommand(true);
+                    addTask.FillDeveloperComboBox();
                     ToggleFocus();
                     break;
 
                 default:
                     view.setVisible(false);
                     view.dispose();
-                    parent_controller.SetWindowVisible();
-                    parent_controller.RetrievePopulation();
+                    parentController.SetWindowVisible();
+                    parentController.RetrievePopulation();
                     System.out.println("Exit");
 
             }
         } else {
             switch (command) {
                 case "Exit":
-                    add_view.setVisible(false);
-                    add_view.dispose();
+                    addTask.setVisible(false);
+                    addTask.dispose();
                     ToggleFocus();
                     RetrievePopulation();
                     break;
 
                 case "Insert":
-                    add_view.setVisible(false);
-                    add_view.dispose();
-                    Task new_task = add_view.GetTask();
+                    addTask.setVisible(false);
+                    addTask.dispose();
+                    Task new_task = addTask.GetTask();
                     TasksController.Create(new_task);
                     ToggleFocus();
                     RetrievePopulation();
@@ -108,10 +112,10 @@ public class TasksMenuController implements ActionListener {
                     break;
 
                 case "Edit":
-                    add_view.setVisible(false);
-                    add_view.dispose();
+                    addTask.setVisible(false);
+                    addTask.dispose();
 
-                    Task EditedTask = add_view.GetTask();
+                    Task EditedTask = addTask.GetTask();
                     EditedTask.setId(task_list.get(view.getLastSelected()).getId());
                     TasksController.Update(EditedTask);
 
@@ -131,5 +135,12 @@ public class TasksMenuController implements ActionListener {
 
     public void ToggleFocus() {
         focus = !focus;
+    }
+    
+    public List<User> GetDevelopers() {
+        
+        List<User> developers = UsersController.GetAll();
+        
+        return developers;
     }
 }
