@@ -45,17 +45,27 @@ public class ProjectsMenuController implements ActionListener {
             switch (command) {
 
                 case "View Milestones":
-                    MilestonesMenuController milestonescMenuController = new MilestonesMenuController(this);
-                    break;
+                    try {
+                        int projectId = projectsList.get(projectMenu.getLastSelected()).getId();
+                        if (projectId < 0) {
+                            throw new Exception("No Project Selected");
+                        }
+                        GlobalData.setProjectId(projectId);
+                        MilestonesMenuController milestonescMenuController = new MilestonesMenuController(this);
 
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
+                    break;
+                    
                 case "Delete Project":
                     try {
                         projectMenu.GetSelectedProject();
-                        int project = projectsList.get(projectMenu.getLastSelected()).getId();
-                        if (project < 0) {
+                        int projectId = projectsList.get(projectMenu.getLastSelected()).getId();
+                        if (projectId < 0) {
                             throw new Exception("No Project Selected");
                         }
-                        ProjectsController.DeleteById(project);
+                        ProjectsController.DeleteById(projectId);
                         RetrievePopulation();
 
                     } catch (Exception e) {

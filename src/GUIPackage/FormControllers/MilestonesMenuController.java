@@ -15,10 +15,10 @@ import java.util.List;
 
 public class MilestonesMenuController implements ActionListener {
     
-        private MilestonesMenu view;
-    private AddMilestoneMenu add_view;
-    private ProjectsMenuController parent_controller;
-    private List<Milestone> milestone_list;
+    private MilestonesMenu milestonesMenu;
+    private AddMilestoneMenu addMilestoneMenu;
+    private ProjectsMenuController parentController;
+    private List<Milestone> milestonesList;
 
     private boolean focus = true;
 
@@ -31,11 +31,11 @@ public class MilestonesMenuController implements ActionListener {
      */
     public MilestonesMenuController(ProjectsMenuController tmp) {
 
-        parent_controller = tmp;
-        parent_controller.SetWindowInvisible();
+        parentController = tmp;
+        parentController.SetWindowInvisible();
 
-        view = new MilestonesMenu(this);
-        view.setVisible(true);
+        milestonesMenu = new MilestonesMenu(this);
+        milestonesMenu.setVisible(true);
 
         RetrievePopulation();
 
@@ -54,8 +54,8 @@ public class MilestonesMenuController implements ActionListener {
                     break;
                 case "Delete Milestone":
                     try {
-                        view.GetSelectedMilestone();
-                        int asd = milestone_list.get(view.getLastSelected()).getId();
+                        milestonesMenu.GetSelectedMilestone();
+                        int asd = milestonesList.get(milestonesMenu.getLastSelected()).getId();
                         if (asd < 0) {
                             throw new Exception("No Milestone Selected");
                         }
@@ -67,46 +67,46 @@ public class MilestonesMenuController implements ActionListener {
                     }
                 case "Edit Milestone":
                     try {
-                        add_view = new AddMilestoneMenu(this);
-                        add_view.ShowSelectedMilestone();
-                        add_view.setVisible(true);
-                        add_view.SetActionCommand(false);
+                        addMilestoneMenu = new AddMilestoneMenu(this);
+                        addMilestoneMenu.ShowSelectedMilestone();
+                        addMilestoneMenu.setVisible(true);
+                        addMilestoneMenu.SetActionCommand(false);
                         ToggleFocus();
                     } catch (Exception e) {
                         System.out.println(e);
-                        add_view.setVisible(false);
-                        add_view.dispose();
+                        addMilestoneMenu.setVisible(false);
+                        addMilestoneMenu.dispose();
                     }
                     break;
                 case "New Milestone":
-                    add_view = new AddMilestoneMenu(this);
-                    add_view.setVisible(true);
-                    add_view.SetActionCommand(true);
+                    addMilestoneMenu = new AddMilestoneMenu(this);
+                    addMilestoneMenu.setVisible(true);
+                    addMilestoneMenu.SetActionCommand(true);
                     ToggleFocus();
                     break;
 
                 default:
                     System.out.println("Exit");
-                    view.setVisible(false);
-                    view.dispose();
-                    parent_controller.SetWindowVisible();
-                    parent_controller.RetrievePopulation();
+                    milestonesMenu.setVisible(false);
+                    milestonesMenu.dispose();
+                    parentController.SetWindowVisible();
+                    parentController.RetrievePopulation();
 
             }
         } else {
 
             switch (command) {
                 case "Exit":
-                    add_view.setVisible(false);
-                    add_view.dispose();
+                    addMilestoneMenu.setVisible(false);
+                    addMilestoneMenu.dispose();
                     ToggleFocus();
                     RetrievePopulation();
 
                     break;
                 case "Insert":
-                    add_view.setVisible(false);
-                    add_view.dispose();
-                    Milestone new_milestone = add_view.GetMilestone();
+                    addMilestoneMenu.setVisible(false);
+                    addMilestoneMenu.dispose();
+                    Milestone new_milestone = addMilestoneMenu.GetMilestone();
                     MilestonesController.Create(new_milestone);
                     ToggleFocus();
                     RetrievePopulation();
@@ -114,11 +114,11 @@ public class MilestonesMenuController implements ActionListener {
                     break;
 
                 case "Edit":
-                    add_view.setVisible(false);
-                    add_view.dispose();
+                    addMilestoneMenu.setVisible(false);
+                    addMilestoneMenu.dispose();
 
-                    Milestone EditedMilestone = add_view.GetMilestone();
-                    EditedMilestone.setId(milestone_list.get(view.getLastSelected()).getId());
+                    Milestone EditedMilestone = addMilestoneMenu.GetMilestone();
+                    EditedMilestone.setId(milestonesList.get(milestonesMenu.getLastSelected()).getId());
                     MilestonesController.Update(EditedMilestone);
 
                     ToggleFocus();
@@ -130,11 +130,11 @@ public class MilestonesMenuController implements ActionListener {
     }
 
     public void RetrievePopulation() {
-        milestone_list = view.ShowPopulation();
+        milestonesList = milestonesMenu.ShowPopulation();
     }
 
     public Milestone GetSelectedMilestone() {
-        Milestone milestone = view.GetSelectedMilestone();
+        Milestone milestone = milestonesMenu.GetSelectedMilestone();
         return milestone;
 
     }
@@ -144,16 +144,16 @@ public class MilestonesMenuController implements ActionListener {
     }
 
     public void SetWindowInvisible() {
-        view.setVisible(false);
+        milestonesMenu.setVisible(false);
 
     }
 
     public void SetWindowVisible() {
-        view.setVisible(true);
+        milestonesMenu.setVisible(true);
     }
 
     public void CloseWindow() {
-        view.setVisible(false);
-        view.dispose();
+        milestonesMenu.setVisible(false);
+        milestonesMenu.dispose();
     }
 }

@@ -69,6 +69,36 @@ public class MilestonesController {
         return milestones;
     }
     
+        public static List<Milestone> GetAllByProjectId(int projectId) {
+        
+        List<Milestone> milestones = new ArrayList<>();
+        
+        try {
+            String query = "SELECT * FROM milestones WHERE ProjectId = (?)";
+            
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, projectId);
+            ResultSet result = statement.executeQuery();
+            
+            while (result.next()) {
+                 Milestone milestone = new Milestone(result.getInt("Id"),
+                                                    result.getInt("ProjectId"),
+                                                    result.getString("Title"),
+                                                    result.getDate("StartDate"),
+                                                    result.getDate("EndDate"),
+                                                    result.getString("Description"));
+                milestones.add(milestone);
+            }
+            
+            statement.close();
+        }
+        catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+        
+        return milestones;
+    }
+    
     
     public static Milestone Create(Milestone milestone) {
         

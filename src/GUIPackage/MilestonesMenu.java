@@ -9,6 +9,7 @@ import GUIPackage.FormControllers.MilestonesMenuController;
 import Controllers.MilestonesController;
 import Models.Milestone;
 import Models.Project;
+import Utils.GlobalData;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -26,7 +27,7 @@ public class MilestonesMenu extends javax.swing.JFrame {
      */
     
     
-    private int LastSelected;
+    private int lastSelected;
     
     public MilestonesMenu() {
         initComponents();
@@ -45,9 +46,9 @@ public class MilestonesMenu extends javax.swing.JFrame {
     }
     
     public Milestone GetSelectedMilestone() {
-         LastSelected = jTable1.getSelectedRow();
+        lastSelected = jTable1.getSelectedRow();
 
-        if (LastSelected < 0) {
+        if (lastSelected < 0) {
             return null;
         }
 
@@ -55,14 +56,14 @@ public class MilestonesMenu extends javax.swing.JFrame {
 
         DateFormat format = new SimpleDateFormat("yyyy-MM-d");
 
-        String MilestoneTitle = model.getValueAt(LastSelected, 0).toString();
-        String Description = model.getValueAt(LastSelected, 3).toString();
+        String MilestoneTitle = model.getValueAt(lastSelected, 0).toString();
+        String Description = model.getValueAt(lastSelected, 3).toString();
 
 
         try {
-            Date StartDate = format.parse(model.getValueAt(LastSelected, 1).toString());
-            Date EndDate = format.parse(model.getValueAt(LastSelected, 2).toString());
-            Milestone milestone = new Milestone(LastSelected+1,1,MilestoneTitle,StartDate,EndDate,Description); // I need to have here the project_id and milestone_id
+            Date StartDate = format.parse(model.getValueAt(lastSelected, 1).toString());
+            Date EndDate = format.parse(model.getValueAt(lastSelected, 2).toString());
+            Milestone milestone = new Milestone(lastSelected+1,1,MilestoneTitle,StartDate,EndDate,Description); // I need to have here the project_id and milestone_id
             return milestone;
 
         } catch (Exception e) {
@@ -79,7 +80,7 @@ public class MilestonesMenu extends javax.swing.JFrame {
     public List<Milestone> ShowPopulation() {
 
         List<Milestone> milestones;
-        milestones = MilestonesController.GetAll();
+        milestones = MilestonesController.GetAllByProjectId(GlobalData.getProjectId());
 
         DefaultTableModel tModel1 = (DefaultTableModel) jTable1.getModel();
         jTable1.setDefaultEditor(Object.class, null);
@@ -105,10 +106,10 @@ public class MilestonesMenu extends javax.swing.JFrame {
     }
     
     public int getLastSelected() {
-        return LastSelected;
-    }
-    
-    
+        lastSelected = jTable1.getSelectedRow();
+        
+        return lastSelected;
+    }  
     
     
 

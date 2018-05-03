@@ -107,7 +107,8 @@ public class ProjectsMenu extends javax.swing.JFrame {
     }
 
     public int getLastSelected() {
-     return lastSelected;   
+        lastSelected = jTable1.getSelectedRow();
+        return lastSelected;   
     }
     
     private void FillManagersList() {
