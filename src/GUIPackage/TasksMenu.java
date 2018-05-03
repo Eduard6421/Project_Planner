@@ -5,8 +5,11 @@
  */
 package GUIPackage;
 
+import Controllers.PrioritiesController;
 import Controllers.TasksController;
+import Controllers.UsersController;
 import GUIPackage.FormControllers.TasksMenuController;
+import Models.Priority;
 import Models.Task;
 import Models.User;
 import Utils.GlobalData;
@@ -24,6 +27,7 @@ public class TasksMenu extends javax.swing.JFrame {
 
     private int lastSelected;
     private List<User> developers;
+    private List<Priority> priorities;
 
     /**
      * Creates new form TaskMenu
@@ -41,16 +45,23 @@ public class TasksMenu extends javax.swing.JFrame {
         }
         tModel1.setRowCount(0);
 
-        Object rowData[] = new Object[7];
+        Object rowData[] = new Object[6];
 
         for (int i = 0; i < tasks.size(); ++i) {
-            rowData[0] = tasks.get(i).getMilestoneId();
-            rowData[1] = tasks.get(i).getAssignedToId(); 
-            rowData[2] = tasks.get(i).getPriorityId();
-            rowData[3] = tasks.get(i).getTitle(); 
-            rowData[4] = tasks.get(i).getStartDate();
-            rowData[5] = tasks.get(i).getEndDate();
-            rowData[6] = tasks.get(i).getDescription();
+            for (User developer : developers) {
+                if (tasks.get(i).getAssignedToId() == developer.getId()) {
+                    rowData[0] = developer.getUsername();
+                }
+            }
+            for (Priority priority : priorities) {
+                if (tasks.get(i).getPriorityId() == priority.getId()) {
+                    rowData[1] = priority.getTitle();
+                }
+            }            
+            rowData[2] = tasks.get(i).getTitle(); 
+            rowData[3] = tasks.get(i).getStartDate();
+            rowData[4] = tasks.get(i).getEndDate();
+            rowData[5] = tasks.get(i).getDescription();
             tModel1.addRow(rowData);
 
         }
@@ -72,15 +83,32 @@ public class TasksMenu extends javax.swing.JFrame {
 
         
         int milestoneId = GlobalData.getMilestoneId();
-        int developerId = Integer.parseInt(model.getValueAt(lastSelected, 1).toString());
-        int priorityId  = Integer.parseInt(model.getValueAt(lastSelected, 2).toString());
-        String taskTitle   = model.getValueAt(lastSelected, 3).toString();
-        String description = model.getValueAt(lastSelected, 6).toString();
+        
+        int developerId = 0;
+        String developerUsername = model.getValueAt(lastSelected, 0).toString();
+        
+        for (User developer : developers) {
+            if (developerUsername.equals(developer.getUsername())) {
+                developerId = developer.getId();
+            }
+        }
+        
+        int priorityId = 0;
+        String priorityTitle = model.getValueAt(lastSelected, 1).toString();
+        
+        for (Priority priority : priorities) {
+            if (priorityTitle.equals(priority.getTitle())) {
+                priorityId = priority.getId();
+            }
+        }
+        
+        String taskTitle   = model.getValueAt(lastSelected, 2).toString();
+        String description = model.getValueAt(lastSelected, 5).toString();
 
 
         try {
-            Date startDate = format.parse(model.getValueAt(lastSelected, 4).toString());
-            Date endDate = format.parse(model.getValueAt(lastSelected, 5).toString());
+            Date startDate = format.parse(model.getValueAt(lastSelected, 3).toString());
+            Date endDate = format.parse(model.getValueAt(lastSelected, 4).toString());
             
             Task task = new Task(lastSelected+1, milestoneId, developerId, priorityId, taskTitle, startDate, endDate, description);
             return task;
@@ -106,7 +134,9 @@ public class TasksMenu extends javax.swing.JFrame {
         jButton2.addActionListener(controller);
         jButton3.addActionListener(controller);
         jButton4.addActionListener(controller);
-
+        
+        priorities = PrioritiesController.GetAll();
+        developers = UsersController.GetAll();
     }
 
     public int getLastSelected() {
@@ -114,6 +144,8 @@ public class TasksMenu extends javax.swing.JFrame {
         
         return lastSelected;
     }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -137,13 +169,13 @@ public class TasksMenu extends javax.swing.JFrame {
         jTable1.setForeground(new java.awt.Color(55, 55, 55));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Milestone", "Developer", "Priority", "Title", "Start Date", "End Date", "Description"
+                "Developer", "Priority", "Title", "Start Date", "End Date", "Description"
             }
         ));
         jTable1.setToolTipText("");

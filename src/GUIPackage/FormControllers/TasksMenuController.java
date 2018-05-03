@@ -33,11 +33,6 @@ public class TasksMenuController implements ActionListener {
 
     }
 
-    private void RetrievePopulation() {
-
-        tasksList = tasksMenu.ShowPopulation();
-    }
-
     @Override
     public void actionPerformed(ActionEvent evt) {
 
@@ -106,8 +101,8 @@ public class TasksMenuController implements ActionListener {
                 case "Insert":
                     addTask.setVisible(false);
                     addTask.dispose();
-                    Task new_task = addTask.GetTask();
-                    TasksController.Create(new_task);
+                    Task newTask = addTask.GetTask();
+                    TasksController.Create(newTask);
                     ToggleFocus();
                     RetrievePopulation();
 
@@ -126,6 +121,11 @@ public class TasksMenuController implements ActionListener {
                     break;
             }
         }
+    }
+    
+    private void RetrievePopulation() {
+
+        tasksList = tasksMenu.ShowPopulation();
     }
 
     public Task GetSelectedTask() {
