@@ -132,9 +132,8 @@ public class TasksController {
     }
 
     public static void DeleteById(int id) {
-
         try {
-            String query = "DELETE FROM tasks WHERE Id=? ";
+            String query = "DELETE FROM tasks WHERE Id = ?";
 
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setInt(1, id);
@@ -145,6 +144,5 @@ public class TasksController {
         } catch (Exception e) {
             System.out.println("Error: " + e);
         }
-
     }
 }

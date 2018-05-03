@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
 import java.util.List;
+import java.util.Set;
 
 public class ProjectsMenuController implements ActionListener {
     
@@ -46,11 +47,14 @@ public class ProjectsMenuController implements ActionListener {
 
                 case "View Milestones":
                     try {
-                        int projectId = projectsList.get(projectMenu.getLastSelected()).getId();
+                        int projectId = projectsList.get(projectMenu.getLastSelectedId()).getId();
                         if (projectId < 0) {
                             throw new Exception("No Project Selected");
                         }
                         GlobalData.setProjectId(projectId);
+                        Project selectedProject = projectMenu.GetSelectedProject();
+                        GlobalData.setProjectTitle(selectedProject.getTitle());
+                        
                         MilestonesMenuController milestonescMenuController = new MilestonesMenuController(this);
 
                     } catch (Exception e) {
@@ -61,7 +65,7 @@ public class ProjectsMenuController implements ActionListener {
                 case "Delete Project":
                     try {
                         projectMenu.GetSelectedProject();
-                        int projectId = projectsList.get(projectMenu.getLastSelected()).getId();
+                        int projectId = projectsList.get(projectMenu.getLastSelectedId()).getId();
                         if (projectId < 0) {
                             throw new Exception("No Project Selected");
                         }
@@ -125,7 +129,7 @@ public class ProjectsMenuController implements ActionListener {
                     addProjectMenu.setVisible(false);
                     addProjectMenu.dispose();
                     Project EditedProject = addProjectMenu.GetProject();
-                    EditedProject.setId(projectsList.get(projectMenu.getLastSelected()).getId());
+                    EditedProject.setId(projectsList.get(projectMenu.getLastSelectedId()).getId());
                     ProjectsController.Update(EditedProject);
                     ToggleFocus();
                     RetrievePopulation();

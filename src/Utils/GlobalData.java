@@ -14,8 +14,11 @@ public class GlobalData {
     
     //Window state (project, milestone or task Id)
     private static int ProjectId;
+    private static String ProjectTitle;
     private static int MilestoneId;
+    private static String MilestoneTitle;
     private static int TaskId;
+    private static String TaskTitle;
 
     public static void setLoggedIn(boolean loggedIn) {
         LoggedIn = loggedIn;
@@ -37,12 +40,24 @@ public class GlobalData {
         ProjectId = projectId;
     }
 
+    public static void setProjectTitle(String projectTitle) {
+        ProjectTitle = projectTitle;
+    }
+
     public static void setMilestoneId(int milestoneId) {
         MilestoneId = milestoneId;
     }
 
+    public static void setMilestoneTitle(String milestoneTitle) {
+        MilestoneTitle = milestoneTitle;
+    }
+
     public static void setTaskId(int taskId) {
         TaskId = taskId;
+    }
+
+    public static void setTaskTitle(String taskTitle) {
+        TaskTitle = taskTitle;
     }
 
     public static boolean isLoggedIn() {
@@ -65,11 +80,23 @@ public class GlobalData {
         return ProjectId;
     }
 
+    public static String getProjectTitle() {
+        return ProjectTitle;
+    }
+
     public static int getMilestoneId() {
         return MilestoneId;
     }
 
+    public static String getMilestoneTitle() {
+        return MilestoneTitle;
+    }
+
     public static int getTaskId() {
         return TaskId;
+    }
+
+    public static String getTaskTitle() {
+        return TaskTitle;
     }
 }

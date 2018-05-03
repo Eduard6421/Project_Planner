@@ -55,11 +55,11 @@ public class MilestonesMenuController implements ActionListener {
                 case "Delete Milestone":
                     try {
                         milestonesMenu.GetSelectedMilestone();
-                        int asd = milestonesList.get(milestonesMenu.getLastSelected()).getId();
-                        if (asd < 0) {
+                        int milestoneId = milestonesList.get(milestonesMenu.getLastSelected()).getId();
+                        if (milestoneId < 0) {
                             throw new Exception("No Milestone Selected");
                         }
-                        MilestonesController.DeleteById(asd);
+                        MilestonesController.DeleteById(milestoneId);
                         RetrievePopulation();
 
                     } catch (Exception e) {
