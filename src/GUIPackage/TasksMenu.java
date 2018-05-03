@@ -8,6 +8,7 @@ package GUIPackage;
 import Controllers.TasksController;
 import GUIPackage.FormControllers.TasksMenuController;
 import Models.Task;
+import Utils.GlobalData;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -28,7 +29,7 @@ public class TasksMenu extends javax.swing.JFrame {
     public List<Task> ShowPopulation() {
 
         List<Task> tasks;
-        tasks = TasksController.GetAll();
+        tasks = TasksController.GetAllByMilestoneId(GlobalData.getMilestoneId());
 
         DefaultTableModel tModel1 = (DefaultTableModel) jTable1.getModel();
         jTable1.setDefaultEditor(Object.class, null);
@@ -138,7 +139,7 @@ public class TasksMenu extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Milestone", "Developer", "Priority", "Title", "Start_Date", "End_Date", "Description"
+                "Milestone", "Developer", "Priority", "Title", "Start Date", "End Date", "Description"
             }
         ));
         jTable1.setToolTipText("");

@@ -58,12 +58,13 @@ public class MilestonesMenu extends javax.swing.JFrame {
 
         String MilestoneTitle = model.getValueAt(lastSelected, 0).toString();
         String Description = model.getValueAt(lastSelected, 3).toString();
-
+        
+        int projectId = GlobalData.getProjectId();
 
         try {
             Date StartDate = format.parse(model.getValueAt(lastSelected, 1).toString());
             Date EndDate = format.parse(model.getValueAt(lastSelected, 2).toString());
-            Milestone milestone = new Milestone(lastSelected+1, 1, MilestoneTitle, StartDate, EndDate, Description); // I need to have here the project_id and milestone_id
+            Milestone milestone = new Milestone(lastSelected+1, projectId, MilestoneTitle, StartDate, EndDate, Description); // I need to have here the project_id and milestone_id
             return milestone;
 
         } catch (Exception e) {
@@ -73,9 +74,6 @@ public class MilestonesMenu extends javax.swing.JFrame {
         return null;
 
     }
-    
-    
-    
 
     public List<Milestone> ShowPopulation() {
 
@@ -105,7 +103,7 @@ public class MilestonesMenu extends javax.swing.JFrame {
 
     }
     
-    public int getLastSelected() {
+    public int getLastSelectedId() {
         lastSelected = jTable1.getSelectedRow();
         
         return lastSelected;
@@ -144,7 +142,7 @@ public class MilestonesMenu extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Title", "Start_Date", "End_Date", "Description"
+                "Title", "Start Date", "End Date", "Description"
             }
         ) {
             Class[] types = new Class [] {

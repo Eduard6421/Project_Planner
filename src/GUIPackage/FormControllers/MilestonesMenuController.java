@@ -7,6 +7,7 @@ import GUIPackage.MilestonesMenu;
 import GUIPackage.ProjectsMenu;
 import Models.Milestone;
 import Models.Project;
+import Utils.GlobalData;
 import Utils.MySQLConnector;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -49,13 +50,24 @@ public class MilestonesMenuController implements ActionListener {
             switch (command) {
 
                 case "View Tasks":
-                    System.out.println("View Tasks");
-                    TasksMenuController tmp = new TasksMenuController(this);
+                    try {
+                        int milestoneId = milestonesList.get(milestonesMenu.getLastSelectedId()).getId();
+                        if (milestoneId < 0) {
+                            throw new Exception("No Milestone Selected");
+                        }
+                        GlobalData.setMilestoneId(milestoneId);
+                        Milestone selectedMilestone = milestonesMenu.GetSelectedMilestone();
+                        GlobalData.setMilestoneTitle(selectedMilestone.getTitle());
+                        
+                        TasksMenuController tasksMenuController = new TasksMenuController(this);
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
                     break;
                 case "Delete Milestone":
                     try {
                         milestonesMenu.GetSelectedMilestone();
-                        int milestoneId = milestonesList.get(milestonesMenu.getLastSelected()).getId();
+                        int milestoneId = milestonesList.get(milestonesMenu.getLastSelectedId()).getId();
                         if (milestoneId < 0) {
                             throw new Exception("No Milestone Selected");
                         }
@@ -118,7 +130,7 @@ public class MilestonesMenuController implements ActionListener {
                     addMilestoneMenu.dispose();
 
                     Milestone EditedMilestone = addMilestoneMenu.GetMilestone();
-                    EditedMilestone.setId(milestonesList.get(milestonesMenu.getLastSelected()).getId());
+                    EditedMilestone.setId(milestonesList.get(milestonesMenu.getLastSelectedId()).getId());
                     MilestonesController.Update(EditedMilestone);
 
                     ToggleFocus();

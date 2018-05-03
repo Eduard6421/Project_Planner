@@ -85,8 +85,8 @@
                 <Column editable="true" title="Developer" type="java.lang.Object"/>
                 <Column editable="true" title="Priority" type="java.lang.Object"/>
                 <Column editable="true" title="Title" type="java.lang.Object"/>
-                <Column editable="true" title="Start_Date" type="java.lang.Object"/>
-                <Column editable="true" title="End_Date" type="java.lang.Object"/>
+                <Column editable="true" title="Start Date" type="java.lang.Object"/>
+                <Column editable="true" title="End Date" type="java.lang.Object"/>
                 <Column editable="true" title="Description" type="java.lang.Object"/>
               </Table>
             </Property>

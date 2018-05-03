@@ -74,6 +74,37 @@ public class TasksController {
 
         return tasks;
     }
+    
+    public static List<Task> GetAllByMilestoneId(int milestoneId) {
+
+        List<Task> tasks = new ArrayList<>();
+
+        try {
+            String query = "SELECT * FROM tasks WHERE milestoneId = (?)";
+
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, milestoneId);
+            ResultSet result = statement.executeQuery();
+
+            while (result.next()) {
+                Task task = new Task(result.getInt("Id"),
+                        result.getInt("MilestoneId"),
+                        result.getInt("AssignedToId"),
+                        result.getInt("PriorityId"),
+                        result.getString("Title"),
+                        result.getDate("StartDate"),
+                        result.getDate("EndDate"),
+                        result.getString("Description"));
+                tasks.add(task);
+            }
+
+            statement.close();
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+
+        return tasks;
+    }
 
     public static Task Create(Task task) {
 
