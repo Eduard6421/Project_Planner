@@ -130,10 +130,19 @@ public class TasksMenu extends javax.swing.JFrame {
 
         initComponents();
 
-        jButton1.addActionListener(controller);
-        jButton2.addActionListener(controller);
-        jButton3.addActionListener(controller);
+        if (!GlobalData.getRoleTitle().equals("Admin") && !GlobalData.getRoleTitle().equals("Manager")) {
+            jButton1.setVisible(false);
+            jButton2.setVisible(false);
+            jButton3.setVisible(false);
+        }
+        else {
+            jButton1.addActionListener(controller);
+            jButton2.addActionListener(controller);
+            jButton3.addActionListener(controller);
+        } 
+
         jButton4.addActionListener(controller);
+        
         jLabel2.setText("<html>Project:<br>     - " + GlobalData.getProjectTitle() + "</html>");
         jLabel1.setText("<html>Milestone:<br>     - " + GlobalData.getMilestoneTitle() + "</html>");
         
