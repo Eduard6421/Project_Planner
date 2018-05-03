@@ -16,26 +16,26 @@ import java.util.List;
 
 public class TasksMenuController implements ActionListener {
     
-    private TasksMenu view;
+    private TasksMenu tasksMenu;
     private MilestonesMenuController parentController;
     private AddTaskMenu addTask;
     private static final Connection conn = MySQLConnector.getConnection();
-    private List<Task> task_list;
+    private List<Task> tasksList;
     private boolean focus = true;
 
     public TasksMenuController(MilestonesMenuController tmp) {
         parentController = tmp;
         parentController.SetWindowInvisible();
 
-        view = new TasksMenu(this);
-        view.setVisible(true);
+        tasksMenu = new TasksMenu(this);
+        tasksMenu.setVisible(true);
         RetrievePopulation();
 
     }
 
     private void RetrievePopulation() {
 
-        task_list = view.ShowPopulation();
+        tasksList = tasksMenu.ShowPopulation();
     }
 
     @Override
@@ -47,8 +47,8 @@ public class TasksMenuController implements ActionListener {
 
                 case "Delete Task":
                     try {
-                        view.GetSelectedTask();
-                        int asd = task_list.get(view.getLastSelected()).getId();
+                        tasksMenu.GetSelectedTask();
+                        int asd = tasksList.get(tasksMenu.getLastSelected()).getId();
 
                         if (asd < 0) {
                             throw new Exception("No Task Selected");
@@ -66,6 +66,7 @@ public class TasksMenuController implements ActionListener {
                     try {
                         addTask = new AddTaskMenu(this);
                         addTask.FillDeveloperComboBox();
+                        addTask.FillPrioritiesComboBox();
                         addTask.ShowSelectedTask();
                         addTask.setVisible(true);
                         addTask.SetActionCommand(false);
@@ -81,12 +82,13 @@ public class TasksMenuController implements ActionListener {
                     addTask.setVisible(true);
                     addTask.SetActionCommand(true);
                     addTask.FillDeveloperComboBox();
+                    addTask.FillPrioritiesComboBox();
                     ToggleFocus();
                     break;
 
                 default:
-                    view.setVisible(false);
-                    view.dispose();
+                    tasksMenu.setVisible(false);
+                    tasksMenu.dispose();
                     parentController.SetWindowVisible();
                     parentController.RetrievePopulation();
                     System.out.println("Exit");
@@ -116,7 +118,7 @@ public class TasksMenuController implements ActionListener {
                     addTask.dispose();
 
                     Task EditedTask = addTask.GetTask();
-                    EditedTask.setId(task_list.get(view.getLastSelected()).getId());
+                    EditedTask.setId(tasksList.get(tasksMenu.getLastSelected()).getId());
                     TasksController.Update(EditedTask);
 
                     ToggleFocus();
@@ -128,7 +130,7 @@ public class TasksMenuController implements ActionListener {
 
     public Task GetSelectedTask() {
 
-        Task task = view.GetSelectedTask();
+        Task task = tasksMenu.GetSelectedTask();
         return task;
 
     }

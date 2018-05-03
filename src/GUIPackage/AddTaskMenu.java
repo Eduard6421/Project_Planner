@@ -5,9 +5,12 @@
  */
 package GUIPackage;
 
+import Controllers.PrioritiesController;
 import GUIPackage.FormControllers.TasksMenuController;
+import Models.Priority;
 import Models.Task;
 import Models.User;
+import Utils.GlobalData;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -23,6 +26,7 @@ public class AddTaskMenu extends javax.swing.JFrame {
 
     private TasksMenuController parentController;
     private List<User> developers;
+    private List<Priority> priorities;
 
     /**
      * Creates new form AddTaskMenu
@@ -38,19 +42,15 @@ public class AddTaskMenu extends javax.swing.JFrame {
             jButton2.setActionCommand("Edit");
             jButton2.setText("Edit");
         }
-
     }
 
     public AddTaskMenu(TasksMenuController controller) {
-
         initComponents();
 
         parentController = controller;
 
         jButton1.addActionListener(parentController);
         jButton2.addActionListener(parentController);
-        
-
     }
     
     public void ShowSelectedTask() {
@@ -69,10 +69,18 @@ public class AddTaskMenu extends javax.swing.JFrame {
                 developerUsername = developer.getUsername();
             }
         }
+        
+        int priorityId = task.getPriorityId();
+        String priorityTitle = null;
+        
+        for (Priority priority : priorities) {
+            if (priority.getId() == priorityId) {
+                priorityTitle = priority.getTitle();
+            }
+        }
 
         jComboBox1.getModel().setSelectedItem(developerUsername);
-        jTextField1.setText(Integer.toString(task.getMilestoneId()));
-        jTextField3.setText(Integer.toString(task.getPriorityId()));
+        jComboBox2.getModel().setSelectedItem(priorityTitle);
         jTextField4.setText(task.getTitle());
         jTextArea1.setText(task.getDescription());
         jFormattedTextField1.setText(dateFormatter.format(start_date));
@@ -87,19 +95,27 @@ public class AddTaskMenu extends javax.swing.JFrame {
         SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-d");
         
         try {
-            int milestoneId = Integer.parseInt(jTextField1.getText());
-            int priorityId = Integer.parseInt(jTextField3.getText());
+            int milestoneId = GlobalData.getMilestoneId();
             Date StartDate = dateFormatter.parse(jFormattedTextField1.getText());
             Date EndDate = dateFormatter.parse(jFormattedTextField2.getText());
             String Title = jTextField4.getText();
             String Description = jTextArea1.getText();
             String developerUsername = jComboBox1.getSelectedItem().toString();
+            String priorityTitle = jComboBox2.getSelectedItem().toString();
             
             int assignedToId = 0;
             
             for (User developer : developers) {
                 if (developerUsername.equals(developer.getUsername())) {
                     assignedToId = developer.getId();
+                }
+            }
+            
+            int priorityId = 0;
+            
+            for (Priority priority : priorities) {
+                if (priorityTitle.equals(priority.getTitle())) {
+                    priorityId = priority.getId();
                 }
             }
 
@@ -124,6 +140,17 @@ public class AddTaskMenu extends javax.swing.JFrame {
             jComboBox1.addItem(developer.getUsername());
         }
     }
+    
+    public void FillPrioritiesComboBox() {
+        
+        priorities = PrioritiesController.GetAll();
+        
+        jComboBox2.removeAllItems();
+        
+        for (Priority priority : priorities) {
+            jComboBox2.addItem(priority.getTitle());
+        }
+    }
 
 
     /**
@@ -135,15 +162,12 @@ public class AddTaskMenu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTextField1 = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jFormattedTextField2 = new javax.swing.JFormattedTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jTextField3 = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jTextField4 = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
@@ -153,6 +177,7 @@ public class AddTaskMenu extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBox2 = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -180,8 +205,6 @@ public class AddTaskMenu extends javax.swing.JFrame {
             }
         });
 
-        jLabel5.setText("Milestone");
-
         jLabel7.setText("Developer");
 
         jLabel8.setText("Priority");
@@ -199,6 +222,8 @@ public class AddTaskMenu extends javax.swing.JFrame {
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -209,9 +234,6 @@ public class AddTaskMenu extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(38, 38, 38)
                         .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -234,32 +256,27 @@ public class AddTaskMenu extends javax.swing.JFrame {
                         .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE))
                     .addComponent(jFormattedTextField1)
                     .addComponent(jTextField4)
-                    .addComponent(jTextField1)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jFormattedTextField2, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel6)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(112, 112, 112))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(23, 23, 23)
-                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
+                .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -271,7 +288,7 @@ public class AddTaskMenu extends javax.swing.JFrame {
                         .addGap(21, 21, 21))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel4)
@@ -338,20 +355,18 @@ public class AddTaskMenu extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JFormattedTextField jFormattedTextField2;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     // End of variables declaration//GEN-END:variables
 }

@@ -8,6 +8,7 @@ package GUIPackage;
 import Controllers.TasksController;
 import GUIPackage.FormControllers.TasksMenuController;
 import Models.Task;
+import Models.User;
 import Utils.GlobalData;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -21,7 +22,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class TasksMenu extends javax.swing.JFrame {
 
-    private int LastSelected;
+    private int lastSelected;
+    private List<User> developers;
 
     /**
      * Creates new form TaskMenu
@@ -58,9 +60,9 @@ public class TasksMenu extends javax.swing.JFrame {
     }
     
      public Task GetSelectedTask() {
-         LastSelected = jTable1.getSelectedRow();
+         lastSelected = jTable1.getSelectedRow();
 
-        if (LastSelected < 0) {
+        if (lastSelected < 0) {
             return null;
         }
 
@@ -69,18 +71,18 @@ public class TasksMenu extends javax.swing.JFrame {
         DateFormat format = new SimpleDateFormat("yyyy-MM-d");
 
         
-        int MilestoneId = Integer.parseInt(model.getValueAt(LastSelected,0).toString());
-        int DeveloperId = Integer.parseInt(model.getValueAt(LastSelected,1).toString());
-        int PriorityId  = Integer.parseInt(model.getValueAt(LastSelected,2).toString());
-        String TaskTitle   = model.getValueAt(LastSelected, 3).toString();
-        String Description = model.getValueAt(LastSelected, 6).toString();
+        int milestoneId = GlobalData.getMilestoneId();
+        int developerId = Integer.parseInt(model.getValueAt(lastSelected, 1).toString());
+        int priorityId  = Integer.parseInt(model.getValueAt(lastSelected, 2).toString());
+        String taskTitle   = model.getValueAt(lastSelected, 3).toString();
+        String description = model.getValueAt(lastSelected, 6).toString();
 
 
         try {
-            Date StartDate = format.parse(model.getValueAt(LastSelected, 4).toString());
-            Date EndDate = format.parse(model.getValueAt(LastSelected, 5).toString());
+            Date startDate = format.parse(model.getValueAt(lastSelected, 4).toString());
+            Date endDate = format.parse(model.getValueAt(lastSelected, 5).toString());
             
-            Task task = new Task(LastSelected+1,MilestoneId,DeveloperId,PriorityId,TaskTitle,StartDate,EndDate,Description);
+            Task task = new Task(lastSelected+1, milestoneId, developerId, priorityId, taskTitle, startDate, endDate, description);
             return task;
 
         } catch (Exception e) {
@@ -108,7 +110,9 @@ public class TasksMenu extends javax.swing.JFrame {
     }
 
     public int getLastSelected() {
-        return LastSelected;
+        lastSelected = jTable1.getSelectedRow();
+        
+        return lastSelected;
     }
 
     /**
