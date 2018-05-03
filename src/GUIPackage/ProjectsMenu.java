@@ -26,6 +26,7 @@ public class ProjectsMenu extends javax.swing.JFrame {
     public ProjectsMenu() {
         initComponents();
         FillManagersList();
+     
     }
 
     public ProjectsMenu(ProjectsMenuController controller) {
@@ -142,7 +143,7 @@ public class ProjectsMenu extends javax.swing.JFrame {
         jButton6 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jTable1.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.gray, java.awt.Color.lightGray));
         jTable1.setForeground(new java.awt.Color(55, 55, 55));
@@ -297,7 +298,7 @@ public class ProjectsMenu extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
-
+      
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

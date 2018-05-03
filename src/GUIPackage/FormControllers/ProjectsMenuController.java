@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.sql.*;
 import java.util.List;
 import java.util.Set;
+import javax.swing.JFrame;
 
 public class ProjectsMenuController implements ActionListener {
     
@@ -33,6 +34,7 @@ public class ProjectsMenuController implements ActionListener {
         projectMenu.setVisible(true);
         RetrievePopulation();
 
+      
     }
 
     @Override
@@ -170,4 +172,6 @@ public class ProjectsMenuController implements ActionListener {
         
         return managers;
     }
+
+
 }
