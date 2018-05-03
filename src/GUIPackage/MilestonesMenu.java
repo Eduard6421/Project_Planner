@@ -36,12 +36,21 @@ public class MilestonesMenu extends javax.swing.JFrame {
     public MilestonesMenu(MilestonesMenuController controller) {
 
         initComponents();
+        
+        if (!GlobalData.getRoleTitle().equals("Admin") && !GlobalData.getRoleTitle().equals("Manager")) {
+            jButton3.setVisible(false);
+            jButton4.setVisible(false);
+            jButton7.setVisible(false);
+        }
+        else {
+            jButton3.addActionListener(controller);
+            jButton4.addActionListener(controller);
+            jButton7.addActionListener(controller);
+        }       
 
-        jButton3.addActionListener(controller);
-        jButton4.addActionListener(controller);
         jButton5.addActionListener(controller);
         jButton6.addActionListener(controller);
-        jButton7.addActionListener(controller);
+
         jLabel1.setText("<html>Project:<br>     - " + GlobalData.getProjectTitle() + "</html>");
     }
     
