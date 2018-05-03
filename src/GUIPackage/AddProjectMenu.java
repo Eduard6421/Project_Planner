@@ -42,7 +42,7 @@ public class AddProjectMenu extends javax.swing.JFrame {
 
     public void ShowSelectedProject()  {
 
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-d");
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
         Project project = parentController.GetSelectedProject();
 
         Date startDate = project.getStartDate();
