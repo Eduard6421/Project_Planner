@@ -5,6 +5,7 @@ import Controllers.UsersController;
 import GUIPackage.FormControllers.ProjectsMenuController;
 import Models.Project;
 import Models.User;
+import Utils.GlobalData;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,11 +31,18 @@ public class ProjectsMenu extends javax.swing.JFrame {
     public ProjectsMenu(ProjectsMenuController controller) {
         initComponents();
 
+        if (!GlobalData.getRoleTitle().equals("Admin") && !GlobalData.getRoleTitle().equals("Manager")) {
+            jButton3.setVisible(false);
+            jButton4.setVisible(false);
+            jButton5.setVisible(false);
+        }
+        else {
+            jButton3.addActionListener(controller);
+            jButton4.addActionListener(controller);
+            jButton5.addActionListener(controller);
+        }
         jButton1.addActionListener(controller);
-        jButton3.addActionListener(controller);
-        jButton4.addActionListener(controller);
         jButton6.addActionListener(controller);
-        jButton5.addActionListener(controller);
 
     }
 
