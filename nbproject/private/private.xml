@@ -5,10 +5,8 @@
         <group>
             <file>file:/D:/GitHub_Proiecte/Project_Planner/src/GUIPackage/ProjectsMenu.java</file>
             <file>file:/D:/GitHub_Proiecte/Project_Planner/src/GUIPackage/AddProjectMenu.java</file>
-            <file>file:/D:/GitHub_Proiecte/Project_Planner/src/GUIPackage/MilestonesMenu.java</file>
-            <file>file:/D:/GitHub_Proiecte/Project_Planner/src/GUIPackage/TasksMenu.java</file>
+            <file>file:/D:/GitHub_Proiecte/Project_Planner/src/GUIPackage/FormControllers/ProjectsMenuController.java</file>
             <file>file:/D:/GitHub_Proiecte/Project_Planner/src/GUIPackage/AddTaskMenu.java</file>
-            <file>file:/D:/GitHub_Proiecte/Project_Planner/src/GUIPackage/LoginMenu.java</file>
             <file>file:/D:/GitHub_Proiecte/Project_Planner/src/GUIPackage/AddMilestoneMenu.java</file>
         </group>
     </open-files>

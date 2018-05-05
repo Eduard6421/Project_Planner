@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -83,7 +84,11 @@ public class AddMilestoneMenu extends javax.swing.JFrame {
             String Description = jTextArea1.getText();
 
             tmp = new Milestone(projectId, Title, StartDate, EndDate, Description);
-            return tmp;
+             if (jTextField2.getText().trim().length() == 0 || jFormattedTextField1.getText().trim().length() == 0 || jFormattedTextField2.getText().trim().length() == 0 ||    jTextArea1.getText().trim().length() == 0 )
+            {    
+                JOptionPane.showMessageDialog(null, "Please Enter all fields");
+            }
+            else  return tmp;
 
         } catch (ParseException ex) {
             Logger.getLogger(AddMilestoneMenu.class.getName()).log(Level.SEVERE, null, ex);

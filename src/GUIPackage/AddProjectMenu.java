@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -78,7 +79,7 @@ public class AddProjectMenu extends javax.swing.JFrame {
         jButton2.addActionListener(parentController);
 
     }
-
+private AddProjectMenu addProjectMenu;
     public Project GetProject() {
 
         Project tmp;
@@ -100,7 +101,12 @@ public class AddProjectMenu extends javax.swing.JFrame {
             }
 
             tmp = new Project(managerId, jTextField2.getText(), jTextField3.getText(), startDate, endDate, budget, jTextArea1.getText());
-            return tmp;
+            //jtext4 , jformatedtext
+            if (jTextField2.getText().trim().length() == 0  || jTextField3.getText().trim().length() == 0 || jFormattedTextField1.getText().trim().length() == 0 || jFormattedTextField2.getText().trim().length() == 0 || jTextField4.getText().trim().isEmpty() ||    jTextArea1.getText().trim().length() == 0 )
+            {    
+                JOptionPane.showMessageDialog(null, "Please Enter all fields");
+            }
+            else  return tmp;
 
         } catch (Exception e) {
             System.out.println(e);
@@ -182,6 +188,12 @@ public class AddProjectMenu extends javax.swing.JFrame {
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
+            }
+        });
+
+        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField4ActionPerformed(evt);
             }
         });
 
@@ -280,11 +292,16 @@ public class AddProjectMenu extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jFormattedTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jFormattedTextField1ActionPerformed
+
+    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField4ActionPerformed
 
     /**
      * @param args the command line arguments

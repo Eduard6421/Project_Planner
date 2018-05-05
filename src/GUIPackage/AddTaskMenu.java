@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -121,7 +122,11 @@ public class AddTaskMenu extends javax.swing.JFrame {
 
             tmp = new Task(milestoneId, assignedToId, priorityId, Title, StartDate, EndDate, Description);
 
-            return tmp;
+            if ( jFormattedTextField1.getText().trim().length() == 0 || jFormattedTextField2.getText().trim().length() == 0 || jTextField4.getText().trim().isEmpty() ||    jTextArea1.getText().trim().length() == 0 )
+            {    
+                JOptionPane.showMessageDialog(null, "Please Enter all fields");
+            }
+            else  return tmp;
         } 
          catch (ParseException ex) {
             Logger.getLogger(AddTaskMenu.class.getName()).log(Level.SEVERE, null, ex);
