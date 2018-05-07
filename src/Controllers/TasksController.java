@@ -180,4 +180,21 @@ public class TasksController {
             System.out.println("Error: " + e);
         }
     }
+    
+    public static void FinishTask(int id) {
+        try {
+            String query = "UPDATE tasks "
+                    + "SET Finished = 1 "
+                    + "WHERE Id = ?";
+
+            PreparedStatement statement = conn.prepareStatement(query);
+
+            statement.setInt(1, id);
+
+            statement.executeUpdate();
+
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+    }
 }

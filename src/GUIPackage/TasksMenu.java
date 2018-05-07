@@ -15,6 +15,7 @@ import Models.User;
 import Utils.GlobalData;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
@@ -28,14 +29,16 @@ public class TasksMenu extends javax.swing.JFrame {
     private int lastSelected;
     private List<User> developers;
     private List<Priority> priorities;
+    private List<Task> tasks;
+    private List<Integer> tasksIds;
 
     /**
      * Creates new form TaskMenu
      */
     public List<Task> ShowPopulation() {
 
-        List<Task> tasks;
         tasks = TasksController.GetAllByMilestoneId(GlobalData.getMilestoneId());
+        tasksIds = new ArrayList<Integer>();
 
         DefaultTableModel tModel1 = (DefaultTableModel) jTable1.getModel();
         jTable1.setDefaultEditor(Object.class, null);
@@ -49,6 +52,8 @@ public class TasksMenu extends javax.swing.JFrame {
         
 
         for (int i = 0; i < tasks.size(); ++i) {
+            tasksIds.add(tasks.get(i).getId());
+            
             rowData[0] = tasks.get(i).getFinished();
             
             for (User developer : developers) {
@@ -74,7 +79,7 @@ public class TasksMenu extends javax.swing.JFrame {
     }
     
      public Task GetSelectedTask() {
-         lastSelected = jTable1.getSelectedRow();
+        lastSelected = jTable1.getSelectedRow();
 
         if (lastSelected < 0) {
             return null;
@@ -114,7 +119,7 @@ public class TasksMenu extends javax.swing.JFrame {
             Date startDate = format.parse(model.getValueAt(lastSelected, 4).toString());
             Date endDate = format.parse(model.getValueAt(lastSelected, 5).toString());
             
-            Task task = new Task(lastSelected+1, milestoneId, developerId, priorityId, taskTitle, startDate, endDate, description, finished);
+            Task task = new Task(tasksIds.get(lastSelected), milestoneId, developerId, priorityId, taskTitle, startDate, endDate, description, finished);
             return task;
 
         } catch (Exception e) {

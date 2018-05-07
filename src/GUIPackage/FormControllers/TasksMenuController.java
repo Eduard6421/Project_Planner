@@ -8,6 +8,7 @@ import GUIPackage.TasksMenu;
 import Models.Project;
 import Models.Task;
 import Models.User;
+import Utils.GlobalData;
 import Utils.MySQLConnector;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -81,9 +82,8 @@ public class TasksMenuController implements ActionListener {
                     ToggleFocus();
                     break;
                 case "Finish Task":
-                    int selectedIndex = tasksMenu.getLastSelected();
-                    System.out.println(selectedIndex);
-                    Task selectedTask = tasksMenu.GetSelectedTask();
+                    TryMarkTaskAsFinished();
+                    RetrievePopulation();
                     break;
                 default:
                     tasksMenu.setVisible(false);
@@ -148,5 +148,27 @@ public class TasksMenuController implements ActionListener {
         List<User> developers = UsersController.GetAll();
         
         return developers;
+    }
+    
+    public void TryMarkTaskAsFinished() {
+
+        Task selectedTask = tasksMenu.GetSelectedTask();
+        
+        Boolean canBeFinished = true;
+        
+        if (selectedTask.getFinished() == true) {
+            canBeFinished = false;
+        }
+        
+        if (GlobalData.getRoleTitle().equals("Employee") && GlobalData.getUserId() != selectedTask.getAssignedToId()) {
+            canBeFinished = false;
+        }
+        
+        if (canBeFinished) {
+            TasksController.FinishTask(selectedTask.getId()); 
+        }
+        else {
+            System.out.println("Can't finish selected task");
+        }    
     }
 }
