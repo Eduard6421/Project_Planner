@@ -3,6 +3,7 @@ package GUIPackage;
 import Controllers.ProjectsController;
 import Controllers.UsersController;
 import GUIPackage.FormControllers.ProjectsMenuController;
+import Models.Milestone;
 import Models.Project;
 import Models.User;
 import Utils.GlobalData;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import javafx.util.Pair;
 import javax.swing.table.DefaultTableModel;
 
 public class ProjectsMenu extends javax.swing.JFrame {
@@ -19,6 +21,8 @@ public class ProjectsMenu extends javax.swing.JFrame {
     
     private int lastSelected;
     private List<User> managers;
+    List<Project> projects;
+    List<Integer> projectsIds;
     
     /**
      * Creates new form ProjectMenu
@@ -58,16 +62,16 @@ public class ProjectsMenu extends javax.swing.JFrame {
 
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
-        String projectName = model.getValueAt(lastSelected, 0).toString();
-        String clientName = model.getValueAt(lastSelected, 1).toString();
-        String description = model.getValueAt(lastSelected, 6).toString();
+        String projectName = model.getValueAt(lastSelected, 1).toString();
+        String clientName = model.getValueAt(lastSelected, 2).toString();
+        String description = model.getValueAt(lastSelected, 7).toString();
 
-        Double budget = Double.parseDouble(model.getValueAt(lastSelected, 5).toString());
+        Double budget = Double.parseDouble(model.getValueAt(lastSelected, 6).toString());
 
         try {
-            Date startDate = format.parse(model.getValueAt(lastSelected, 3).toString());
-            Date endDate = format.parse(model.getValueAt(lastSelected, 4).toString());
-            Project project = new Project(lastSelected + 1, projectName, clientName, startDate, endDate, budget, description); 
+            Date startDate = format.parse(model.getValueAt(lastSelected, 4).toString());
+            Date endDate = format.parse(model.getValueAt(lastSelected, 5).toString());
+            Project project = new Project(projectsIds.get(lastSelected), projectName, clientName, startDate, endDate, budget, description); 
             return project;
 
         } catch (Exception e) {
@@ -80,10 +84,10 @@ public class ProjectsMenu extends javax.swing.JFrame {
 
     public List<Project> ShowPopulation() {
 
-        List<Project> projects;
         projects = ProjectsController.GetAll();
         
         FillManagersList();
+        projectsIds = new ArrayList<Integer>();
 
         DefaultTableModel tModel1 = (DefaultTableModel) jTable1.getModel();
         jTable1.setDefaultEditor(Object.class, null);
@@ -93,20 +97,29 @@ public class ProjectsMenu extends javax.swing.JFrame {
         }
         tModel1.setRowCount(0);
 
-        Object rowData[] = new Object[7];
+        Object rowData[] = new Object[8];
 
         for (int i = 0; i < projects.size(); ++i) {
-            rowData[0] = projects.get(i).getTitle();
-            rowData[1] = projects.get(i).getClientName();
+            projectsIds.add(projects.get(i).getId());
+            
+            Pair<Integer, Integer> taskStatus = ProjectsController.GetProjectStatus(projects.get(i).getId());
+            
+            rowData[0] = taskStatus.getValue().toString() + 
+                        " / " +
+                        taskStatus.getKey().toString() + 
+                        " tasks completed";
+            
+            rowData[1] = projects.get(i).getTitle();
+            rowData[2] = projects.get(i).getClientName();
             for (User manager : managers) {
                 if (projects.get(i).getManagerId() == manager.getId()) {
-                    rowData[2] = manager.getUsername();
+                    rowData[3] = manager.getUsername();
                 }
             }
-            rowData[3] = projects.get(i).getStartDate();
-            rowData[4] = projects.get(i).getEndDate();
-            rowData[5] = projects.get(i).getBudget();
-            rowData[6] = projects.get(i).getDescription();
+            rowData[4] = projects.get(i).getStartDate();
+            rowData[5] = projects.get(i).getEndDate();
+            rowData[6] = projects.get(i).getBudget();
+            rowData[7] = projects.get(i).getDescription();
 
             tModel1.addRow(rowData);
 
@@ -150,17 +163,17 @@ public class ProjectsMenu extends javax.swing.JFrame {
         jTable1.setForeground(new java.awt.Color(55, 55, 55));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Project Name", "Client", "Manager", "Start Date", "End Date", "Budget", "Description"
+                "Status", "Project Name", "Client", "Manager", "Start Date", "End Date", "Budget", "Description"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Double.class, java.lang.Object.class
+                java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Double.class, java.lang.Object.class
             };
 
             public Class getColumnClass(int columnIndex) {

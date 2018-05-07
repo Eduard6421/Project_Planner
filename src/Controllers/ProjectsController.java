@@ -6,6 +6,7 @@ import java.sql.*;
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
+import javafx.util.Pair;
 
 public class ProjectsController {
     
@@ -149,5 +150,34 @@ public class ProjectsController {
             System.out.println("Error: " + e);
         }
     }
-    
+ 
+    //Number of finished tasks/Number of tasks
+    public static Pair<Integer, Integer> GetProjectStatus(int id) {
+        try {
+            String query = "SELECT COUNT(t.Finished), " +
+                    "SUM(CASE WHEN t.Finished = 1 THEN 1 ELSE 0 END) " +
+                    "FROM projects p JOIN milestones m ON m.ProjectId = p.Id JOIN tasks t ON t.MilestoneId = m.Id " +
+                    "WHERE p.Id = ?";
+            
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, id);
+            
+            ResultSet result = statement.executeQuery();
+            
+            Pair<Integer, Integer> resultPair = null;
+            
+            while (result.next()) {
+                resultPair = new Pair<Integer, Integer>(result.getInt(1),
+                                                        result.getInt(2));
+            }
+            
+            statement.close();
+            
+            return resultPair;
+        }
+        catch (Exception e) {
+            System.out.println("Error: " + e);
+            return null;
+        }    
+    }
 }

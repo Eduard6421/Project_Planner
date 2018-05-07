@@ -172,9 +172,10 @@ public class MilestonesController {
     //Number of finished tasks/Number of tasks
     public static Pair<Integer, Integer> GetMilestoneStatus(int id) {
         try {
-            String query = "SELECT COUNT(Finished), " +
-                    "SUM(CASE WHEN Finished = 1 THEN 1 ELSE 0 END) " +
-                    "FROM tasks WHERE MilestoneId= ?";
+            String query = "SELECT COUNT(t.Finished), " +
+                    "SUM(CASE WHEN t.Finished = 1 THEN 1 ELSE 0 END) " +
+                    "FROM milestomes m JOIN tasks t ON t.MilestonId = m " + 
+                    "WHERE m.Id = ?";
             
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setInt(1, id);
