@@ -85,6 +85,10 @@ public class TasksMenuController implements ActionListener {
                     TryMarkTaskAsFinished();
                     RetrievePopulation();
                     break;
+                case "Mark Task as Open":
+                    TryMarkTaskAsOpen();
+                    RetrievePopulation();
+                    break;
                 default:
                     tasksMenu.setVisible(false);
                     tasksMenu.dispose();
@@ -170,5 +174,26 @@ public class TasksMenuController implements ActionListener {
         else {
             System.out.println("Can't finish selected task");
         }    
+    }
+    
+    public void TryMarkTaskAsOpen() {
+        Task selectedTask = tasksMenu.GetSelectedTask();
+        
+        Boolean canBeOpened = true;
+        
+        if (selectedTask.getFinished() == false) {
+            canBeOpened = false;
+        }
+        
+        if (GlobalData.getRoleTitle().equals("Employee") && GlobalData.getUserId() != selectedTask.getAssignedToId()) {
+            canBeOpened = false;
+        }
+        
+        if (canBeOpened) {
+            TasksController.OpenTask(selectedTask.getId()); 
+        }
+        else {
+            System.out.println("Can't open selected task");
+        } 
     }
 }
