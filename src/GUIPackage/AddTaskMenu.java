@@ -59,8 +59,8 @@ public class AddTaskMenu extends javax.swing.JFrame {
         SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-d");
         Task task = parentController.GetSelectedTask();
 
-        Date start_date = task.getStartDate();
-        Date end_date = task.getEndDate();
+        Date startDate = task.getStartDate();
+        Date endDate = task.getEndDate();
         
         int assignedToId = task.getAssignedToId();
         String developerUsername = null;
@@ -84,8 +84,8 @@ public class AddTaskMenu extends javax.swing.JFrame {
         jComboBox2.getModel().setSelectedItem(priorityTitle);
         jTextField4.setText(task.getTitle());
         jTextArea1.setText(task.getDescription());
-        jFormattedTextField1.setText(dateFormatter.format(start_date));
-        jFormattedTextField2.setText(dateFormatter.format(end_date));
+        jFormattedTextField1.setText(dateFormatter.format(startDate));
+        jFormattedTextField2.setText(dateFormatter.format(endDate));
 
     }
       
@@ -120,7 +120,7 @@ public class AddTaskMenu extends javax.swing.JFrame {
                 }
             }
 
-            tmp = new Task(milestoneId, assignedToId, priorityId, Title, StartDate, EndDate, Description);
+            tmp = new Task(milestoneId, assignedToId, priorityId, Title, StartDate, EndDate, Description, false);
 
             if ( jFormattedTextField1.getText().trim().length() == 0 || jFormattedTextField2.getText().trim().length() == 0 || jTextField4.getText().trim().isEmpty() ||    jTextArea1.getText().trim().length() == 0 )
             {    

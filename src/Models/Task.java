@@ -11,8 +11,9 @@ public class Task extends Entity {
     private String Description;
     private Date StartDate;
     private Date EndDate;
+    private Boolean Finished;
 
-    public Task(int id, int milestoneId, int assignedToId, int priorityId, String title, Date startDate, Date endDate, String description) {
+    public Task(int id, int milestoneId, int assignedToId, int priorityId, String title, Date startDate, Date endDate, String description, Boolean finished) {
         Id = id;
         MilestoneId = milestoneId;
         AssignedToId = assignedToId;
@@ -21,9 +22,10 @@ public class Task extends Entity {
         StartDate = startDate;
         EndDate = endDate;
         Description = description;
+        Finished = finished;
     }
 
-    public Task(int milestoneId, int assignedToId, int priorityId, String title, Date startDate, Date endDate, String description) {
+    public Task(int milestoneId, int assignedToId, int priorityId, String title, Date startDate, Date endDate, String description, Boolean finished) {
         MilestoneId = milestoneId;
         AssignedToId = assignedToId;
         PriorityId = priorityId;
@@ -31,6 +33,7 @@ public class Task extends Entity {
         StartDate = startDate;
         EndDate = endDate;
         Description = description;
+        Finished = finished;
     }
 
     public void setMilestoneId(int milestoneId) {
@@ -60,6 +63,10 @@ public class Task extends Entity {
     public void setDescription(String description) {
         Description = description;
     }
+    
+    public void setFinished(Boolean finished) {
+        Finished = finished;
+    }
 
     public int getMilestoneId() {
         return MilestoneId;
@@ -87,5 +94,9 @@ public class Task extends Entity {
 
     public String getDescription() {
         return Description;
+    }
+    
+    public Boolean getFinished() {
+        return Finished;
     }
 }

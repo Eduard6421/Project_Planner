@@ -34,7 +34,8 @@ public class TasksController {
                         result.getString("Title"),
                         result.getDate("StartDate"),
                         result.getDate("EndDate"),
-                        result.getString("Description"));
+                        result.getString("Description"),
+                        result.getBoolean("Finished"));
             }
 
             statement.close();
@@ -63,7 +64,8 @@ public class TasksController {
                         result.getString("Title"),
                         result.getDate("StartDate"),
                         result.getDate("EndDate"),
-                        result.getString("Description"));
+                        result.getString("Description"),
+                        result.getBoolean("Finished"));
                 tasks.add(task);
             }
 
@@ -94,7 +96,8 @@ public class TasksController {
                         result.getString("Title"),
                         result.getDate("StartDate"),
                         result.getDate("EndDate"),
-                        result.getString("Description"));
+                        result.getString("Description"),
+                        result.getBoolean("Finished"));
                 tasks.add(task);
             }
 
@@ -138,7 +141,7 @@ public class TasksController {
 
         try {
             String query = "UPDATE tasks "
-                    + "SET MilestoneId = ?, AssignedToId = ?, PriorityId = ?, Title = ?, StartDate = ?, EndDate = ?, Description = ? "
+                    + "SET MilestoneId = ?, AssignedToId = ?, PriorityId = ?, Title = ?, StartDate = ?, EndDate = ?, Description = ?, Finished = ? "
                     + "WHERE Id = ?";
 
             PreparedStatement statement = conn.prepareStatement(query);
@@ -150,7 +153,8 @@ public class TasksController {
             statement.setDate(5, new java.sql.Date(task.getStartDate().getTime()));
             statement.setDate(6, new java.sql.Date(task.getEndDate().getTime()));
             statement.setString(7, task.getDescription());
-            statement.setInt(8, task.getId());
+            statement.setBoolean(8, task.getFinished());
+            statement.setInt(9, task.getId());
 
             statement.executeUpdate();
 

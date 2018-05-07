@@ -28,6 +28,15 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jLabel1" min="-2" pref="165" max="-2" attributes="0"/>
+                          <Component id="jLabel2" min="-2" pref="165" max="-2" attributes="0"/>
+                          <Component id="jLabel3" min="-2" pref="171" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="jScrollPane1" alignment="0" pref="1363" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Component id="jButton4" max="32767" attributes="0"/>
                               <EmptySpace min="-2" pref="629" max="-2" attributes="0"/>
@@ -35,23 +44,17 @@
                               <EmptySpace min="-2" max="-2" attributes="0"/>
                               <Component id="jButton1" max="32767" attributes="0"/>
                               <EmptySpace min="-2" max="-2" attributes="0"/>
-                              <Component id="jButton3" max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="finishTaskButton" alignment="1" max="32767" attributes="0"/>
+                                  <Component id="jButton3" max="32767" attributes="0"/>
+                              </Group>
                           </Group>
-                          <Component id="jScrollPane1" pref="1363" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jLabel1" min="-2" pref="165" max="-2" attributes="0"/>
-                          <Component id="jLabel2" min="-2" pref="165" max="-2" attributes="0"/>
-                          <Component id="jLabel3" min="-2" pref="171" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                  </Group>
               </Group>
           </Group>
-          <Group type="102" alignment="0" attributes="0">
+          <Group type="102" attributes="0">
               <EmptySpace min="-2" pref="82" max="-2" attributes="0"/>
               <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -78,7 +81,9 @@
                   <Component id="jButton4" alignment="3" pref="46" max="32767" attributes="0"/>
                   <Component id="jButton3" alignment="3" pref="46" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="finishTaskButton" pref="46" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -105,7 +110,8 @@
               <Color blue="37" green="37" red="37" type="rgb"/>
             </Property>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="6" rowCount="4">
+              <Table columnCount="7" rowCount="4">
+                <Column editable="false" title="Finished" type="java.lang.Boolean"/>
                 <Column editable="true" title="Developer" type="java.lang.Object"/>
                 <Column editable="true" title="Priority" type="java.lang.Object"/>
                 <Column editable="true" title="Title" type="java.lang.Object"/>
@@ -117,6 +123,11 @@
             <Property name="toolTipText" type="java.lang.String" value=""/>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
               <TableColumnModel selectionModel="0">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
                 <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                   <Title/>
                   <Editor/>
@@ -220,6 +231,14 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="* Date format is yyyy-mm-dd"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="finishTaskButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Finish Task"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="finishTaskButtonActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

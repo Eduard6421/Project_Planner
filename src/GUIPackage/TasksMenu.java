@@ -45,23 +45,26 @@ public class TasksMenu extends javax.swing.JFrame {
         }
         tModel1.setRowCount(0);
 
-        Object rowData[] = new Object[6];
+        Object rowData[] = new Object[7];
+        
 
         for (int i = 0; i < tasks.size(); ++i) {
+            rowData[0] = tasks.get(i).getFinished();
+            
             for (User developer : developers) {
                 if (tasks.get(i).getAssignedToId() == developer.getId()) {
-                    rowData[0] = developer.getUsername();
+                    rowData[1] = developer.getUsername();
                 }
             }
             for (Priority priority : priorities) {
                 if (tasks.get(i).getPriorityId() == priority.getId()) {
-                    rowData[1] = priority.getTitle();
+                    rowData[2] = priority.getTitle();
                 }
             }            
-            rowData[2] = tasks.get(i).getTitle(); 
-            rowData[3] = tasks.get(i).getStartDate();
-            rowData[4] = tasks.get(i).getEndDate();
-            rowData[5] = tasks.get(i).getDescription();
+            rowData[3] = tasks.get(i).getTitle(); 
+            rowData[4] = tasks.get(i).getStartDate();
+            rowData[5] = tasks.get(i).getEndDate();
+            rowData[6] = tasks.get(i).getDescription();
             tModel1.addRow(rowData);
 
         }
@@ -81,11 +84,12 @@ public class TasksMenu extends javax.swing.JFrame {
 
         DateFormat format = new SimpleDateFormat("yyyy-MM-d");
 
+        Boolean finished = (Boolean)model.getValueAt(lastSelected, 0);
         
         int milestoneId = GlobalData.getMilestoneId();
         
         int developerId = 0;
-        String developerUsername = model.getValueAt(lastSelected, 0).toString();
+        String developerUsername = model.getValueAt(lastSelected, 1).toString();
         
         for (User developer : developers) {
             if (developerUsername.equals(developer.getUsername())) {
@@ -94,7 +98,7 @@ public class TasksMenu extends javax.swing.JFrame {
         }
         
         int priorityId = 0;
-        String priorityTitle = model.getValueAt(lastSelected, 1).toString();
+        String priorityTitle = model.getValueAt(lastSelected, 2).toString();
         
         for (Priority priority : priorities) {
             if (priorityTitle.equals(priority.getTitle())) {
@@ -102,15 +106,15 @@ public class TasksMenu extends javax.swing.JFrame {
             }
         }
         
-        String taskTitle   = model.getValueAt(lastSelected, 2).toString();
-        String description = model.getValueAt(lastSelected, 5).toString();
+        String taskTitle   = model.getValueAt(lastSelected, 3).toString();
+        String description = model.getValueAt(lastSelected, 6).toString();
 
 
         try {
-            Date startDate = format.parse(model.getValueAt(lastSelected, 3).toString());
-            Date endDate = format.parse(model.getValueAt(lastSelected, 4).toString());
+            Date startDate = format.parse(model.getValueAt(lastSelected, 4).toString());
+            Date endDate = format.parse(model.getValueAt(lastSelected, 5).toString());
             
-            Task task = new Task(lastSelected+1, milestoneId, developerId, priorityId, taskTitle, startDate, endDate, description);
+            Task task = new Task(lastSelected+1, milestoneId, developerId, priorityId, taskTitle, startDate, endDate, description, finished);
             return task;
 
         } catch (Exception e) {
@@ -142,6 +146,7 @@ public class TasksMenu extends javax.swing.JFrame {
         } 
 
         jButton4.addActionListener(controller);
+        finishTaskButton.addActionListener(controller);
         
         jLabel2.setText("<html>Project:<br>     - " + GlobalData.getProjectTitle() + "</html>");
         jLabel1.setText("<html>Milestone:<br>     - " + GlobalData.getMilestoneTitle() + "</html>");
@@ -177,6 +182,7 @@ public class TasksMenu extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
+        finishTaskButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -184,15 +190,30 @@ public class TasksMenu extends javax.swing.JFrame {
         jTable1.setForeground(new java.awt.Color(55, 55, 55));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Developer", "Priority", "Title", "Start Date", "End Date", "Description"
+                "Finished", "Developer", "Priority", "Title", "Start Date", "End Date", "Description"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true, true, true, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jTable1.setToolTipText("");
         jScrollPane1.setViewportView(jTable1);
 
@@ -239,6 +260,13 @@ public class TasksMenu extends javax.swing.JFrame {
 
         jLabel11.setText("* Date format is yyyy-mm-dd");
 
+        finishTaskButton.setText("Finish Task");
+        finishTaskButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                finishTaskButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -248,6 +276,13 @@ public class TasksMenu extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 1363, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(629, 629, 629)
@@ -255,15 +290,10 @@ public class TasksMenu extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1363, Short.MAX_VALUE))
-                        .addGap(30, 30, 30))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(finishTaskButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(30, 30, 30))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(82, 82, 82)
                 .addComponent(jLabel11)
@@ -288,7 +318,9 @@ public class TasksMenu extends javax.swing.JFrame {
                     .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
                     .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
                     .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE))
-                .addGap(50, 50, 50))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(finishTaskButton, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
+                .addGap(17, 17, 17))
         );
 
         pack();
@@ -310,6 +342,10 @@ public class TasksMenu extends javax.swing.JFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void finishTaskButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_finishTaskButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_finishTaskButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -348,6 +384,7 @@ public class TasksMenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton finishTaskButton;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;

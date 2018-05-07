@@ -80,7 +80,11 @@ public class TasksMenuController implements ActionListener {
                     addTask.FillPrioritiesComboBox();
                     ToggleFocus();
                     break;
-
+                case "Finish Task":
+                    int selectedIndex = tasksMenu.getLastSelected();
+                    System.out.println(selectedIndex);
+                    Task selectedTask = tasksMenu.GetSelectedTask();
+                    break;
                 default:
                     tasksMenu.setVisible(false);
                     tasksMenu.dispose();
