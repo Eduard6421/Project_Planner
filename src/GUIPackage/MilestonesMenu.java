@@ -42,6 +42,11 @@ public class MilestonesMenu extends javax.swing.JFrame {
             jButton4.setVisible(false);
             jButton7.setVisible(false);
         }
+        else if (GlobalData.getRoleTitle().equals("Manager")) {
+            jButton7.setVisible(false);
+            jButton3.addActionListener(controller);
+            jButton4.addActionListener(controller);
+        }
         else {
             jButton3.addActionListener(controller);
             jButton4.addActionListener(controller);

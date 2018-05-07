@@ -32,7 +32,7 @@ public class ProjectsMenu extends javax.swing.JFrame {
     public ProjectsMenu(ProjectsMenuController controller) {
         initComponents();
 
-        if (!GlobalData.getRoleTitle().equals("Admin") && !GlobalData.getRoleTitle().equals("Manager")) {
+        if (!GlobalData.getRoleTitle().equals("Admin")) {
             jButton3.setVisible(false);
             jButton4.setVisible(false);
             jButton5.setVisible(false);
