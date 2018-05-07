@@ -12,8 +12,10 @@ import Models.Project;
 import Utils.GlobalData;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javafx.util.Pair;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -28,6 +30,9 @@ public class MilestonesMenu extends javax.swing.JFrame {
     
     
     private int lastSelected;
+    
+    List<Milestone> milestones;
+    List<Integer> milestonesIds;
     
     public MilestonesMenu() {
         initComponents();
@@ -70,15 +75,15 @@ public class MilestonesMenu extends javax.swing.JFrame {
 
         DateFormat format = new SimpleDateFormat("yyyy-MM-d");
 
-        String MilestoneTitle = model.getValueAt(lastSelected, 0).toString();
-        String Description = model.getValueAt(lastSelected, 3).toString();
+        String MilestoneTitle = model.getValueAt(lastSelected, 1).toString();
+        String Description = model.getValueAt(lastSelected, 4).toString();
         
         int projectId = GlobalData.getProjectId();
 
         try {
-            Date StartDate = format.parse(model.getValueAt(lastSelected, 1).toString());
-            Date EndDate = format.parse(model.getValueAt(lastSelected, 2).toString());
-            Milestone milestone = new Milestone(lastSelected+1, projectId, MilestoneTitle, StartDate, EndDate, Description); // I need to have here the project_id and milestone_id
+            Date StartDate = format.parse(model.getValueAt(lastSelected, 2).toString());
+            Date EndDate = format.parse(model.getValueAt(lastSelected, 3).toString());
+            Milestone milestone = new Milestone(milestonesIds.get(lastSelected), projectId, MilestoneTitle, StartDate, EndDate, Description); 
             return milestone;
 
         } catch (Exception e) {
@@ -91,8 +96,8 @@ public class MilestonesMenu extends javax.swing.JFrame {
 
     public List<Milestone> ShowPopulation() {
 
-        List<Milestone> milestones;
         milestones = MilestonesController.GetAllByProjectId(GlobalData.getProjectId());
+        milestonesIds = new ArrayList<Integer>();
 
         DefaultTableModel tModel1 = (DefaultTableModel) jTable1.getModel();
         jTable1.setDefaultEditor(Object.class, null);
@@ -105,10 +110,18 @@ public class MilestonesMenu extends javax.swing.JFrame {
         Object rowData[] = new Object[5];
 
         for (int i = 0; i < milestones.size(); ++i) {
-            rowData[0] = milestones.get(i).getTitle();
-            rowData[1] = milestones.get(i).getStartDate();
-            rowData[2] = milestones.get(i).getEndDate();
-            rowData[3] = milestones.get(i).getDescription();
+            milestonesIds.add(milestones.get(i).getId());
+            
+            Pair<Integer, Integer> milestoneStatus = MilestonesController.GetMilestoneStatus(milestones.get(i).getId());
+            
+            rowData[0] = milestoneStatus.getValue().toString() + 
+                        " / " +
+                        milestoneStatus.getKey().toString() + 
+                        " tasks completed";
+            rowData[1] = milestones.get(i).getTitle();
+            rowData[2] = milestones.get(i).getStartDate();
+            rowData[3] = milestones.get(i).getEndDate();
+            rowData[4] = milestones.get(i).getDescription();
 
             tModel1.addRow(rowData);
 
@@ -151,17 +164,17 @@ public class MilestonesMenu extends javax.swing.JFrame {
         jTable1.setForeground(new java.awt.Color(55, 55, 55));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title", "Start Date", "End Date", "Description"
+                "Status", "Title", "Start Date", "End Date", "Description"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -170,6 +183,10 @@ public class MilestonesMenu extends javax.swing.JFrame {
         });
         jTable1.setToolTipText("");
         jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(3).setResizable(false);
+        }
 
         jButton3.setText("Delete Milestone");
 
