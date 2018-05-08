@@ -97,8 +97,12 @@ public class AddTaskMenu extends javax.swing.JFrame {
         
         try {
             int milestoneId = GlobalData.getMilestoneId();
-            Date StartDate = dateFormatter.parse(jFormattedTextField1.getText());
-            Date EndDate = dateFormatter.parse(jFormattedTextField2.getText());
+            Date startDate = dateFormatter.parse(jFormattedTextField1.getText());
+            Date endDate = dateFormatter.parse(jFormattedTextField2.getText());
+            if (startDate.after(endDate)) {
+                JOptionPane.showMessageDialog(null, "Start Date is greater than End Date.");
+                return null;
+            }
             String Title = jTextField4.getText();
             String Description = jTextArea1.getText();
             String developerUsername = jComboBox1.getSelectedItem().toString();
@@ -120,7 +124,7 @@ public class AddTaskMenu extends javax.swing.JFrame {
                 }
             }
 
-            tmp = new Task(milestoneId, assignedToId, priorityId, Title, StartDate, EndDate, Description, false);
+            tmp = new Task(milestoneId, assignedToId, priorityId, Title, startDate, endDate, Description, false);
 
             if ( jFormattedTextField1.getText().trim().length() == 0 || jFormattedTextField2.getText().trim().length() == 0 || jTextField4.getText().trim().isEmpty() ||    jTextArea1.getText().trim().length() == 0 )
             {    

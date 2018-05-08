@@ -118,8 +118,10 @@ public class MilestonesMenuController implements ActionListener {
                 case "Insert":
                     addMilestoneMenu.setVisible(false);
                     addMilestoneMenu.dispose();
-                    Milestone new_milestone = addMilestoneMenu.GetMilestone();
-                    MilestonesController.Create(new_milestone);
+                    Milestone newMilestone = addMilestoneMenu.GetMilestone();
+                    if (newMilestone != null) {
+                        MilestonesController.Create(newMilestone);   
+                    }
                     ToggleFocus();
                     RetrievePopulation();
 

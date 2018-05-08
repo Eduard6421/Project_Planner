@@ -110,7 +110,9 @@ public class TasksMenuController implements ActionListener {
                     addTask.setVisible(false);
                     addTask.dispose();
                     Task newTask = addTask.GetTask();
-                    TasksController.Create(newTask);
+                    if (newTask != null) {
+                        TasksController.Create(newTask);   
+                    }
                     ToggleFocus();
                     RetrievePopulation();
 

@@ -11,8 +11,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
 import java.util.List;
-import java.util.Set;
-import javax.swing.JFrame;
 
 public class ProjectsMenuController implements ActionListener {
     
@@ -120,8 +118,10 @@ public class ProjectsMenuController implements ActionListener {
                 case "Insert":
                     addProjectMenu.setVisible(false);
                     addProjectMenu.dispose();
-                    Project new_project = addProjectMenu.GetProject();
-                    ProjectsController.Create(new_project);
+                    Project newProject = addProjectMenu.GetProject();
+                    if (newProject != null) {
+                        ProjectsController.Create(newProject);   
+                    }
                     ToggleFocus();
                     RetrievePopulation();
 

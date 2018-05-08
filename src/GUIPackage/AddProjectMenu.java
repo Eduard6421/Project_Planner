@@ -79,7 +79,7 @@ public class AddProjectMenu extends javax.swing.JFrame {
         jButton2.addActionListener(parentController);
 
     }
-private AddProjectMenu addProjectMenu;
+
     public Project GetProject() {
 
         Project tmp;
@@ -89,6 +89,10 @@ private AddProjectMenu addProjectMenu;
 
             Date startDate = dateFormatter.parse(jFormattedTextField1.getText());
             Date endDate   = dateFormatter.parse(jFormattedTextField2.getText());
+            if (startDate.after(endDate)) {
+                JOptionPane.showMessageDialog(null, "Start Date is greater than End Date.");
+                return null;
+            }
             double budget = Double.parseDouble(jTextField4.getText());
             String managerUsername = jComboBox1.getSelectedItem().toString();
             

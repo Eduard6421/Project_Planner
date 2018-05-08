@@ -77,13 +77,17 @@ public class AddMilestoneMenu extends javax.swing.JFrame {
 
             int projectId = GlobalData.getProjectId();
 
-            Date StartDate = dateFormatter.parse(jFormattedTextField1.getText());
-            Date EndDate = dateFormatter.parse(jFormattedTextField2.getText());
+            Date startDate = dateFormatter.parse(jFormattedTextField1.getText());
+            Date endDate = dateFormatter.parse(jFormattedTextField2.getText());
+            if (startDate.after(endDate)) {
+                JOptionPane.showMessageDialog(null, "Start Date is greater than End Date.");
+                return null;
+            }
 
             String Title = jTextField2.getText();
             String Description = jTextArea1.getText();
 
-            tmp = new Milestone(projectId, Title, StartDate, EndDate, Description);
+            tmp = new Milestone(projectId, Title, startDate, endDate, Description);
              if (jTextField2.getText().trim().length() == 0 || jFormattedTextField1.getText().trim().length() == 0 || jFormattedTextField2.getText().trim().length() == 0 ||    jTextArea1.getText().trim().length() == 0 )
             {    
                 JOptionPane.showMessageDialog(null, "Please Enter all fields");
