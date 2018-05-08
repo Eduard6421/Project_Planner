@@ -174,8 +174,8 @@ public class MilestonesController {
         try {
             String query = "SELECT COUNT(t.Finished), " +
                     "SUM(CASE WHEN t.Finished = 1 THEN 1 ELSE 0 END) " +
-                    "FROM milestomes m JOIN tasks t ON t.MilestonId = m " + 
-                    "WHERE m.Id = ?";
+                    "FROM milestones m JOIN tasks t ON t.MilestoneId = m.Id " + 
+                    "WHERE m.Id = (?)";
             
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setInt(1, id);
