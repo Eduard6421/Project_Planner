@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import javafx.util.Pair;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class ProjectsMenu extends javax.swing.JFrame {
@@ -48,6 +49,9 @@ public class ProjectsMenu extends javax.swing.JFrame {
         }
         jButton1.addActionListener(controller);
         jButton6.addActionListener(controller);
+        
+        jButton7.addActionListener(controller);
+        jButton8.addActionListener(controller);
 
     }
 
@@ -127,6 +131,70 @@ public class ProjectsMenu extends javax.swing.JFrame {
         
         return projects;     
     }
+    
+    public List<Project> ShowPopulationBetweenDates() {
+
+        Date startDate;
+        Date endDate;
+        try  {
+            SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-d");
+            startDate = dateFormatter.parse(jFormattedTextField1.getText());
+            endDate = dateFormatter.parse(jFormattedTextField2.getText());
+        }
+        catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
+        
+        if (startDate.after(endDate)) {
+            JOptionPane.showMessageDialog(null, "Start Date is greater than End Date.");
+            projects = ProjectsController.GetAll();
+        }
+        else {
+            projects = ProjectsController.GetAllBetweenDates(startDate, endDate);
+        }
+        
+        FillManagersList();
+        projectsIds = new ArrayList<Integer>();
+
+        DefaultTableModel tModel1 = (DefaultTableModel) jTable1.getModel();
+        jTable1.setDefaultEditor(Object.class, null);
+
+        while (tModel1.getRowCount() > 0) {
+            tModel1.removeRow(0);
+        }
+        tModel1.setRowCount(0);
+
+        Object rowData[] = new Object[8];
+
+        for (int i = 0; i < projects.size(); ++i) {
+            projectsIds.add(projects.get(i).getId());
+            
+            Pair<Integer, Integer> taskStatus = ProjectsController.GetProjectStatus(projects.get(i).getId());
+            
+            rowData[0] = taskStatus.getValue().toString() + 
+                        " / " +
+                        taskStatus.getKey().toString() + 
+                        " tasks completed";
+            
+            rowData[1] = projects.get(i).getTitle();
+            rowData[2] = projects.get(i).getClientName();
+            for (User manager : managers) {
+                if (projects.get(i).getManagerId() == manager.getId()) {
+                    rowData[3] = manager.getUsername();
+                }
+            }
+            rowData[4] = projects.get(i).getStartDate();
+            rowData[5] = projects.get(i).getEndDate();
+            rowData[6] = projects.get(i).getBudget();
+            rowData[7] = projects.get(i).getDescription();
+
+            tModel1.addRow(rowData);
+
+        }
+        
+        return projects;     
+    }
 
     public int getLastSelectedId() {
         lastSelected = jTable1.getSelectedRow();
@@ -156,6 +224,12 @@ public class ProjectsMenu extends javax.swing.JFrame {
         jButton6 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
+        jFormattedTextField1 = new javax.swing.JFormattedTextField();
+        jFormattedTextField2 = new javax.swing.JFormattedTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jButton7 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -223,6 +297,32 @@ public class ProjectsMenu extends javax.swing.JFrame {
 
         jLabel11.setText("* Date format is yyyy-mm-dd");
 
+        jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("yyyy-MM-dd"))));
+        jFormattedTextField1.setDoubleBuffered(true);
+
+        jFormattedTextField2.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("yyyy-MM-dd"))));
+        jFormattedTextField2.setDoubleBuffered(true);
+
+        jLabel1.setText("End Date: ");
+
+        jLabel2.setText("Start Date: ");
+
+        jButton7.setText("Get Projects Between");
+        jButton7.setAutoscrolls(true);
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
+        jButton8.setText("Get All Projects");
+        jButton8.setAutoscrolls(true);
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -233,10 +333,10 @@ public class ProjectsMenu extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
                                 .addGap(560, 560, 560)
                                 .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
@@ -245,12 +345,27 @@ public class ProjectsMenu extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)))
+                                .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(763, 763, 763)
+                                .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(24, 24, 24)
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(53, 53, 53))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(104, 104, 104)
                 .addComponent(jLabel11)
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(233, 233, 233))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -268,7 +383,16 @@ public class ProjectsMenu extends javax.swing.JFrame {
                     .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
                     .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
                     .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE))
-                .addGap(42, 42, 42))
+                .addGap(14, 14, 14)
+                .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE))
+                .addGap(19, 19, 19))
         );
 
         pack();
@@ -295,6 +419,14 @@ public class ProjectsMenu extends javax.swing.JFrame {
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton8ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -338,7 +470,13 @@ public class ProjectsMenu extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
+    private javax.swing.JFormattedTextField jFormattedTextField1;
+    private javax.swing.JFormattedTextField jFormattedTextField2;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;

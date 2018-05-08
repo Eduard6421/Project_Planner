@@ -30,9 +30,7 @@ public class ProjectsMenuController implements ActionListener {
 
         projectMenu = new ProjectsMenu(this);
         projectMenu.setVisible(true);
-        RetrievePopulation();
-
-      
+        RetrievePopulation();   
     }
 
     @Override
@@ -105,6 +103,13 @@ public class ProjectsMenuController implements ActionListener {
                     projectMenu.setVisible(false);
                     projectMenu.dispose();
                     parentController.SetWindowVisible();
+                    break;
+                case "Get All Projects":
+                    RetrievePopulation();
+                    break;
+                case "Get Projects Between":
+                    RetrievePopulationBetweenDates();
+                    break;
             }
         } else {
             switch (command) {
@@ -142,6 +147,10 @@ public class ProjectsMenuController implements ActionListener {
 
     public final void RetrievePopulation() {
         projectsList = projectMenu.ShowPopulation();
+    }
+    
+    public final void RetrievePopulationBetweenDates() {
+        projectsList = projectMenu.ShowPopulationBetweenDates();
     }
 
     public Project GetSelectedProject() {
