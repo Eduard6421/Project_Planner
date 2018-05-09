@@ -1,6 +1,8 @@
 package Models;
 
-public class User extends Entity {
+import java.io.Serializable;
+
+public class User extends Entity implements Serializable {
 
     private int RoleId;
     private String Username;

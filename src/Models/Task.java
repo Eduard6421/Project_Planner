@@ -1,8 +1,9 @@
 package Models;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Task extends Entity {
+public class Task extends Entity implements Serializable {
 
     private int MilestoneId;
     private int AssignedToId;

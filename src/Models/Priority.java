@@ -1,6 +1,8 @@
 package Models;
 
-public class Priority extends Entity {
+import java.io.Serializable;
+
+public class Priority extends Entity implements Serializable {
 
     private String Title;
 

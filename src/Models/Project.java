@@ -1,8 +1,9 @@
 package Models;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Project extends Entity {
+public class Project extends Entity implements Serializable{
 
     private int ManagerId;
     private String Title;
