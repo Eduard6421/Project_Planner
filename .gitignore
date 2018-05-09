@@ -1,1 +1,4 @@
 /dist/
+/ProjectPlanner_Client/build/
+/ProjectPlanner_Client/nbproject/private/
+/ProjectPlanner_Server/nbproject/private/
