@@ -1,10 +1,13 @@
 package Controllers;
 
 import Models.*;
+import Server.Server;
 import Utils.*;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.sql.*;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -15,7 +18,48 @@ public class ProjectsController {
     
     private static final Connection conn = MySQLConnector.getConnection();
     
-    public static Project GetById(int id) {
+    public static void callGetById() throws IOException {
+        int id = Server.receiveInt();
+        
+        getById(id);
+    }
+    
+    public static void callGetAll() {
+        getAll();
+    }
+    
+    public static void callGetAllBetweenDates() throws IOException, ParseException {
+        Date startDate = Server.receiveDate();
+        Date endDate = Server.receiveDate();
+        
+        getAllBetweenDates(startDate, endDate);
+    }
+    
+    public static void callCreate() throws IOException, ClassNotFoundException {
+        Project project = (Project) Server.receiveObject();
+        
+        create(project);
+    }
+    
+    public static void callUpdate() throws IOException, ClassNotFoundException {
+        Project project = (Project) Server.receiveObject();
+        
+        update(project);
+    }
+    
+    public static void callDeleteById() throws IOException {
+        int id = Server.receiveInt();
+        
+        deleteById(id);
+    }
+    
+    public static void callGetProjectStatusById() throws IOException {
+        int id = Server.receiveInt();
+        
+        getProjectStatusById(id);
+    }
+    
+    public static Project getById(int id) {
         
         Project project = null;
         
@@ -47,7 +91,7 @@ public class ProjectsController {
         return project;
     }
     
-    public static List<Project> GetAll() {
+    public static List<Project> getAll() {
         
         List<Project> projects = new ArrayList<>();
         
@@ -82,7 +126,7 @@ public class ProjectsController {
         return projects;
     }
     
-        public static List<Project> GetAllBetweenDates(Date startDate, Date endDate) {
+        public static List<Project> getAllBetweenDates(Date startDate, Date endDate) {
         
         List<Project> projects = new ArrayList<>();
         
@@ -121,7 +165,7 @@ public class ProjectsController {
         return projects;
     }
     
-    public static Project Create(Project project) {
+    public static Project create(Project project) {
         
         try {
             String query = "INSERT INTO projects " +
@@ -150,7 +194,7 @@ public class ProjectsController {
         return project;
     }
     
-    public static Project Update(Project project) {
+    public static Project update(Project project) {
         
         try {
             String query = "UPDATE projects " + 
@@ -178,7 +222,7 @@ public class ProjectsController {
     }
     
     
-    public static void DeleteById(int id)
+    public static void deleteById(int id)
     {
         
         
@@ -198,7 +242,7 @@ public class ProjectsController {
     }
  
     //Number of finished tasks/Number of tasks
-    public static Pair<Integer, Integer> GetProjectStatus(int id) {
+    public static Pair<Integer, Integer> getProjectStatusById(int id) {
         try {
             String query = "SELECT COUNT(t.Finished), " +
                     "SUM(CASE WHEN t.Finished = 1 THEN 1 ELSE 0 END) " +
