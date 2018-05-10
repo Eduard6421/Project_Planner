@@ -32,7 +32,7 @@ public class Server {
     private static Boolean isUp = false;
     
     
-    public static void startServer() throws IOException, ParseException, ParseException, ClassNotFoundException {
+    public static void startServer() throws IOException, ParseException, ParseException, ClassNotFoundException, ClassNotFoundException {
         if (isUp == false) {
             serverSocket = new ServerSocket(port);
             System.out.println("Server started!");
