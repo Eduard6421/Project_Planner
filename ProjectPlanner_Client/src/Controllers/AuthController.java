@@ -1,5 +1,6 @@
 package Controllers;
 
+import Client.Client;
 import Utils.*;
 import java.sql.*;
 
