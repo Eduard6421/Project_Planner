@@ -115,7 +115,7 @@ public class Server {
             
             switch (controller) {
                 case "Auth":
-                    if (method.equals("LogIn")) {
+                    if (method.equals("logIn")) {
                         AuthController.callLogIn();
                     }
                     break;
