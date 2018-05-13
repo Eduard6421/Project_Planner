@@ -6,8 +6,10 @@ import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 import java.text.ParseException;
 import java.util.Date;
@@ -20,8 +22,6 @@ public class Client {
     private static int port = 1080;
     private static String address = "localhost";
     
-    private static DataInputStream dataIS = null; 
-    private static DataOutputStream dataOS = null;
     private static ObjectInputStream objectIS = null;
     private static ObjectOutputStream objectOS = null;
     
@@ -32,11 +32,10 @@ public class Client {
         if (isUp == false) {        
             System.out.println("Client started!");
             socket = new Socket(address, port);
-        
-            dataIS = new DataInputStream(socket.getInputStream());
-            dataOS = new DataOutputStream(socket.getOutputStream());
-            objectIS = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
+            
             objectOS = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+            objectOS.flush();
+            objectIS = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
             
             isUp = true;
         }
@@ -46,7 +45,8 @@ public class Client {
     }
     
     public static void sendObject(Object object) throws IOException {  
-        objectOS.writeObject(object);
+       objectOS.writeObject(object);
+       objectOS.flush();
     }
     
     public static Object receiveObject() throws IOException, ClassNotFoundException {
@@ -56,23 +56,23 @@ public class Client {
     }
     
     public static void sendString(String string) throws IOException {
-        dataOS.writeUTF(string);
+        objectOS.writeUTF(string);
+        objectOS.flush();
     }
     
-    public static String receiveString() throws IOException {
-        String string = dataIS.readUTF();
+    public static String receiveString() throws IOException, ClassNotFoundException {
+        String string = objectIS.readUTF();
         
         return string;
     }
     
     public static void sendInt(int number) throws IOException {
-        String string = Converters.intToString(number);
-        
-        dataOS.writeUTF(string);
+        objectOS.writeInt(number);
+        objectOS.flush();
     }
     
     public static int receiveInt() throws IOException {
-        int number = Converters.stringToInt(dataIS.readUTF());
+        int number = objectIS.readInt();
         
         return number;
     }
@@ -80,23 +80,23 @@ public class Client {
     public static void sendDate(Date date) throws IOException {
         String string = Converters.dateToString(date);
         
-        dataOS.writeUTF(string);
+        objectOS.writeUTF(string);
+        objectOS.flush();
     }
     
     public static Date receiveDate() throws IOException, ParseException {
-        Date date = Converters.stringToDate(dataIS.readUTF());
+        Date date = Converters.stringToDate(objectIS.readUTF());
         
         return date;
     } 
 
-    public static void sendBoolean(Boolean bool) throws IOException {
-        String string = Converters.booleanToString(bool);
-        
-        dataOS.writeUTF(string);
+    public static void sendBoolean(Boolean bool) throws IOException {  
+        objectOS.writeBoolean(bool);
+        objectOS.flush();
     }
     
     public static Boolean receiveBoolean() throws IOException, ParseException {
-        Boolean bool = Converters.stringToBoolean(dataIS.readUTF());
+        Boolean bool = objectIS.readBoolean();
         
         return bool;
     } 

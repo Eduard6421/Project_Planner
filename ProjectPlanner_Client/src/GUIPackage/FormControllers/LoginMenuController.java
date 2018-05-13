@@ -15,7 +15,7 @@ public class LoginMenuController implements ActionListener {
     
     private LoginMenu view;
     
-    private static final Connection conn = MySQLConnector.getConnection();
+    private static final Connection conn = null; //= MySQLConnector.getConnection();
 
     public LoginMenuController()
     {
@@ -28,7 +28,7 @@ public class LoginMenuController implements ActionListener {
         String username = view.GetUsername();
         String password = view.GetPassword();
         
-        if(AuthController.LogIn(username,password))
+        if(AuthController.logIn(username,password))
         {
          ProjectsMenuController projectsMenuController = new ProjectsMenuController(this);        
         }
