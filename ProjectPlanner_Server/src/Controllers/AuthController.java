@@ -9,10 +9,12 @@ public class AuthController {
 
     private static final Connection conn = MySQLConnector.getConnection();
     
-    public static void callLogIn() throws IOException {
+    public static void callLogIn() throws IOException, ClassNotFoundException {
         String username = Server.receiveString();
         String password = Server.receiveString();
         
+        System.out.println(username);
+        System.out.println(password);
         logIn(username, password);
     }
 
