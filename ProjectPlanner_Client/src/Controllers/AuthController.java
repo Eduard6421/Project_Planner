@@ -2,11 +2,8 @@ package Controllers;
 
 import Client.Client;
 import Utils.*;
-import java.sql.*;
 
 public class AuthController {
-
-    private static final Connection conn = MySQLConnector.getConnection();
 
     public static boolean logIn(String username, String password) {
         try {
@@ -15,6 +12,8 @@ public class AuthController {
             Client.sendString("logIn");
             Client.sendString(username);
             Client.sendString(password);
+            
+            Thread.sleep(1000);
             
             GlobalData.setLoggedIn(Client.receiveBoolean());
             

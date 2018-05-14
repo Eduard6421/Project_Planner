@@ -2,11 +2,8 @@ package Controllers;
 
 import Client.Client;
 import Models.*;
-import Utils.*;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
-import java.sql.*;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
@@ -14,8 +11,6 @@ import javafx.util.Pair;
 import javax.sql.rowset.CachedRowSet;
 
 public class ProjectsController {
-    
-    private static final Connection conn = MySQLConnector.getConnection();
     
     public static Project GetById(int id) {
         
@@ -88,6 +83,8 @@ public class ProjectsController {
             Client.sendString("getAllBetweenDates");
             Client.sendDate(startDate);
             Client.sendDate(endDate);
+            
+            Thread.sleep(1000);
             
             CachedRowSet result = (CachedRowSet) Client.receiveObject();
             
