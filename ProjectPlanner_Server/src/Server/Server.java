@@ -185,6 +185,34 @@ public class Server {
                             break;
                     }
                     break;
+                case "Tasks":
+                    switch(method) {
+                        case "getById":
+                            TasksController.callGetById();
+                            break;
+                        case "getAll":
+                            TasksController.callGetAll();
+                            break;
+                        case "getAllByMilestoneId":
+                            TasksController.callGetAllByMilestoneId();
+                            break;
+                        case "create":
+                            TasksController.callCreate();
+                            break;
+                        case "update":
+                            TasksController.callUpdate();
+                            break;
+                        case "deleteById":
+                            TasksController.callDeleteById();
+                            break;
+                        case "finishTaskById":
+                            TasksController.callFinishTaskById();
+                            break;
+                        case "openTaskById":
+                            TasksController.callOpenTaskById();
+                            break;
+                    }
+                    break;
             }
         }
     }
