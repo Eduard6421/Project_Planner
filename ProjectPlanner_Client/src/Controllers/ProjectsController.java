@@ -60,9 +60,6 @@ public class ProjectsController {
                                             result.getDate("EndDate"),
                                             result.getDouble("Budget"),
                                             result.getString("Description"));
-                FileOutputStream fos = new FileOutputStream("Serial");
-                ObjectOutputStream oos = new ObjectOutputStream(fos);
-                oos.writeObject(project); 
 
                 projects.add(project);
             }
