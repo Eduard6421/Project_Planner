@@ -81,8 +81,6 @@ public class ProjectsController {
             Client.sendDate(startDate);
             Client.sendDate(endDate);
             
-            Thread.sleep(1000);
-            
             CachedRowSet result = (CachedRowSet) Client.receiveObject();
             
             while (result.next()) {
