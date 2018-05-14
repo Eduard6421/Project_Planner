@@ -1,5 +1,6 @@
 package Controllers;
 
+import Client.Client;
 import Models.*;
 import Utils.*;
 import java.io.FileOutputStream;
@@ -10,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 import javafx.util.Pair;
+import javax.sql.rowset.CachedRowSet;
 
 public class ProjectsController {
     
@@ -20,12 +22,11 @@ public class ProjectsController {
         Project project = null;
         
         try {
-            String query = "SELECT * FROM projects WHERE Id = (?)";
+            Client.sendString("Projects");
+            Client.sendString("getById");
+            Client.sendInt(id);
             
-            PreparedStatement statement = conn.prepareStatement(query);
-            statement.setInt(1, id);
-            ResultSet result = statement.executeQuery();
-            
+            CachedRowSet result = (CachedRowSet) Client.receiveObject();
 
             while (result.next()) {
                 project = new Project(result.getInt("Id"),
@@ -37,8 +38,6 @@ public class ProjectsController {
                                     result.getDouble("Budget"),
                                     result.getString("Description"));
             }
-            
-            statement.close();
         }
         catch (Exception e) {
             System.out.println("Error: " + e);
@@ -51,11 +50,11 @@ public class ProjectsController {
         
         List<Project> projects = new ArrayList<>();
         
-        try {
-            String query = "SELECT * FROM projects";
+        try {       
+            Client.sendString("Projects");
+            Client.sendString("getAll");
             
-            Statement statement = conn.createStatement();
-            ResultSet result = statement.executeQuery(query);
+            CachedRowSet result = (CachedRowSet) Client.receiveObject();
             
             while (result.next()) {
                 Project project = new Project(result.getInt("Id"),
@@ -72,8 +71,6 @@ public class ProjectsController {
 
                 projects.add(project);
             }
-            
-            statement.close();
         }
         catch (Exception e) {
             System.out.println("Error: " + e);
@@ -82,23 +79,17 @@ public class ProjectsController {
         return projects;
     }
     
-        public static List<Project> GetAllBetweenDates(Date startDate, Date endDate) {
+    public static List<Project> GetAllBetweenDates(Date startDate, Date endDate) {
         
         List<Project> projects = new ArrayList<>();
         
         try {
-            SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
-            String startDateString = "'" + dateFormatter.format(startDate) + "'";
-            String endDateString = "'" + dateFormatter.format(endDate) + "'";
+            Client.sendString("Projects");
+            Client.sendString("getAllBetweenDates");
+            Client.sendDate(startDate);
+            Client.sendDate(endDate);
             
-            String query = "SELECT * FROM projects p " + 
-                           "WHERE p.StartDate >= ? AND p.EndDate <= ? ";
-            
-            PreparedStatement statement = conn.prepareStatement(query);
-
-            statement.setDate(1, new java.sql.Date(startDate.getTime()));
-            statement.setDate(2, new java.sql.Date(endDate.getTime()));
-            ResultSet result = statement.executeQuery(query);
+            CachedRowSet result = (CachedRowSet) Client.receiveObject();
             
             while (result.next()) {
                 Project project = new Project(result.getInt("Id"),
@@ -111,8 +102,6 @@ public class ProjectsController {
                                             result.getString("Description"));
                 projects.add(project);
             }
-            
-            statement.close();
         }
         catch (Exception e) {
             System.out.println("Error: " + e);
@@ -124,23 +113,11 @@ public class ProjectsController {
     public static Project Create(Project project) {
         
         try {
-            String query = "INSERT INTO projects " +
-                            "(ManagerId, Title, ClientName, StartDate, EndDate, Budget, Description) " +
-                            "VALUES (?, ?, ?, ?, ?, ?, ?)";
+            Client.sendString("Projects");
+            Client.sendString("create");
+            Client.sendObject(project);
             
-            PreparedStatement statement = conn.prepareStatement(query);
-            statement.setInt(1, project.getManagerId());
-            statement.setString(2, project.getTitle());
-            statement.setString(3, project.getClientName());
-            statement.setDate(4, new java.sql.Date(project.getStartDate().getTime()));
-            statement.setDate(5, new java.sql.Date(project.getEndDate().getTime()));
-            statement.setDouble(6, project.getBudget());
-            statement.setString(7, project.getDescription());
-            
-            statement.executeUpdate();
-            
-            
-            statement.close();
+            Boolean created = Client.receiveBoolean();
         }
         catch (Exception e) {
             System.out.println("Error: " + e);
@@ -153,21 +130,11 @@ public class ProjectsController {
     public static Project Update(Project project) {
         
         try {
-            String query = "UPDATE projects " + 
-                        "SET ManagerId = ?, Title = ?, ClientName = ?, StartDate = ?, EndDate = ?, Budget = ?, Description = ? " +
-                        "WHERE Id = ?";
+            Client.sendString("Projects");
+            Client.sendString("update");
+            Client.sendObject(project);
             
-            PreparedStatement statement = conn.prepareStatement(query);
-            statement.setInt(1, project.getManagerId());
-            statement.setString(2, project.getTitle());
-            statement.setString(3, project.getClientName());
-            statement.setDate(4, new java.sql.Date(project.getStartDate().getTime()));
-            statement.setDate(5, new java.sql.Date(project.getEndDate().getTime()));
-            statement.setDouble(6, project.getBudget());
-            statement.setString(7, project.getDescription());
-            statement.setInt(8, project.getId());
-            
-            statement.executeUpdate();
+            Boolean updated = Client.receiveBoolean();
         }
         catch (Exception e) {
             System.out.println("Error: " + e);
@@ -180,17 +147,13 @@ public class ProjectsController {
     
     public static void DeleteById(int id)
     {
-        
-        
+    
         try {
-            String query = "DELETE FROM projects WHERE Id=? ";
-            
-            PreparedStatement statement = conn.prepareStatement(query);
-            statement.setInt(1, id);
-            
-            statement.executeUpdate();
-            
-            statement.close();
+            Client.sendString("Projects");
+            Client.sendString("deleteById");
+            Client.sendInt(id);
+
+            Boolean deleted = Client.receiveBoolean();
         }
         catch (Exception e) {
             System.out.println("Error: " + e);
@@ -199,25 +162,15 @@ public class ProjectsController {
  
     //Number of finished tasks/Number of tasks
     public static Pair<Integer, Integer> GetProjectStatus(int id) {
+        
+        Pair<Integer, Integer> resultPair = null;
+        
         try {
-            String query = "SELECT COUNT(t.Finished), " +
-                    "SUM(CASE WHEN t.Finished = 1 THEN 1 ELSE 0 END) " +
-                    "FROM projects p JOIN milestones m ON m.ProjectId = p.Id JOIN tasks t ON t.MilestoneId = m.Id " +
-                    "WHERE p.Id = ?";
+            Client.sendString("Projects");
+            Client.sendString("getProjectStatusById");
+            Client.sendInt(id);
             
-            PreparedStatement statement = conn.prepareStatement(query);
-            statement.setInt(1, id);
-            
-            ResultSet result = statement.executeQuery();
-            
-            Pair<Integer, Integer> resultPair = null;
-            
-            while (result.next()) {
-                resultPair = new Pair<Integer, Integer>(result.getInt(1),
-                                                        result.getInt(2));
-            }
-            
-            statement.close();
+            resultPair = (Pair<Integer, Integer>) Client.receiveObject();
             
             return resultPair;
         }
