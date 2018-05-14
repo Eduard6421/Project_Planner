@@ -1,8 +1,6 @@
 package Server;
 
-import Controllers.AuthController;
-import Controllers.PrioritiesController;
-import Controllers.ProjectsController;
+import Controllers.*;
 import Utils.Converters;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -150,6 +148,31 @@ public class Server {
                 case "Priorities":
                     if (method.equals("getAll")) {
                         PrioritiesController.callGetAll();
+                    }
+                    break;
+                case "Milestones":
+                    switch(method) {
+                        case "getById":
+                            MilestonesController.callGetById();
+                            break;
+                        case "getAll":
+                            MilestonesController.callGetAll();
+                            break;
+                        case "getAllByProjectId":
+                            MilestonesController.callGetAllByProjectId();
+                            break;
+                        case "create":
+                            MilestonesController.callCreate();
+                            break;
+                        case "update":
+                            MilestonesController.callUpdate();
+                            break;
+                        case "deleteById":
+                            MilestonesController.callDeleteById();
+                            break;
+                        case "getMilestoneStatusById":
+                            MilestonesController.callGetMilestoneStatusById();
+                            break;
                     }
                     break;
             }

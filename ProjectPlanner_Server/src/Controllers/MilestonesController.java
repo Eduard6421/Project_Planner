@@ -1,18 +1,63 @@
 package Controllers;
 
 import Models.*;
+import Server.Server;
 import Utils.*;
+import com.sun.rowset.CachedRowSetImpl;
+import java.io.IOException;
 import java.sql.*;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 import javafx.util.Pair;
+import javax.sql.rowset.CachedRowSet;
 
 public class MilestonesController {
     
     private static final Connection conn = MySQLConnector.getConnection();
+
+    public static void callGetById() throws IOException {
+        int id = Server.receiveInt();
+        
+        getById(id);
+    }
     
-    public static Milestone GetById(int id) {
+    public static void callGetAll() {
+        getAll();
+    }
+    
+    public static void callGetAllByProjectId() throws IOException, ParseException {
+        int projectId = Server.receiveInt();
+        
+        getAllByProjectId(projectId);
+    }
+    
+    public static void callCreate() throws IOException, ClassNotFoundException {
+        Milestone milestone = (Milestone) Server.receiveObject();
+        
+        create(milestone);
+    }
+    
+    public static void callUpdate() throws IOException, ClassNotFoundException {
+        Milestone milestone = (Milestone) Server.receiveObject();
+        
+        update(milestone);
+    }
+    
+    public static void callDeleteById() throws IOException {
+        int id = Server.receiveInt();
+        
+        deleteById(id);
+    }
+    
+    public static void callGetMilestoneStatusById() throws IOException {
+        int id = Server.receiveInt();
+        
+        getMilestoneStatusById(id);
+    }
+    
+    public static Milestone getById(int id) {
         
         Milestone milestone = null;
         
@@ -21,16 +66,12 @@ public class MilestonesController {
             
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setInt(1, id);
-            ResultSet result = statement.executeQuery();
             
-            while (result.next()) {
-                milestone = new Milestone(result.getInt("Id"),
-                                        result.getInt("ProjectId"),
-                                        result.getString("Title"),
-                                        result.getDate("StartDate"),
-                                        result.getDate("EndDate"),
-                                        result.getString("Description"));
-            }
+            ResultSet resultSet = statement.executeQuery();
+            CachedRowSet result = new CachedRowSetImpl();
+            result.populate(resultSet);  
+            
+            Server.sendObject(result);
             
             statement.close();
         }
@@ -41,7 +82,7 @@ public class MilestonesController {
         return milestone;
     }
     
-    public static List<Milestone> GetAll() {
+    public static List<Milestone> getAll() {
         
         List<Milestone> milestones = new ArrayList<>();
         
@@ -49,17 +90,11 @@ public class MilestonesController {
             String query = "SELECT * FROM milestones";
             
             Statement statement = conn.createStatement();
-            ResultSet result = statement.executeQuery(query);
+            ResultSet resultSet = statement.executeQuery(query);
+            CachedRowSet result = new CachedRowSetImpl();
+            result.populate(resultSet);
             
-            while (result.next()) {
-                 Milestone milestone = new Milestone(result.getInt("Id"),
-                                                    result.getInt("ProjectId"),
-                                                    result.getString("Title"),
-                                                    result.getDate("StartDate"),
-                                                    result.getDate("EndDate"),
-                                                    result.getString("Description"));
-                milestones.add(milestone);
-            }
+            Server.sendObject(result);
             
             statement.close();
         }
@@ -70,7 +105,7 @@ public class MilestonesController {
         return milestones;
     }
     
-        public static List<Milestone> GetAllByProjectId(int projectId) {
+    public static List<Milestone> getAllByProjectId(int projectId) {
         
         List<Milestone> milestones = new ArrayList<>();
         
@@ -79,17 +114,12 @@ public class MilestonesController {
             
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setInt(1, projectId);
-            ResultSet result = statement.executeQuery();
+
+            ResultSet resultSet = statement.executeQuery();
+            CachedRowSet result = new CachedRowSetImpl();
+            result.populate(resultSet);  
             
-            while (result.next()) {
-                 Milestone milestone = new Milestone(result.getInt("Id"),
-                                                    result.getInt("ProjectId"),
-                                                    result.getString("Title"),
-                                                    result.getDate("StartDate"),
-                                                    result.getDate("EndDate"),
-                                                    result.getString("Description"));
-                milestones.add(milestone);
-            }
+            Server.sendObject(result);
             
             statement.close();
         }
@@ -101,7 +131,7 @@ public class MilestonesController {
     }
     
     
-    public static Milestone Create(Milestone milestone) {
+    public static Boolean create(Milestone milestone) throws IOException {
         
         try {
             String query = "INSERT INTO milestones " +
@@ -122,13 +152,15 @@ public class MilestonesController {
         }
         catch (Exception e) {
             System.out.println("Error: " + e);
-            return null;
+            Server.sendBoolean(false);
+            return false;
         }
         
-        return milestone;
+        Server.sendBoolean(true);
+        return false;
     }
     
-    public static Milestone Update(Milestone milestone) {
+    public static Boolean update(Milestone milestone) throws IOException {
         
         try {
             String query = "UPDATE milestones " + 
@@ -147,15 +179,17 @@ public class MilestonesController {
         }
         catch (Exception e) {
             System.out.println("Error: " + e);
-            return null;
+            Server.sendBoolean(false);
+            return false;
         }
         
-        return milestone;
+        Server.sendBoolean(false);
+        return false;
     }
     
-    public static void DeleteById(int id) {
+    public static Boolean deleteById(int id) throws IOException {
         try {
-            String query = "DELETE FROM milestones WHERE Id= ?";
+            String query = "DELETE FROM milestones WHERE Id = ?";
             
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setInt(1, id);
@@ -166,11 +200,19 @@ public class MilestonesController {
         }
         catch (Exception e) {
             System.out.println("Error: " + e);
+            Server.sendBoolean(false);
+            return false;
         }  
+        
+        Server.sendBoolean(true);
+        return false;
     }
     
     //Number of finished tasks/Number of tasks
-    public static Pair<Integer, Integer> GetMilestoneStatus(int id) {
+    public static Pair<Integer, Integer> getMilestoneStatusById(int id) throws IOException {
+            
+        Pair<Integer, Integer> resultPair = new Pair<Integer, Integer>(-1, -1);
+        
         try {
             String query = "SELECT COUNT(t.Finished), " +
                     "SUM(CASE WHEN t.Finished = 1 THEN 1 ELSE 0 END) " +
@@ -182,8 +224,6 @@ public class MilestonesController {
             
             ResultSet result = statement.executeQuery();
             
-            Pair<Integer, Integer> resultPair = null;
-            
             while (result.next()) {
                 resultPair = new Pair<Integer, Integer>(result.getInt(1),
                                                         result.getInt(2));
@@ -191,10 +231,12 @@ public class MilestonesController {
             
             statement.close();
             
+            Server.sendObject(resultPair);
             return resultPair;
         }
         catch (Exception e) {
             System.out.println("Error: " + e);
+            Server.sendObject(resultPair);
             return null;
         }    
     }
