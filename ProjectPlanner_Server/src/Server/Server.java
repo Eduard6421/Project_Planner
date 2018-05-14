@@ -175,6 +175,16 @@ public class Server {
                             break;
                     }
                     break;
+                case "Users":
+                    switch(method) {
+                        case "getAll":
+                            UsersController.callGetAll();
+                            break;
+                        case "getManagers":
+                            UsersController.callGetManagers();
+                            break;
+                    }
+                    break;
             }
         }
     }

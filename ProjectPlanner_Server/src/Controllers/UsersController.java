@@ -1,17 +1,28 @@
 package Controllers;
 
 import Models.*;
+import Server.Server;
 import Utils.*;
+import com.sun.rowset.CachedRowSetImpl;
 import java.sql.*;
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
+import javax.sql.rowset.CachedRowSet;
 
 public class UsersController {
     
     private static final Connection conn = MySQLConnector.getConnection();
     
-    public static List<User> GetAll() {
+    public static void callGetAll() {
+        getAll();
+    }
+    
+    public static void callGetManagers() {
+        getManagers();
+    }
+    
+    public static List<User> getAll() {
         
         List<User> users = new ArrayList<>();
         
@@ -19,17 +30,11 @@ public class UsersController {
             String query = "SELECT * FROM users";
             
             Statement statement = conn.createStatement();
-            ResultSet result = statement.executeQuery(query);
+            ResultSet resultSet = statement.executeQuery(query);
+            CachedRowSet result = new CachedRowSetImpl();
+            result.populate(resultSet);
             
-            while (result.next()) {
-                User user = new User(result.getInt("Id"),
-                                    result.getInt("RoleId"),
-                                    result.getString("Username"),
-                                    result.getString("Password"),
-                                    result.getString("FirstName"),
-                                    result.getString("LastName"));
-                users.add(user);
-            }
+            Server.sendObject(result);
             
             statement.close();
         }
@@ -40,7 +45,7 @@ public class UsersController {
         return users;
     }
     
-    public static List<User> GetManagers() {
+    public static List<User> getManagers() {
         
         List<User> managers = new ArrayList<>();
         
@@ -49,17 +54,11 @@ public class UsersController {
                             "WHERE UPPER(r.Title) = 'MANAGER'";
             
             Statement statement = conn.createStatement();
-            ResultSet result = statement.executeQuery(query);
+            ResultSet resultSet = statement.executeQuery(query);
+            CachedRowSet result = new CachedRowSetImpl();
+            result.populate(resultSet);
             
-            while (result.next()) {
-                User manager = new User(result.getInt("Id"),
-                                    result.getInt("RoleId"),
-                                    result.getString("Username"),
-                                    result.getString("Password"),
-                                    result.getString("FirstName"),
-                                    result.getString("LastName"));
-                managers.add(manager);
-            }
+            Server.sendObject(result);
             
             statement.close();          
         } 
