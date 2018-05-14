@@ -3,6 +3,7 @@ package Controllers;
 import Models.*;
 import Server.Server;
 import Utils.*;
+import com.sun.rowset.CachedRowSetImpl;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -13,6 +14,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 import javafx.util.Pair;
+import javax.sql.rowset.CachedRowSet;
 
 public class ProjectsController {
     
@@ -68,20 +70,12 @@ public class ProjectsController {
             
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setInt(1, id);
-            ResultSet result = statement.executeQuery();
+            ResultSet resultSet = statement.executeQuery();
+            CachedRowSet result = new CachedRowSetImpl();
+            result.populate(resultSet);  
             
+            Server.sendObject(result);
 
-            while (result.next()) {
-                project = new Project(result.getInt("Id"),
-                                    result.getInt("ManagerId"),
-                                    result.getString("Title"),
-                                    result.getString("ClientName"),
-                                    result.getDate("StartDate"),
-                                    result.getDate("EndDate"),
-                                    result.getDouble("Budget"),
-                                    result.getString("Description"));
-            }
-            
             statement.close();
         }
         catch (Exception e) {
@@ -99,23 +93,12 @@ public class ProjectsController {
             String query = "SELECT * FROM projects";
             
             Statement statement = conn.createStatement();
-            ResultSet result = statement.executeQuery(query);
             
-            while (result.next()) {
-                Project project = new Project(result.getInt("Id"),
-                                            result.getInt("ManagerId"),
-                                            result.getString("Title"),
-                                            result.getString("ClientName"),
-                                            result.getDate("StartDate"),
-                                            result.getDate("EndDate"),
-                                            result.getDouble("Budget"),
-                                            result.getString("Description"));
-                FileOutputStream fos = new FileOutputStream("Serial");
-                ObjectOutputStream oos = new ObjectOutputStream(fos);
-                oos.writeObject(project); 
-
-                projects.add(project);
-            }
+            ResultSet resultSet = statement.executeQuery(query);
+            CachedRowSet result = new CachedRowSetImpl();
+            result.populate(resultSet);
+            
+            Server.sendObject(result);
             
             statement.close();
         }
@@ -126,7 +109,7 @@ public class ProjectsController {
         return projects;
     }
     
-        public static List<Project> getAllBetweenDates(Date startDate, Date endDate) {
+   public static List<Project> getAllBetweenDates(Date startDate, Date endDate) {
         
         List<Project> projects = new ArrayList<>();
         
@@ -142,19 +125,12 @@ public class ProjectsController {
 
             statement.setDate(1, new java.sql.Date(startDate.getTime()));
             statement.setDate(2, new java.sql.Date(endDate.getTime()));
-            ResultSet result = statement.executeQuery(query);
             
-            while (result.next()) {
-                Project project = new Project(result.getInt("Id"),
-                                            result.getInt("ManagerId"),
-                                            result.getString("Title"),
-                                            result.getString("ClientName"),
-                                            result.getDate("StartDate"),
-                                            result.getDate("EndDate"),
-                                            result.getDouble("Budget"),
-                                            result.getString("Description"));
-                projects.add(project);
-            }
+            ResultSet resultSet = statement.executeQuery(query);
+            CachedRowSet result = new CachedRowSetImpl();
+            result.populate(resultSet);
+            
+            Server.sendObject(result);
             
             statement.close();
         }
@@ -165,7 +141,7 @@ public class ProjectsController {
         return projects;
     }
     
-    public static Project create(Project project) {
+    public static Boolean create(Project project) throws IOException {
         
         try {
             String query = "INSERT INTO projects " +
@@ -188,13 +164,15 @@ public class ProjectsController {
         }
         catch (Exception e) {
             System.out.println("Error: " + e);
-            return null;
+            Server.sendBoolean(false);
+            return false;
         }
         
-        return project;
+        Server.sendBoolean(true);
+        return true;
     }
     
-    public static Project update(Project project) {
+    public static Project update(Project project) throws IOException {
         
         try {
             String query = "UPDATE projects " + 
@@ -215,19 +193,21 @@ public class ProjectsController {
         }
         catch (Exception e) {
             System.out.println("Error: " + e);
+            Server.sendBoolean(false);
             return null;
         }
         
+        Server.sendBoolean(true);
         return project;
     }
     
     
-    public static void deleteById(int id)
+    public static Boolean deleteById(int id) throws IOException
     {
         
         
         try {
-            String query = "DELETE FROM projects WHERE Id=? ";
+            String query = "DELETE FROM projects WHERE Id = ?";
             
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setInt(1, id);
@@ -238,11 +218,19 @@ public class ProjectsController {
         }
         catch (Exception e) {
             System.out.println("Error: " + e);
+            Server.sendBoolean(false);
+            return false;
         }
+        
+        Server.sendBoolean(true);
+        return true;
     }
  
     //Number of finished tasks/Number of tasks
-    public static Pair<Integer, Integer> getProjectStatusById(int id) {
+    public static Pair<Integer, Integer> getProjectStatusById(int id) throws IOException {
+        
+        Pair<Integer, Integer> resultPair = new Pair<Integer, Integer>(-1, -1);
+        
         try {
             String query = "SELECT COUNT(t.Finished), " +
                     "SUM(CASE WHEN t.Finished = 1 THEN 1 ELSE 0 END) " +
@@ -254,8 +242,6 @@ public class ProjectsController {
             
             ResultSet result = statement.executeQuery();
             
-            Pair<Integer, Integer> resultPair = null;
-            
             while (result.next()) {
                 resultPair = new Pair<Integer, Integer>(result.getInt(1),
                                                         result.getInt(2));
@@ -263,10 +249,12 @@ public class ProjectsController {
             
             statement.close();
             
+            Server.sendObject(resultPair);
             return resultPair;
         }
         catch (Exception e) {
             System.out.println("Error: " + e);
+            Server.sendObject(resultPair);
             return null;
         }    
     }
