@@ -106,7 +106,7 @@ public class ProjectsMenu extends javax.swing.JFrame {
         for (int i = 0; i < projects.size(); ++i) {
             projectsIds.add(projects.get(i).getId());
             
-            Pair<Integer, Integer> taskStatus = ProjectsController.GetProjectStatus(projects.get(i).getId());
+            Pair<Integer, Integer> taskStatus = ProjectsController.GetProjectStatusById(projects.get(i).getId());
             
             rowData[0] = taskStatus.getValue().toString() + 
                         " / " +
@@ -170,7 +170,7 @@ public class ProjectsMenu extends javax.swing.JFrame {
         for (int i = 0; i < projects.size(); ++i) {
             projectsIds.add(projects.get(i).getId());
             
-            Pair<Integer, Integer> taskStatus = ProjectsController.GetProjectStatus(projects.get(i).getId());
+            Pair<Integer, Integer> taskStatus = ProjectsController.GetProjectStatusById(projects.get(i).getId());
             
             rowData[0] = taskStatus.getValue().toString() + 
                         " / " +

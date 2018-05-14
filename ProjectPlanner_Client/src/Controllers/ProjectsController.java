@@ -155,7 +155,7 @@ public class ProjectsController {
     }
  
     //Number of finished tasks/Number of tasks
-    public static Pair<Integer, Integer> GetProjectStatus(int id) {
+    public static Pair<Integer, Integer> GetProjectStatusById(int id) {
         
         Pair<Integer, Integer> resultPair = null;
         
