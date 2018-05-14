@@ -171,7 +171,7 @@ public class TasksMenuController implements ActionListener {
         }
         
         if (canBeFinished) {
-            TasksController.FinishTask(selectedTask.getId()); 
+            TasksController.FinishTaskById(selectedTask.getId()); 
         }
         else {
             System.out.println("Can't finish selected task");
@@ -192,7 +192,7 @@ public class TasksMenuController implements ActionListener {
         }
         
         if (canBeOpened) {
-            TasksController.OpenTask(selectedTask.getId()); 
+            TasksController.OpenTaskById(selectedTask.getId()); 
         }
         else {
             System.out.println("Can't open selected task");
