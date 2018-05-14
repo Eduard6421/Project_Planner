@@ -1,17 +1,24 @@
 package Controllers;
 
 import Models.*;
+import Server.Server;
 import Utils.*;
+import com.sun.rowset.CachedRowSetImpl;
 import java.sql.*;
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
+import javax.sql.rowset.CachedRowSet;
 
 public class PrioritiesController {
     
     private static final Connection conn = MySQLConnector.getConnection();
     
-    public static List<Priority> GetAll() {
+    public static void callGetAll() {
+        getAll();
+    }
+    
+    public static List<Priority> getAll() {
         
         List<Priority> priorities = new ArrayList<>();
         
@@ -19,13 +26,12 @@ public class PrioritiesController {
             String query = "SELECT * FROM priorities";
             
             Statement statement = conn.createStatement();
-            ResultSet result = statement.executeQuery(query);
             
-            while (result.next()) {
-                Priority priority = new Priority(result.getInt("Id"),
-                                                result.getString("Title"));
-                priorities.add(priority);
-            }
+            ResultSet resultSet = statement.executeQuery(query);
+            CachedRowSet result = new CachedRowSetImpl();
+            result.populate(resultSet);
+            
+            Server.sendObject(result);
             
             statement.close();
         }

@@ -1,6 +1,7 @@
 package Server;
 
 import Controllers.AuthController;
+import Controllers.PrioritiesController;
 import Controllers.ProjectsController;
 import Utils.Converters;
 import java.io.BufferedInputStream;
@@ -144,6 +145,11 @@ public class Server {
                         case "getProjectStatusById":
                             ProjectsController.callGetProjectStatusById();
                             break;
+                    }
+                    break;
+                case "Priorities":
+                    if (method.equals("getAll")) {
+                        PrioritiesController.callGetAll();
                     }
                     break;
             }
