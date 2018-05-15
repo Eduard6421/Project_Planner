@@ -55,7 +55,7 @@ public class AddMilestoneMenu extends javax.swing.JFrame {
     public void ShowSelectedMilestone() {
 
         SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-d");
-        Milestone milestone = parentController.GetSelectedMilestone();
+        Milestone milestone = parentController.getSelectedMilestone();
 
         Date startDate = milestone.getStartDate();
         Date endDate = milestone.getEndDate();

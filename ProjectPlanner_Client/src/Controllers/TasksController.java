@@ -11,7 +11,7 @@ import javax.sql.rowset.CachedRowSet;
 
 public class TasksController {
 
-    public static Task GetById(int id) {
+    public static Task getById(int id) {
 
         Task task = null;
 
@@ -40,7 +40,7 @@ public class TasksController {
         return task;
     }
 
-    public static List<Task> GetAll() {
+    public static List<Task> getAll() {
 
         List<Task> tasks = new ArrayList<>();
 
@@ -69,7 +69,7 @@ public class TasksController {
         return tasks;
     }
     
-    public static List<Task> GetAllByMilestoneId(int milestoneId) {
+    public static List<Task> getAllByMilestoneId(int milestoneId) {
 
         List<Task> tasks = new ArrayList<>();
 
@@ -99,7 +99,7 @@ public class TasksController {
         return tasks;
     }
 
-    public static Task Create(Task task) {
+    public static Task create(Task task) {
 
         try {
             Client.sendString("Tasks");
@@ -115,7 +115,7 @@ public class TasksController {
         return task;
     }
 
-    public static Task Update(Task task) {
+    public static Task update(Task task) {
 
         try {
             Client.sendString("Tasks");
@@ -132,7 +132,7 @@ public class TasksController {
         return task;
     }
 
-    public static void DeleteById(int id) {
+    public static void deleteById(int id) {
         try {
             Client.sendString("Tasks");
             Client.sendString("deleteById");
@@ -144,7 +144,7 @@ public class TasksController {
         }
     }
     
-    public static void FinishTaskById(int id) {
+    public static void finishTaskById(int id) {
         try {
             Client.sendString("Tasks");
             Client.sendString("finishTaskById");
@@ -156,7 +156,7 @@ public class TasksController {
         }
     }
     
-    public static void OpenTaskById(int id) {
+    public static void openTaskById(int id) {
         try {
             Client.sendString("Tasks");
             Client.sendString("openTaskById");

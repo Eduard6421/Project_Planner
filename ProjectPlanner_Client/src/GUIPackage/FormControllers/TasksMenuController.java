@@ -9,7 +9,6 @@ import Models.Project;
 import Models.Task;
 import Models.User;
 import Utils.GlobalData;
-import Utils.MySQLConnector;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -20,17 +19,16 @@ public class TasksMenuController implements ActionListener {
     private TasksMenu tasksMenu;
     private MilestonesMenuController parentController;
     private AddTaskMenu addTask;
-    private static final Connection conn = MySQLConnector.getConnection();
     private List<Task> tasksList;
     private boolean focus = true;
 
     public TasksMenuController(MilestonesMenuController tmp) {
         parentController = tmp;
-        parentController.SetWindowInvisible();
+        parentController.setWindowInvisible();
 
         tasksMenu = new TasksMenu(this);
         tasksMenu.setVisible(true);
-        RetrievePopulation();
+        retrievePopulation();
 
     }
 
@@ -50,8 +48,8 @@ public class TasksMenuController implements ActionListener {
                             throw new Exception("No Task Selected");
                         }
 
-                        TasksController.DeleteById(asd);
-                        RetrievePopulation();
+                        TasksController.deleteById(asd);
+                        retrievePopulation();
 
                     } catch (Exception e) {
                         System.out.println(e);
@@ -66,7 +64,7 @@ public class TasksMenuController implements ActionListener {
                         addTask.ShowSelectedTask();
                         addTask.setVisible(true);
                         addTask.SetActionCommand(false);
-                        ToggleFocus();
+                        toggleFocus();
                     } catch (Exception e) {
                         System.out.println(e);
                         addTask.setVisible(false);
@@ -79,21 +77,21 @@ public class TasksMenuController implements ActionListener {
                     addTask.SetActionCommand(true);
                     addTask.FillDeveloperComboBox();
                     addTask.FillPrioritiesComboBox();
-                    ToggleFocus();
+                    toggleFocus();
                     break;
                 case "Finish Task":
-                    TryMarkTaskAsFinished();
-                    RetrievePopulation();
+                    tryMarkTaskAsFinished();
+                    retrievePopulation();
                     break;
                 case "Mark Task as Open":
-                    TryMarkTaskAsOpen();
-                    RetrievePopulation();
+                    tryMarkTaskAsOpen();
+                    retrievePopulation();
                     break;
                 default:
                     tasksMenu.setVisible(false);
                     tasksMenu.dispose();
-                    parentController.SetWindowVisible();
-                    parentController.RetrievePopulation();
+                    parentController.setWindowVisible();
+                    parentController.retrievePopulation();
                     System.out.println("Exit");
 
             }
@@ -102,8 +100,8 @@ public class TasksMenuController implements ActionListener {
                 case "Exit":
                     addTask.setVisible(false);
                     addTask.dispose();
-                    ToggleFocus();
-                    RetrievePopulation();
+                    toggleFocus();
+                    retrievePopulation();
                     break;
 
                 case "Insert":
@@ -111,10 +109,10 @@ public class TasksMenuController implements ActionListener {
                     addTask.dispose();
                     Task newTask = addTask.GetTask();
                     if (newTask != null) {
-                        TasksController.Create(newTask);   
+                        TasksController.create(newTask);   
                     }
-                    ToggleFocus();
-                    RetrievePopulation();
+                    toggleFocus();
+                    retrievePopulation();
 
                     break;
 
@@ -124,39 +122,39 @@ public class TasksMenuController implements ActionListener {
 
                     Task EditedTask = addTask.GetTask();
                     EditedTask.setId(tasksList.get(tasksMenu.getLastSelected()).getId());
-                    TasksController.Update(EditedTask);
+                    TasksController.update(EditedTask);
 
-                    ToggleFocus();
-                    RetrievePopulation();
+                    toggleFocus();
+                    retrievePopulation();
                     break;
             }
         }
     }
     
-    private void RetrievePopulation() {
+    private void retrievePopulation() {
 
         tasksList = tasksMenu.ShowPopulation();
     }
 
-    public Task GetSelectedTask() {
+    public Task getSelectedTask() {
 
         Task task = tasksMenu.GetSelectedTask();
         return task;
 
     }
 
-    public void ToggleFocus() {
+    public void toggleFocus() {
         focus = !focus;
     }
     
-    public List<User> GetDevelopers() {
+    public List<User> getDevelopers() {
         
-        List<User> developers = UsersController.GetAll();
+        List<User> developers = UsersController.getAll();
         
         return developers;
     }
     
-    public void TryMarkTaskAsFinished() {
+    public void tryMarkTaskAsFinished() {
 
         Task selectedTask = tasksMenu.GetSelectedTask();
         
@@ -171,14 +169,14 @@ public class TasksMenuController implements ActionListener {
         }
         
         if (canBeFinished) {
-            TasksController.FinishTaskById(selectedTask.getId()); 
+            TasksController.finishTaskById(selectedTask.getId()); 
         }
         else {
             System.out.println("Can't finish selected task");
         }    
     }
     
-    public void TryMarkTaskAsOpen() {
+    public void tryMarkTaskAsOpen() {
         Task selectedTask = tasksMenu.GetSelectedTask();
         
         Boolean canBeOpened = true;
@@ -192,7 +190,7 @@ public class TasksMenuController implements ActionListener {
         }
         
         if (canBeOpened) {
-            TasksController.OpenTaskById(selectedTask.getId()); 
+            TasksController.openTaskById(selectedTask.getId()); 
         }
         else {
             System.out.println("Can't open selected task");

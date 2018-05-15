@@ -12,7 +12,7 @@ import javax.sql.rowset.CachedRowSet;
 
 public class ProjectsController {
     
-    public static Project GetById(int id) {
+    public static Project getById(int id) {
         
         Project project = null;
         
@@ -41,7 +41,7 @@ public class ProjectsController {
         return project;
     }
     
-    public static List<Project> GetAll() {
+    public static List<Project> getAll() {
         
         List<Project> projects = new ArrayList<>();
         
@@ -71,7 +71,7 @@ public class ProjectsController {
         return projects;
     }
     
-    public static List<Project> GetAllBetweenDates(Date startDate, Date endDate) {
+    public static List<Project> getAllBetweenDates(Date startDate, Date endDate) {
         
         List<Project> projects = new ArrayList<>();
         
@@ -102,7 +102,7 @@ public class ProjectsController {
         return projects;
     }
     
-    public static Project Create(Project project) {
+    public static Project create(Project project) {
         
         try {
             Client.sendString("Projects");
@@ -119,7 +119,7 @@ public class ProjectsController {
         return project;
     }
     
-    public static Project Update(Project project) {
+    public static Project update(Project project) {
         
         try {
             Client.sendString("Projects");
@@ -137,7 +137,7 @@ public class ProjectsController {
     }
     
     
-    public static void DeleteById(int id)
+    public static void deleteById(int id)
     {
     
         try {
@@ -153,7 +153,7 @@ public class ProjectsController {
     }
  
     //Number of finished tasks/Number of tasks
-    public static Pair<Integer, Integer> GetProjectStatusById(int id) {
+    public static Pair<Integer, Integer> getProjectStatusById(int id) {
         
         Pair<Integer, Integer> resultPair = null;
         

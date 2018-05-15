@@ -8,7 +8,6 @@ import GUIPackage.ProjectsMenu;
 import Models.Milestone;
 import Models.Project;
 import Utils.GlobalData;
-import Utils.MySQLConnector;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -23,7 +22,6 @@ public class MilestonesMenuController implements ActionListener {
 
     private boolean focus = true;
 
-    private static final Connection conn = MySQLConnector.getConnection();
 
     /**
      * Creates new form MilestonesMenuController
@@ -33,12 +31,12 @@ public class MilestonesMenuController implements ActionListener {
     public MilestonesMenuController(ProjectsMenuController tmp) {
 
         parentController = tmp;
-        parentController.SetWindowInvisible();
+        parentController.setWindowInvisible();
 
         milestonesMenu = new MilestonesMenu(this);
         milestonesMenu.setVisible(true);
 
-        RetrievePopulation();
+        retrievePopulation();
 
     }
 
@@ -71,8 +69,8 @@ public class MilestonesMenuController implements ActionListener {
                         if (milestoneId < 0) {
                             throw new Exception("No Milestone Selected");
                         }
-                        MilestonesController.DeleteById(milestoneId);
-                        RetrievePopulation();
+                        MilestonesController.deleteById(milestoneId);
+                        retrievePopulation();
 
                     } catch (Exception e) {
                         System.out.println(e);
@@ -83,7 +81,7 @@ public class MilestonesMenuController implements ActionListener {
                         addMilestoneMenu.ShowSelectedMilestone();
                         addMilestoneMenu.setVisible(true);
                         addMilestoneMenu.SetActionCommand(false);
-                        ToggleFocus();
+                        toggleFocus();
                     } catch (Exception e) {
                         System.out.println(e);
                         addMilestoneMenu.setVisible(false);
@@ -94,15 +92,15 @@ public class MilestonesMenuController implements ActionListener {
                     addMilestoneMenu = new AddMilestoneMenu(this);
                     addMilestoneMenu.setVisible(true);
                     addMilestoneMenu.SetActionCommand(true);
-                    ToggleFocus();
+                    toggleFocus();
                     break;
 
                 default:
                     System.out.println("Exit");
                     milestonesMenu.setVisible(false);
                     milestonesMenu.dispose();
-                    parentController.SetWindowVisible();
-                    parentController.RetrievePopulation();
+                    parentController.setWindowVisible();
+                    parentController.retrievePopulation();
 
             }
         } else {
@@ -111,8 +109,8 @@ public class MilestonesMenuController implements ActionListener {
                 case "Exit":
                     addMilestoneMenu.setVisible(false);
                     addMilestoneMenu.dispose();
-                    ToggleFocus();
-                    RetrievePopulation();
+                    toggleFocus();
+                    retrievePopulation();
 
                     break;
                 case "Insert":
@@ -120,10 +118,10 @@ public class MilestonesMenuController implements ActionListener {
                     addMilestoneMenu.dispose();
                     Milestone newMilestone = addMilestoneMenu.GetMilestone();
                     if (newMilestone != null) {
-                        MilestonesController.Create(newMilestone);   
+                        MilestonesController.create(newMilestone);   
                     }
-                    ToggleFocus();
-                    RetrievePopulation();
+                    toggleFocus();
+                    retrievePopulation();
 
                     break;
 
@@ -133,40 +131,40 @@ public class MilestonesMenuController implements ActionListener {
 
                     Milestone EditedMilestone = addMilestoneMenu.GetMilestone();
                     EditedMilestone.setId(milestonesList.get(milestonesMenu.getLastSelectedId()).getId());
-                    MilestonesController.Update(EditedMilestone);
+                    MilestonesController.update(EditedMilestone);
 
-                    ToggleFocus();
-                    RetrievePopulation();
+                    toggleFocus();
+                    retrievePopulation();
                     break;
 
             }
         }
     }
 
-    public void RetrievePopulation() {
+    public void retrievePopulation() {
         milestonesList = milestonesMenu.ShowPopulation();
     }
 
-    public Milestone GetSelectedMilestone() {
+    public Milestone getSelectedMilestone() {
         Milestone milestone = milestonesMenu.GetSelectedMilestone();
         return milestone;
 
     }
 
-    public void ToggleFocus() {
+    public void toggleFocus() {
         focus = !focus;
     }
 
-    public void SetWindowInvisible() {
+    public void setWindowInvisible() {
         milestonesMenu.setVisible(false);
 
     }
 
-    public void SetWindowVisible() {
+    public void setWindowVisible() {
         milestonesMenu.setVisible(true);
     }
 
-    public void CloseWindow() {
+    public void closeWindow() {
         milestonesMenu.setVisible(false);
         milestonesMenu.dispose();
     }

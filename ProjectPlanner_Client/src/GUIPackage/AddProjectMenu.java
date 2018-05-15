@@ -44,7 +44,7 @@ public class AddProjectMenu extends javax.swing.JFrame {
     public void ShowSelectedProject()  {
 
         SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
-        Project project = parentController.GetSelectedProject();
+        Project project = parentController.getSelectedProject();
 
         Date startDate = project.getStartDate();
         Date endDate = project.getEndDate();
@@ -121,7 +121,7 @@ public class AddProjectMenu extends javax.swing.JFrame {
     
     public void FillManagerComboBox() {
         
-        managers = parentController.GetManagers();
+        managers = parentController.getManagers();
         
         jComboBox1.removeAllItems();
         

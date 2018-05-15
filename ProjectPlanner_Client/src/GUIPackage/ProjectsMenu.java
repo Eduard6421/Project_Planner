@@ -88,7 +88,7 @@ public class ProjectsMenu extends javax.swing.JFrame {
 
     public List<Project> ShowPopulation() {
 
-        projects = ProjectsController.GetAll();
+        projects = ProjectsController.getAll();
         
         FillManagersList();
         projectsIds = new ArrayList<Integer>();
@@ -106,7 +106,7 @@ public class ProjectsMenu extends javax.swing.JFrame {
         for (int i = 0; i < projects.size(); ++i) {
             projectsIds.add(projects.get(i).getId());
             
-            Pair<Integer, Integer> taskStatus = ProjectsController.GetProjectStatusById(projects.get(i).getId());
+            Pair<Integer, Integer> taskStatus = ProjectsController.getProjectStatusById(projects.get(i).getId());
             
             rowData[0] = taskStatus.getValue().toString() + 
                         " / " +
@@ -148,10 +148,10 @@ public class ProjectsMenu extends javax.swing.JFrame {
         
         if (startDate.after(endDate)) {
             JOptionPane.showMessageDialog(null, "Start Date is greater than End Date.");
-            projects = ProjectsController.GetAll();
+            projects = ProjectsController.getAll();
         }
         else {
-            projects = ProjectsController.GetAllBetweenDates(startDate, endDate);
+            projects = ProjectsController.getAllBetweenDates(startDate, endDate);
         }
         
         FillManagersList();
@@ -170,7 +170,7 @@ public class ProjectsMenu extends javax.swing.JFrame {
         for (int i = 0; i < projects.size(); ++i) {
             projectsIds.add(projects.get(i).getId());
             
-            Pair<Integer, Integer> taskStatus = ProjectsController.GetProjectStatusById(projects.get(i).getId());
+            Pair<Integer, Integer> taskStatus = ProjectsController.getProjectStatusById(projects.get(i).getId());
             
             rowData[0] = taskStatus.getValue().toString() + 
                         " / " +
@@ -202,7 +202,7 @@ public class ProjectsMenu extends javax.swing.JFrame {
     }
     
     private void FillManagersList() {
-        managers = UsersController.GetManagers();
+        managers = UsersController.getManagers();
     }
     
     

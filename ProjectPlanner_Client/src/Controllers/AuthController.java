@@ -36,7 +36,7 @@ public class AuthController {
     }
     
    
-    public void LogOut(){
+    public void logOut(){
         GlobalData.setLoggedIn(false);
         GlobalData.setRoleTitle(null);
         GlobalData.setUserId(0);

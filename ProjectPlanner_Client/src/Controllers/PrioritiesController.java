@@ -11,7 +11,7 @@ import javax.sql.rowset.CachedRowSet;
 
 public class PrioritiesController {
     
-    public static List<Priority> GetAll() {
+    public static List<Priority> getAll() {
         
         List<Priority> priorities = new ArrayList<>();
         

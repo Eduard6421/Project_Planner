@@ -12,7 +12,7 @@ import javax.sql.rowset.CachedRowSet;
 
 public class MilestonesController {
     
-    public static Milestone GetById(int id) {
+    public static Milestone getById(int id) {
         
         Milestone milestone = null;
         
@@ -39,7 +39,7 @@ public class MilestonesController {
         return milestone;
     }
     
-    public static List<Milestone> GetAll() {
+    public static List<Milestone> getAll() {
         
         List<Milestone> milestones = new ArrayList<>();
         
@@ -66,7 +66,7 @@ public class MilestonesController {
         return milestones;
     }
     
-    public static List<Milestone> GetAllByProjectId(int projectId) {
+    public static List<Milestone> getAllByProjectId(int projectId) {
         
         List<Milestone> milestones = new ArrayList<>();
         
@@ -95,7 +95,7 @@ public class MilestonesController {
     }
     
     
-    public static Milestone Create(Milestone milestone) {
+    public static Milestone create(Milestone milestone) {
         
         try {
             Client.sendString("Milestones");
@@ -112,7 +112,7 @@ public class MilestonesController {
         return milestone;
     }
     
-    public static Milestone Update(Milestone milestone) {
+    public static Milestone update(Milestone milestone) {
         
         try {
             Client.sendString("Milestones");
@@ -129,7 +129,7 @@ public class MilestonesController {
         return milestone;
     }
     
-    public static void DeleteById(int id) {
+    public static void deleteById(int id) {
         try {
             Client.sendString("Milestones");
             Client.sendString("deleteById");
@@ -143,7 +143,7 @@ public class MilestonesController {
     }
     
     //Number of finished tasks/Number of tasks
-    public static Pair<Integer, Integer> GetMilestoneStatus(int id) {
+    public static Pair<Integer, Integer> getMilestoneStatus(int id) {
         
         Pair<Integer, Integer> resultPair = null;
         

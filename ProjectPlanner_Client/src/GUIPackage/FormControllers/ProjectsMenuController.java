@@ -21,16 +21,15 @@ public class ProjectsMenuController implements ActionListener {
 
     private boolean focus = true;
 
-    private static final Connection conn = MySQLConnector.getConnection();
 
     public ProjectsMenuController(LoginMenuController controller) {
 
         parentController = controller;
-        parentController.SetWindowInvisible();
+        parentController.setWindowInvisible();
 
         projectMenu = new ProjectsMenu(this);
         projectMenu.setVisible(true);
-        RetrievePopulation();   
+        retrievePopulation();   
     }
 
     @Override
@@ -67,8 +66,8 @@ public class ProjectsMenuController implements ActionListener {
                         if (projectId < 0) {
                             throw new Exception("No Project Selected");
                         }
-                        ProjectsController.DeleteById(projectId);
-                        RetrievePopulation();
+                        ProjectsController.deleteById(projectId);
+                        retrievePopulation();
 
                     } catch (Exception e) {
                         System.out.println(e);
@@ -83,7 +82,7 @@ public class ProjectsMenuController implements ActionListener {
                         addProjectMenu.ShowSelectedProject();
                         addProjectMenu.setVisible(true);
                         addProjectMenu.SetActionCommand(false);
-                        ToggleFocus();
+                        toggleFocus();
                     } catch (Exception e) {
                         System.out.println(e);
                         addProjectMenu.setVisible(false);
@@ -96,19 +95,19 @@ public class ProjectsMenuController implements ActionListener {
                     addProjectMenu.setVisible(true);
                     addProjectMenu.SetActionCommand(true);
                     addProjectMenu.FillManagerComboBox();
-                    ToggleFocus();
+                    toggleFocus();
                     break;
 
                 case "Log Out":
                     projectMenu.setVisible(false);
                     projectMenu.dispose();
-                    parentController.SetWindowVisible();
+                    parentController.setWindowVisible();
                     break;
                 case "Get All Projects":
-                    RetrievePopulation();
+                    retrievePopulation();
                     break;
                 case "Get Projects Between":
-                    RetrievePopulationBetweenDates();
+                    retrievePopulationBetweenDates();
                     break;
             }
         } else {
@@ -116,8 +115,8 @@ public class ProjectsMenuController implements ActionListener {
                 case "Exit":
                     addProjectMenu.setVisible(false);
                     addProjectMenu.dispose();
-                    ToggleFocus();
-                    RetrievePopulation();
+                    toggleFocus();
+                    retrievePopulation();
                     break;
 
                 case "Insert":
@@ -125,10 +124,10 @@ public class ProjectsMenuController implements ActionListener {
                     addProjectMenu.dispose();
                     Project newProject = addProjectMenu.GetProject();
                     if (newProject != null) {
-                        ProjectsController.Create(newProject);   
+                        ProjectsController.create(newProject);   
                     }
-                    ToggleFocus();
-                    RetrievePopulation();
+                    toggleFocus();
+                    retrievePopulation();
 
                     break;
 
@@ -137,47 +136,47 @@ public class ProjectsMenuController implements ActionListener {
                     addProjectMenu.dispose();
                     Project EditedProject = addProjectMenu.GetProject();
                     EditedProject.setId(projectsList.get(projectMenu.getLastSelectedId()).getId());
-                    ProjectsController.Update(EditedProject);
-                    ToggleFocus();
-                    RetrievePopulation();
+                    ProjectsController.update(EditedProject);
+                    toggleFocus();
+                    retrievePopulation();
                     break;
             }
         }
     }
 
-    public final void RetrievePopulation() {
+    public final void retrievePopulation() {
         projectsList = projectMenu.ShowPopulation();
     }
     
-    public final void RetrievePopulationBetweenDates() {
+    public final void retrievePopulationBetweenDates() {
         projectsList = projectMenu.ShowPopulationBetweenDates();
     }
 
-    public Project GetSelectedProject() {
+    public Project getSelectedProject() {
         Project project = projectMenu.GetSelectedProject();
         return project;
     }
 
-    public void ToggleFocus() {
+    public void toggleFocus() {
         focus = !focus;
     }
 
-    public void SetWindowInvisible() {
+    public void setWindowInvisible() {
         projectMenu.setVisible(false);
     }
 
-    public void SetWindowVisible() {
+    public void setWindowVisible() {
         projectMenu.setVisible(true);
     }
 
-    public void CloseWindow() {
+    public void closeWindow() {
         projectMenu.setVisible(false);
         projectMenu.dispose();
     }
     
-    public List<User> GetManagers() {
+    public List<User> getManagers() {
         
-        List<User> managers = UsersController.GetManagers();
+        List<User> managers = UsersController.getManagers();
         
         return managers;
     }

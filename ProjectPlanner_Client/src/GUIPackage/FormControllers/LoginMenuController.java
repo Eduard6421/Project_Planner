@@ -55,16 +55,16 @@ public class LoginMenuController implements ActionListener {
         }     
     }  
     
-    public void  SetWindowInvisible()
+    public void  setWindowInvisible()
     {
         view.setVisible(false);     
     }
-    public void SetWindowVisible()
+    public void setWindowVisible()
     {
         view.setVisible(true);   
     }
     
-    public void CloseWindow()
+    public void closeWindow()
     {
         view.setVisible(false);
         view.dispose();

@@ -57,7 +57,7 @@ public class AddTaskMenu extends javax.swing.JFrame {
     public void ShowSelectedTask() {
 
         SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-d");
-        Task task = parentController.GetSelectedTask();
+        Task task = parentController.getSelectedTask();
 
         Date startDate = task.getStartDate();
         Date endDate = task.getEndDate();
@@ -141,7 +141,7 @@ public class AddTaskMenu extends javax.swing.JFrame {
     
     public void FillDeveloperComboBox() {
         
-        developers = parentController.GetDevelopers();
+        developers = parentController.getDevelopers();
         
         jComboBox1.removeAllItems();
         
@@ -152,7 +152,7 @@ public class AddTaskMenu extends javax.swing.JFrame {
     
     public void FillPrioritiesComboBox() {
         
-        priorities = PrioritiesController.GetAll();
+        priorities = PrioritiesController.getAll();
         
         jComboBox2.removeAllItems();
         

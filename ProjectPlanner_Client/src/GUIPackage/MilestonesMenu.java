@@ -96,7 +96,7 @@ public class MilestonesMenu extends javax.swing.JFrame {
 
     public List<Milestone> ShowPopulation() {
 
-        milestones = MilestonesController.GetAllByProjectId(GlobalData.getProjectId());
+        milestones = MilestonesController.getAllByProjectId(GlobalData.getProjectId());
         milestonesIds = new ArrayList<Integer>();
 
         DefaultTableModel tModel1 = (DefaultTableModel) jTable1.getModel();
@@ -112,7 +112,7 @@ public class MilestonesMenu extends javax.swing.JFrame {
         for (int i = 0; i < milestones.size(); ++i) {
             milestonesIds.add(milestones.get(i).getId());
             
-            Pair<Integer, Integer> milestoneStatus = MilestonesController.GetMilestoneStatus(milestones.get(i).getId());
+            Pair<Integer, Integer> milestoneStatus = MilestonesController.getMilestoneStatus(milestones.get(i).getId());
             
             rowData[0] = milestoneStatus.getValue().toString() + 
                         " / " +

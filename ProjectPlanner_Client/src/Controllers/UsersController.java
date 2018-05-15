@@ -11,7 +11,7 @@ import javax.sql.rowset.CachedRowSet;
 
 public class UsersController {
     
-    public static List<User> GetAll() {
+    public static List<User> getAll() {
         
         List<User> users = new ArrayList<>();
         
@@ -38,7 +38,7 @@ public class UsersController {
         return users;
     }
     
-    public static List<User> GetManagers() {
+    public static List<User> getManagers() {
         
         List<User> managers = new ArrayList<>();
         

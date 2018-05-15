@@ -37,7 +37,7 @@ public class TasksMenu extends javax.swing.JFrame {
      */
     public List<Task> ShowPopulation() {
 
-        tasks = TasksController.GetAllByMilestoneId(GlobalData.getMilestoneId());
+        tasks = TasksController.getAllByMilestoneId(GlobalData.getMilestoneId());
         tasksIds = new ArrayList<Integer>();
 
         DefaultTableModel tModel1 = (DefaultTableModel) jTable1.getModel();
@@ -157,8 +157,8 @@ public class TasksMenu extends javax.swing.JFrame {
         jLabel2.setText("<html>Project:<br>     - " + GlobalData.getProjectTitle() + "</html>");
         jLabel1.setText("<html>Milestone:<br>     - " + GlobalData.getMilestoneTitle() + "</html>");
         
-        priorities = PrioritiesController.GetAll();
-        developers = UsersController.GetAll();
+        priorities = PrioritiesController.getAll();
+        developers = UsersController.getAll();
     }
 
     public int getLastSelected() {
